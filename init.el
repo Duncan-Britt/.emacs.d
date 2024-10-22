@@ -352,7 +352,7 @@
 
 (use-package projectile
   :ensure t
-  :configure
+  :config
   (projectile-mode +1)
   ;; Recommended keymap prefix on macOS
   (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map))
@@ -438,6 +438,7 @@ Display the number of replacements made."
           "\\*Org Agenda\\*"
           "\\*slime-repl sbcl\\*"
 	  "\\*Claude\\*"
+	  "\\*Warnings\\*"
           help-mode
           compilation-mode))
   (setq popper-group-function #'popper-group-by-projectile)
@@ -527,7 +528,7 @@ Display the number of replacements made."
   :after org)
 
 (use-package olivetti
-  :load-path "~/code/vendored-emacs-packages/olivetti"
+  :ensure (:repo "~/code/vendored-emacs-packages/olivetti")
   :custom (olivetti-body-width 140)
   :hook (org-mode . olivetti-mode))
 
@@ -550,7 +551,7 @@ Display the number of replacements made."
   (org-appear-autosubmarkers t))
 
 (use-package org-cmenu
-  :load-path "~/code/vendored-emacs-packages/org-cmenu/"
+  :ensure (:repo "~/code/vendored-emacs-packages/org-cmenu/")
   :after org
   :config (require 'org-cmenu-setup)
   :bind
@@ -558,8 +559,8 @@ Display the number of replacements made."
         ("M-n" . org-cmenu)))
 
 (use-package archiver
-  :load-path "~/code/my-emacs-packages/archiver/"
   :after org
+  :ensure (:repo "~/code/my-emacs-packages/archiver/")
   :init
   (setq *archiver-agenda-archive-location*
         (expand-file-name "~/Dropbox/agenda/agenda_archive.org"))
@@ -576,6 +577,11 @@ Display the number of replacements made."
   :ensure t
   :custom
   (org-download-image-attr-list '("#+attr_org: :width 600")))
+
+(use-package paste-img
+  :ensure (:repo "~/code/my-emacs-packages/paste-img/")
+  :init
+  (paste-img-mode))
 
 ;; =====================
 ;; PROGRAMMING
@@ -635,11 +641,11 @@ Display the number of replacements made."
   :ensure t)
 
 (use-package safe
-  :load-path "~/.safe/")
+  :ensure (:repo "~/.safe/"))
 
 (use-package rotor
   :after safe
-  :load-path "~/code/my-emacs-packages/rotor/")
+  :ensure (:repo "~/code/my-emacs-packages/rotor/"))
 
 (use-package gptel
   :after safe
