@@ -606,6 +606,9 @@ Display the number of replacements made."
   :hook
   ((prog-mode . flycheck-mode)))
 
+(use-package magit
+  :ensure t)
+
 ;; =====================
 ;; MISCELLANEOUS
 ;; =====================
