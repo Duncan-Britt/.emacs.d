@@ -339,6 +339,9 @@
 		  ("FIXME" . ,red)
 		  ("OKAY" . ,cyan)))))))
   (set-hl-todo-faces-according-to-ef-theme)
+  (advice-add 'theme-switcher-choose-theme :after (lambda (&rest _)
+							    (set-hl-todo-faces-according-to-ef-theme)
+							    (global-hl-todo-mode)))
   (advice-add 'theme-switcher-consult-choose-theme :after (lambda (&rest _)
 							    (set-hl-todo-faces-according-to-ef-theme)
 							    (global-hl-todo-mode))))
@@ -348,7 +351,11 @@
 ;; =====================
 
 (use-package projectile
-  :ensure t)
+  :ensure t
+  :configure
+  (projectile-mode +1)
+  ;; Recommended keymap prefix on macOS
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map))
 
 (use-package savehist
   :ensure nil  ; This tells use-package not to try to install savehist
@@ -538,7 +545,7 @@ Display the number of replacements made."
   (org-hide-emphasis-markers t) ; Hide /emphasis/ markers in org mode
   (org-appear-autolinks t) ; <-- This doesn't work when hyperbole package is loaded.
   (org-pretty-entities t)
-  (org-pretty-entities-include-sub-superscripts nil) ; <-- This doesn't play nicely with under_scores
+  (org-pretty-entities-include-sub-superscripts t)
   (org-appear-autoentities t)
   (org-appear-autosubmarkers t))
 
