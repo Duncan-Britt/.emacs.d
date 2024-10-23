@@ -138,6 +138,7 @@
   (tool-bar-mode -1)    ; Remove toolbar
   (scroll-bar-mode -1)  ; Remove scroll bar
   (blink-cursor-mode)
+  (global-hl-line-mode)
   :hook
   ((prog-mode . display-line-numbers-mode)))
 
