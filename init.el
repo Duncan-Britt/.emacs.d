@@ -100,6 +100,11 @@
 ;; Don't create lock files
 (setq create-lockfiles nil)
 
+;; ============
+;; LOAD PATH
+;; ============
+(add-to-list 'load-path "~/.emacs.d/lisp/") ;; NOTE: Use (require 'package) to use the code in the lisp directory
+
 ;; ===============
 ;; STARTUP
 ;; ===============
@@ -116,10 +121,10 @@
                   (height . 60))))
   ;; Open Agenda on startup
   (setq inhibit-startup-screen t)
-  ;; (add-hook 'emacs-startup-hook
-  ;;           (lambda ()
-  ;;             (find-file "~/Dropbox/agenda/agenda.org") ;; <-- org file
-  ;;             (org-agenda-list)))                       ;; <-- calendar
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (find-file "~/Dropbox/agenda/agenda.org") ;; <-- org file
+              (org-agenda-list)))                       ;; <-- calendar
   )
 
 ;; ============================
@@ -129,11 +134,10 @@
 (use-package emacs
   :ensure nil
   :config
-  ;; Truncate lines by default
   (setq-default truncate-lines t)
-  (tool-bar-mode -1)    ; Remove toolbar  
-  ;; (scroll-bar-mode -1)  ; Remove scroll bar
-  (blink-cursor-mode)
+  (tool-bar-mode -1)    ; Remove toolbar
+  (scroll-bar-mode -1)  ; Remove scroll bar
+  (blink-cursor-mode) ; TODO <-- visit this, check that it works.
   :hook
   ((prog-mode . display-line-numbers-mode)))
 
@@ -315,18 +319,19 @@
 
 (use-package hl-todo
   :ensure t
-  :config 
+  :config
   (require 'theme-switcher)
   (require 'theme-switcher-consult)
   (require 'ef-themes)
   (require 'hl-todo)
   (global-hl-todo-mode)
   (defun set-hl-todo-faces-according-to-ef-theme ()
-    "Provided that ef-themes is loaded, set HL-TODO-KEYWORD-FACES according to the loaded ef-theme."
+    "Sets the faces of different TODO-esq keywords for the hl-todo package.
+Done in accordance with the currently loaded ef-theme."
     (let ((theme (car custom-enabled-themes)))
-      (when (string-prefix-p "ef-" (symbol-name theme))
-	(let* ((palette-var (intern (concat (symbol-name theme)
-					"-palette")))
+      (when (and (boundp 'ef-themes-collection)
+	     (member theme ef-themes-collection))
+	(let* ((palette-var (intern (concat (symbol-name theme) "-palette")))
 	       (palette (symbol-value palette-var))
 	       (red (cadr (assoc 'red palette)))
 	       (green (cadr (assoc 'green palette)))
@@ -338,13 +343,15 @@
 		  ("NOTE" . ,yellow)
 		  ("FIXME" . ,red)
 		  ("OKAY" . ,cyan)))))))
-  (set-hl-todo-faces-according-to-ef-theme)
-  (advice-add 'theme-switcher-choose-theme :after (lambda (&rest _)
+  (when (fboundp 'theme-switcher-choose-theme)
+    (set-hl-todo-faces-according-to-ef-theme)
+    (advice-add 'theme-switcher-choose-theme :after (lambda (&rest _)
+						      (set-hl-todo-faces-according-to-ef-theme)
+						      (global-hl-todo-mode))))
+  (when (fboundp 'theme-switcher-consult-choose-theme)
+    (advice-add 'theme-switcher-consult-choose-theme :after (lambda (&rest _)
 							    (set-hl-todo-faces-according-to-ef-theme)
-							    (global-hl-todo-mode)))
-  (advice-add 'theme-switcher-consult-choose-theme :after (lambda (&rest _)
-							    (set-hl-todo-faces-according-to-ef-theme)
-							    (global-hl-todo-mode))))
+							    (global-hl-todo-mode)))))
 
 ;; =====================
 ;; NAVIGATION
@@ -352,6 +359,9 @@
 
 (use-package projectile
   :ensure t
+  :init
+  (when (eq system-type 'darwin)
+    (setq projectile-use-git-grep t)) ; macOS-specific setting
   :config
   (projectile-mode +1)
   ;; Recommended keymap prefix on macOS
@@ -365,15 +375,26 @@
 (use-package vertico
   :ensure t
   :init
-  (vertico-mode))
+  (vertico-mode)
+
+  ;; Different scroll margin
+  ;; (setq vertico-scroll-margin 0)
+
+  ;; Show more candidates
+  ;; (setq vertico-count 20)
+
+  ;; Grow and shrink the Vertico minibuffer
+  ;; (setq vertico-resize t)
+
+  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
+  ;; (setq vertico-cycle t)
+  )
 
 (use-package orderless
   :ensure t
   :custom
   (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles . (partial-completion)))))
-  :init
-  (setq completion-category-defaults nil))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package marginalia
   :ensure t
@@ -383,10 +404,9 @@
 (use-package consult
   :ensure t)
 
-(use-package ace-window
+(use-package dired-preview
   :ensure t
-  :config
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+  :hook ((dired-mode . dired-preview-mode)))
 
 ;; ========================
 ;; TEXT EDITING & MOVEMENT
@@ -406,7 +426,17 @@
 (use-package avy
   :ensure t
   :bind
-  (("C-;" . avy-goto-word-1)))
+  (("C-;" . avy-goto-word-1))
+  :config
+  (setq avy-all-windows 'all-frames))
+
+(use-package smartparens
+  :ensure t
+  :config
+  (sp-local-pair '(emacs-lisp-mode lisp-mode) "'" "'" :actions nil)
+  (sp-local-pair '(emacs-lisp-mode lisp-mode) "`" "`" :actions nil)
+  :hook
+  ((prog-mode . smartparens-mode)))
 
 (defun entire-buffer-replace (from to)
   "Do search and replace on entire buffer without moving point.
@@ -439,6 +469,7 @@ Display the number of replacements made."
           "\\*slime-repl sbcl\\*"
 	  "\\*Claude\\*"
 	  "\\*Warnings\\*"
+	  "\\*compilation\\*"
           help-mode
           compilation-mode))
   (setq popper-group-function #'popper-group-by-projectile)
@@ -465,17 +496,26 @@ Display the number of replacements made."
   (popper-mode +1)
   (popper-echo-mode +1))
 
+(use-package ace-window
+  :ensure t
+  :bind
+  (("C-x o" . ace-window))
+  :config
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+
 ;; ==================
 ;; ORG MODE
 ;; ==================
 
 (defun my-org-syntax-table-modify ()
-  "Modify `org-mode-syntax-table' for the current org buffer."
+  "Modify `org-mode-syntax-table' for the current org buffer.
+I'm not sure why I made this.  Not used for now."
   (modify-syntax-entry ?< "." org-mode-syntax-table)
   (modify-syntax-entry ?> "." org-mode-syntax-table))
 
 (use-package org
   :config
+  
   (setq org-agenda-files (list (expand-file-name "~/Dropbox/agenda/agenda.org")))
   ;; (setq org-archive-location "~/Dropbox/agenda/agenda_archive.org::%s_archive") ;; <-- unused? Org Archiver has it's own location.
   ;; (setq org-plantuml-jar-path (expand-file-name "~/plantuml-1.2024.4.jar")) ;; <-- doesn't exist on my new mac
@@ -500,7 +540,7 @@ Display the number of replacements made."
   (add-to-list 'exec-path "/usr/local/mysql-8.3.0-macos14-x86_64/bin") ;; <-- doesn't exist on new mac
   (setq org-babel-python-command "python3")
   (setq org-log-note-clock-out t)
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.2))
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.0))
   (setq org-image-actual-width nil)
   (setq org-list-allow-alphabetical t)
   (setq org-latex-listings 'minted ;; Export to LateX PDF using minted package
@@ -510,10 +550,12 @@ Display the number of replacements made."
           "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
   (setq org-export-backends '(ascii html icalendar latex md))
   (require 'ox-gfm nil t) ;; <-- For github flavored markdown export
+  (require 'blog-publishing)
+  (require 'ut-table-manager)
   :hook ((org-mode . variable-pitch-mode)
          (org-mode . visual-line-mode)
          (org-mode . pixel-scroll-precision-mode)
-         (org-mode . my-org-syntax-table-modify)
+         ;; (org-mode . my-org-syntax-table-modify)
          (org-mode . (lambda () (display-line-numbers-mode 0)))))
 
 (use-package mw-thesaurus
@@ -524,6 +566,10 @@ Display the number of replacements made."
         ("C-c t" . mw-thesaurus-lookup-dwim)))
 
 (use-package ox-gfm
+  :ensure t
+  :after org)
+
+(use-package ox-epub
   :ensure t
   :after org)
 
@@ -540,7 +586,8 @@ Display the number of replacements made."
                              (org-indent-mode 1))))
 
 (use-package org-appear
-  :after hyperbole
+  :ensure t
+  :after org
   :hook (org-mode . org-appear-mode)
   :custom
   (org-hide-emphasis-markers t) ; Hide /emphasis/ markers in org mode
@@ -578,41 +625,26 @@ Display the number of replacements made."
   :custom
   (org-download-image-attr-list '("#+attr_org: :width 600")))
 
-(use-package paste-img
-  :ensure (:repo "~/code/my-emacs-packages/paste-img/")
-  :init
-  (paste-img-mode))
-
-;; =====================
-;; PROGRAMMING
-;; =====================
-
-(use-package sql-indent
+(use-package ob-async
   :ensure t
-  :hook ((sql-mode . sqlind-minor-mode)
-         (cql-mode . sqlind-minor-mode))
+  :after org
   :config
-  ;; You can further customize indentation or align rules here if needed
-  )
+  (setq ob-async-no-async-languages-alist '("ipython")))
+
+(use-package paste-img
+  :after (org org-download)
+  :ensure (:repo "~/code/my-emacs-packages/paste-img/")
+  :hook
+  (org-mode . paste-img-mode))
+
+;; =====================
+;; PROGRAMMING/IDE
+;; =====================
 
 (use-package company
   :ensure t
   :hook
   ((prog-mode . company-mode)))
-
-(use-package smartparens
-  :ensure t
-  :config
-  (sp-local-pair '(emacs-lisp-mode lisp-mode) "'" "'" :actions nil)
-  (sp-local-pair '(emacs-lisp-mode lisp-mode) "`" "`" :actions nil)
-  :hook
-  ((prog-mode . smartparens-mode)))
-
-(use-package rainbow-delimiters
-  :ensure t
-  :hook
-  ((emacs-lisp-mode . rainbow-delimiters-mode)
-   (lisp-mode . rainbow-delimiters-mode)))
 
 (use-package flycheck
   :ensure t
@@ -622,20 +654,84 @@ Display the number of replacements made."
 (use-package magit
   :ensure t)
 
+(use-package rainbow-delimiters
+  :ensure t
+  :hook
+  ((emacs-lisp-mode . rainbow-delimiters-mode)
+   (lisp-mode . rainbow-delimiters-mode)))
+
+(use-package sql-indent
+  :ensure t
+  :hook ((sql-mode . sqlind-minor-mode)
+         (cql-mode . sqlind-minor-mode))
+  :config
+  ;; You can further customize indentation or align rules here if needed
+  )
+
+;; ===============
+;; C/C++ stuff
+;; ===============
+
+(add-hook 'c-mode-hook
+          (lambda ()
+            (define-key c-mode-map (kbd "C-c c") 'recompile)))
+
+(add-hook 'c++-mode-hook
+          (lambda ()
+            (define-key c++-mode-map (kbd "C-c c") 'recompile)))
+
+;; ==================
+;; EMACS LISP
+;; ==================
+
+(add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode) ;; lambda becomes λ.
+
+;; ==================
+;; COMMON LISP
+;; ==================
+
+(use-package lisp-mode
+  :ensure nil  ; lisp-mode is built-in, so we don't need to ensure it
+  :hook ((lisp-mode . prettify-symbols-mode)
+	 ;; This could be useful to add custom keywords for syntax highlighting, and I could use .dir-locals.el to make it directory specific, I think.
+         ;; (lisp-mode . (lambda ()
+         ;;                (font-lock-add-keywords nil
+         ;;                                        '(("\\<\\(val\\|λ\\)\\>" . font-lock-keyword-face)
+         ;;                                          ("\\<\\(is\\|in\\)\\>" . font-lock-function-name-face)))))
+	 ))
+(setq inferior-lisp-program (executable-find "sbcl"))
+(setq slime-lisp-implementations
+      `((sbcl (,(executable-find "sbcl") "--dynamic-space-size" "4000"))))
+;; For hacking on Nyxt:
+;; (setq inferior-lisp-program "/opt/homebrew/bin/sbcl")
+;; (setq slime-lisp-implementations '((nyxt ("/opt/homebrew/bin/sbcl" "--dynamic-space-size 3072")
+;;                                          :env ("CL_SOURCE_REGISTRY=/Users/duncan/quicklisp/dists/quicklisp/software//:~/code/nyxt//:~/code/nyxt/_build//"))))
+(load (expand-file-name "~/quicklisp/slime-helper.el"))
+
 ;; =====================
 ;; MISCELLANEOUS
 ;; =====================
-(use-package emacs
-  :ensure nil
-  :config
-  (defalias 'yes-or-no-p 'y-or-n-p))
-
 (defun calendar-insert-date ()
   "Capture the date at point, exit the Calendar, insert the date."
   (interactive)
   (seq-let (month day year) (save-match-data (calendar-cursor-to-date))
     (calendar-exit)
     (insert (format "<%d-%02d-%02d>" year month day))))
+
+(use-package calendar
+  :ensure nil
+  :config
+  (define-key calendar-mode-map (kbd "RET") 'calendar-insert-date))
+
+(use-package pdf-tools
+  :ensure t
+  :config
+  (pdf-tools-install))
+
+(use-package emacs
+  :ensure nil
+  :config
+  (fset 'yes-or-no-p 'y-or-n-p))
 
 (use-package transient
   :ensure t)
@@ -650,6 +746,7 @@ Display the number of replacements made."
 (use-package gptel
   :after safe
   :ensure t
+  :bind (("C-c RET" . gptel-send))
   :config
   (setq
    gptel-model 'claude-3-5-sonnet-20240620 ;  'claude-3-opus-20240229 also available
