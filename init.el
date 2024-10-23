@@ -137,7 +137,7 @@
   (setq-default truncate-lines t)
   (tool-bar-mode -1)    ; Remove toolbar
   (scroll-bar-mode -1)  ; Remove scroll bar
-  (blink-cursor-mode) ; TODO <-- visit this, check that it works.
+  (blink-cursor-mode)
   :hook
   ((prog-mode . display-line-numbers-mode)))
 
@@ -202,7 +202,7 @@
 (use-package ef-themes
   ;; Make customisations that affect Emacs faces BEFORE loading a theme
   ;; (any change needs a theme re-load to take effect).
-  :after fontaine
+  :after (fontaine org-bullets)
   :ensure t
   :config
   (setq ef-themes-headings
@@ -579,6 +579,7 @@ I'm not sure why I made this.  Not used for now."
   :hook (org-mode . olivetti-mode))
 
 (use-package org-bullets
+  :after org
   :ensure t
   :config
   (add-hook 'org-mode-hook (lambda ()
@@ -744,7 +745,7 @@ I'm not sure why I made this.  Not used for now."
   :ensure (:repo "~/code/my-emacs-packages/rotor/"))
 
 (use-package gptel
-  :after safe
+  :after (safe transient)
   :ensure t
   :bind (("C-c RET" . gptel-send))
   :config
