@@ -3,6 +3,7 @@ auto-save-list
 backups
 elpa
 elpaca
+flycheck_init.el
 fontaine-latest-state.eld
 history
 projectile-bookmarks.eld
