@@ -104,6 +104,9 @@
 ;; LOAD PATH
 ;; ============
 (add-to-list 'load-path "~/.emacs.d/lisp/") ;; NOTE: Use (require 'package) to use the code in the lisp directory
+(load "~/.safe/safe.el")
+(with-eval-after-load 'safe
+  (load "~/code/my-emacs-packages/rotor/rotor.el"))
 
 ;; ===============
 ;; STARTUP
@@ -471,6 +474,7 @@ Display the number of replacements made."
 	  "\\*Claude\\*"
 	  "\\*Warnings\\*"
 	  "\\*compilation\\*"
+	  "\\Backtrace\\*"
           help-mode
           compilation-mode))
   (setq popper-group-function #'popper-group-by-projectile)
@@ -670,6 +674,9 @@ I'm not sure why I made this.  Not used for now."
   ;; You can further customize indentation or align rules here if needed
   )
 
+(use-package simple-httpd
+  :ensure t)
+
 ;; ===============
 ;; C/C++ stuff
 ;; ===============
@@ -738,18 +745,12 @@ I'm not sure why I made this.  Not used for now."
 (use-package transient
   :ensure t)
 
-(use-package safe
-  :ensure (:repo "~/.safe/"))
-
-(use-package rotor
-  :after safe
-  :ensure (:repo "~/code/my-emacs-packages/rotor/"))
-
 (use-package gptel
-  :after (safe transient)
+  :after transient
   :ensure t
   :bind (("C-c RET" . gptel-send))
   :config
+  (require 'safe)
   (setq
    gptel-model 'claude-3-5-sonnet-20240620 ;  'claude-3-opus-20240229 also available
    gptel-backend (gptel-make-anthropic "Claude"
@@ -763,3 +764,16 @@ I'm not sure why I made this.  Not used for now."
   (setq gptel-default-mode 'org-mode))
 
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(yasnippet vertico sql-indent smartparens rainbow-delimiters projectile popper pdf-tools orderless marginalia magit gptel fontaine flycheck ef-themes dired-preview consult company breadcrumb ace-window)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
