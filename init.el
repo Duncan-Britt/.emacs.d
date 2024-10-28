@@ -648,10 +648,6 @@ I'm not sure why I made this.  Not used for now."
 ;; PROGRAMMING/IDE/IN BUFFER COMPLETION
 ;; =======================================
 
-;; I want to use tree sitter. I'm on emacs 29, which I know comes with treesitter, but I'm wondering, how can I tell if tree sitter is being used?
-
-;; Please configure for me an in buffer completion framework using corfu, orderless (already installed, but you can edit), cape, and eglot.
-
 ;; Enable built-in tree-sitter support
 (use-package treesit
   :ensure nil  ; built-in package
