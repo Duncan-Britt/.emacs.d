@@ -3,6 +3,8 @@ auto-save-list
 backups
 elpa
 elpaca
+eshell
+tree-sitter
 flycheck_init.el
 fontaine-latest-state.eld
 history
