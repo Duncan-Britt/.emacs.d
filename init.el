@@ -357,9 +357,9 @@ Done in accordance with the currently loaded ef-theme."
 							    (set-hl-todo-faces-according-to-ef-theme)
 							    (global-hl-todo-mode)))))
 
-;; =====================
-;; NAVIGATION
-;; =====================
+;; =================================
+;; NAVIGATION/MINIBUFFER COMPLETION
+;; =================================
 
 (use-package projectile
   :ensure t
@@ -475,10 +475,11 @@ Display the number of replacements made."
 	  "\\*Warnings\\*"
 	  "\\*compilation\\*"
 	  "\\Backtrace\\*"
+	  "\\*ruby\\*"
           help-mode
           compilation-mode))
   (setq popper-group-function #'popper-group-by-projectile)
-  
+
   (defun my/popper-display-popup (buffer &optional alist)
     "Display popup-buffer BUFFER based on the number of windows in the frame."
     (let ((window-count (length (window-list))))
@@ -497,7 +498,7 @@ Display the number of replacements made."
                    (window-height . 0.5)))))))
 
   (setq popper-display-function #'my/popper-display-popup)
-  
+
   (popper-mode +1)
   (popper-echo-mode +1))
 
@@ -520,7 +521,7 @@ I'm not sure why I made this.  Not used for now."
 
 (use-package org
   :config
-  
+
   (setq org-agenda-files (list (expand-file-name "~/Dropbox/agenda/agenda.org")))
   ;; (setq org-archive-location "~/Dropbox/agenda/agenda_archive.org::%s_archive") ;; <-- unused? Org Archiver has it's own location.
   ;; (setq org-plantuml-jar-path (expand-file-name "~/plantuml-1.2024.4.jar")) ;; <-- doesn't exist on my new mac
@@ -643,19 +644,130 @@ I'm not sure why I made this.  Not used for now."
   :hook
   (org-mode . paste-img-mode))
 
-;; =====================
-;; PROGRAMMING/IDE
-;; =====================
+;; =======================================
+;; PROGRAMMING/IDE/IN BUFFER COMPLETION
+;; =======================================
 
-(use-package company
+;; I want to use tree sitter. I'm on emacs 29, which I know comes with treesitter, but I'm wondering, how can I tell if tree sitter is being used?
+
+;; Please configure for me an in buffer completion framework using corfu, orderless (already installed, but you can edit), cape, and eglot.
+
+;; Enable built-in tree-sitter support
+(use-package treesit
+  :ensure nil  ; built-in package
+  :config
+  (setq treesit-language-source-alist
+	'((bash "https://github.com/tree-sitter/tree-sitter-bash")
+	  (c "https://github.com/tree-sitter/tree-sitter-c")
+	  (c++ "https://github.com/tree-sitter/tree-sitter-cpp")
+	  (cmake "https://github.com/uyha/tree-sitter-cmake")
+	  (common-lisp "https://github.com/tree-sitter-grammars/tree-sitter-commonlisp")
+	  (css "https://github.com/tree-sitter/tree-sitter-css")
+	  (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+	  (go "https://github.com/tree-sitter/tree-sitter-go")
+	  (html "https://github.com/tree-sitter/tree-sitter-html")
+	  (json "https://github.com/tree-sitter/tree-sitter-json")
+	  (make "https://github.com/alemuller/tree-sitter-make")
+	  (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+	  (python "https://github.com/tree-sitter/tree-sitter-python")
+	  (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
+	  (toml "https://github.com/tree-sitter/tree-sitter-toml")
+	  (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+
+  ;; Enable tree-sitter for languages with available grammars
+  (setq major-mode-remap-alist
+	'((bash-mode . bash-ts-mode)
+	  (c-mode . c-ts-mode) ;; Notably Common Lisp and C++ are missing
+          (css-mode . css-ts-mode)
+	  (json-mode . json-ts-mode)
+          (python-mode . python-ts-mode)
+	  ;; (ruby-mode . ruby-ts-mode) OKAY I don't use ruby-ts-mode because C-M-f doesn't work in it - Oct. 2024
+	  (yaml-mode . yaml-ts-mode)))
+
+  (dolist (mapping major-mode-remap-alist)
+    (let* ((ts-mode (cdr mapping))
+           (lang (intern (string-remove-suffix "-ts-mode" (symbol-name ts-mode)))))
+      (when (not (treesit-ready-p lang t))
+        (treesit-install-language-grammar lang))))
+
+  (defun check-treesit-grammar-installation ()
+    "Check and report the installation status of tree-sitter grammars."
+    (let (installed not-installed)
+      (dolist (mapping major-mode-remap-alist)
+	(let* ((ts-mode (cdr mapping))
+               (lang (intern (string-remove-suffix "-ts-mode" (symbol-name ts-mode)))))
+          (if (treesit-ready-p lang t)
+              (push lang installed)
+            (push lang not-installed))))
+
+      (with-current-buffer (get-buffer-create "*Tree-sitter Status*")
+	(erase-buffer)
+	(insert "Tree-sitter Grammar Installation Status:\n\n")
+	(insert "Installed grammars:\n")
+	(dolist (lang installed)
+          (insert (format "  - %s\n" lang)))
+	(insert "\nNot installed grammars:\n")
+	(dolist (lang not-installed)
+          (insert (format "  - %s\n" lang)))
+	(insert "\nTo install missing grammars, you can use:\n")
+	(insert "(treesit-install-language-grammar 'language-name)\n")
+	(display-buffer (current-buffer)))))
+  ;; (check-treesit-grammar-installation)
+  )
+
+;; corfu + orderless + cape + eglot = in buffer completion framework
+;; corfu is like vertico
+;; cape is like consult
+
+(use-package corfu
   :ensure t
-  :hook
-  ((prog-mode . company-mode)))
+  :init
+  (global-corfu-mode)
+  ;; :hook OKAY maybe we should do this instead of global?
+  ;; ((prog-mode . corfu-mode)
+  ;;  (shell-mode . corfu-mode)
+  ;;  (eshell-mode . corfu-mode))
+  :config
+  (setq corfu-auto t)
+  (setq corfu-auto-prefix 2)
+  (setq corfu-auto-delay 0.1)
+  (setq corfu-echo-documentation 0.25)
+  :bind
+  (:map corfu-map
+        ("TAB" . corfu-next)
+        ([tab] . corfu-next)
+        ("S-TAB" . corfu-previous)
+        ([backtab] . corfu-previous)))
+
+(use-package cape
+  :ensure t
+  :init
+  ;; Add `completion-at-point-functions', used by `completion-at-point'.
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+  (add-to-list 'completion-at-point-functions #'cape-symbol)
+  :config
+  (setq cape-dabbrev-min-length 2)
+  (setq cape-dabbrev-check-other-buffers nil))
+
+(use-package eglot
+  :ensure nil
+  :hook ((ruby-mode . eglot-ensure)
+	 (ruby-ts-mode . eglot-ensure))
+  :config
+  (setq eglot-autoshutdown t)
+  (setq eglot-confirm-server-initiated-edits nil))
 
 (use-package flycheck
   :ensure t
   :hook
   ((prog-mode . flycheck-mode)))
+
+(use-package emacs
+  :ensure nil
+  :config
+  (add-hook 'before-save-hook 'delete-trailing-whitespace))
 
 (use-package magit
   :ensure t)
@@ -675,6 +787,9 @@ I'm not sure why I made this.  Not used for now."
   )
 
 (use-package simple-httpd
+  :ensure t)
+
+(use-package inf-ruby
   :ensure t)
 
 ;; ===============
@@ -770,7 +885,7 @@ I'm not sure why I made this.  Not used for now."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(yasnippet vertico sql-indent smartparens rainbow-delimiters projectile popper pdf-tools orderless marginalia magit gptel fontaine flycheck ef-themes dired-preview consult company breadcrumb ace-window)))
+   '(yasnippet vertico sql-indent smartparens rainbow-delimiters projectile popper pdf-tools orderless marginalia magit inf-ruby gptel fontaine flycheck ef-themes dired-preview consult breadcrumb ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
