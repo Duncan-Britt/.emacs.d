@@ -721,12 +721,10 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 
 (use-package corfu
   :ensure t
-  :init
-  (global-corfu-mode)
-  ;; :hook OKAY maybe we should do this instead of global?
-  ;; ((prog-mode . corfu-mode)
-  ;;  (shell-mode . corfu-mode)
-  ;;  (eshell-mode . corfu-mode))
+  :hook
+  ((prog-mode . corfu-mode)
+   (shell-mode . corfu-mode)
+   (eshell-mode . corfu-mode))
   :config
   (setq corfu-auto t)
   (setq corfu-auto-prefix 2)
@@ -882,10 +880,11 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   :bind (("C-c RET" . gptel-send))
   :config
   (require 'safe)
-  (setq
-   gptel-model 'claude-3-5-sonnet-20240620 ;  'claude-3-opus-20240229 also available
-   gptel-backend (gptel-make-anthropic "Claude"
-                   :stream t :key *api-token*))
+  (setq gptel-api-key *gptel-token*)
+  ;; (setq
+  ;;  gptel-model 'claude-3-5-sonnet-20240620 ;  'claude-3-opus-20240229 also available
+  ;;  gptel-backend (gptel-make-anthropic "Claude"
+  ;;                  :stream t :key *api-token*))
   ;; (setq
   ;; gptel-model 'aya:latest
   ;; gptel-backend (gptel-make-ollama "Ollama"   ;Any name of your choosing
