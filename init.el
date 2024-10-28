@@ -674,7 +674,7 @@ I'm not sure why I made this.  Not used for now."
   (setq major-mode-remap-alist
 	'((bash-mode . bash-ts-mode)
 	  (c-mode . c-ts-mode)
-	  (c++-mode . c++-ts-mode)
+	  ;; (c++-mode . c++-ts-mode) OKAY I don't use c++-ts-mode because << on new lines don't indent correctly.
           (css-mode . css-ts-mode)
 	  (json-mode . json-ts-mode)
           (python-mode . python-ts-mode)
@@ -746,14 +746,18 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
-  (add-to-list 'completion-at-point-functions #'cape-symbol)
+  (add-to-list 'completion-at-point-functions #'cape-line)
   :config
   (setq cape-dabbrev-min-length 2)
   (setq cape-dabbrev-check-other-buffers nil))
 
 (use-package eglot
   :ensure nil
-  :hook ((ruby-mode . eglot-ensure)
+  :hook ((c-mode . eglot-ensure)
+	 (c-ts-mode . eglot-ensure)
+	 (c++-mode . eglot-ensure)
+	 (c++-ts-mode . eglot-ensure)
+	 (ruby-mode . eglot-ensure)
 	 (ruby-ts-mode . eglot-ensure))
   :config
   (setq eglot-autoshutdown t)
@@ -796,13 +800,25 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 ;; C/C++ stuff
 ;; ===============
 
-(add-hook 'c-mode-hook
-          (lambda ()
-            (define-key c-mode-map (kbd "C-c c") 'recompile)))
+(use-package cc-mode
+  :ensure nil
+  :bind (:map c-mode-map
+              ("C-c c" . recompile)
+              :map c++-mode-map
+              ("C-c c" . recompile))
+  :config
+  (with-eval-after-load 'c-ts-mode
+    (define-key c-ts-mode-map (kbd "C-c c") #'recompile))
+  (with-eval-after-load 'c++-ts-mode
+    (define-key c++-ts-mode-map (kbd "C-c c") #'recompile)))
 
-(add-hook 'c++-mode-hook
-          (lambda ()
-            (define-key c++-mode-map (kbd "C-c c") 'recompile)))
+;; (add-hook 'c-mode-hook
+;;           (lambda ()
+;;             (define-key c-mode-map (kbd "C-c c") 'recompile)))
+
+;; (add-hook 'c++-mode-hook
+;;           (lambda ()
+;;             (define-key c++-mode-map (kbd "C-c c") 'recompile)))
 
 ;; ==================
 ;; EMACS LISP
