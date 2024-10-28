@@ -673,7 +673,8 @@ I'm not sure why I made this.  Not used for now."
   ;; Enable tree-sitter for languages with available grammars
   (setq major-mode-remap-alist
 	'((bash-mode . bash-ts-mode)
-	  (c-mode . c-ts-mode) ;; Notably Common Lisp and C++ are missing
+	  (c-mode . c-ts-mode)
+	  (c++-mode . c++-ts-mode)
           (css-mode . css-ts-mode)
 	  (json-mode . json-ts-mode)
           (python-mode . python-ts-mode)
@@ -683,11 +684,13 @@ I'm not sure why I made this.  Not used for now."
   (dolist (mapping major-mode-remap-alist)
     (let* ((ts-mode (cdr mapping))
            (lang (intern (string-remove-suffix "-ts-mode" (symbol-name ts-mode)))))
-      (when (not (treesit-ready-p lang t))
+      (when (and (not (treesit-ready-p lang t))
+		 (not (eq lang 'c++))) ; Do c++ manually, interactively.
         (treesit-install-language-grammar lang))))
 
   (defun check-treesit-grammar-installation ()
-    "Check and report the installation status of tree-sitter grammars."
+    "Check and report the installation status of tree-sitter grammars.
+Note that it may show that C++ is not installed even when it is. Check with `M-x c++-ts-mode'"
     (let (installed not-installed)
       (dolist (mapping major-mode-remap-alist)
 	(let* ((ts-mode (cdr mapping))
@@ -699,6 +702,7 @@ I'm not sure why I made this.  Not used for now."
       (with-current-buffer (get-buffer-create "*Tree-sitter Status*")
 	(erase-buffer)
 	(insert "Tree-sitter Grammar Installation Status:\n\n")
+	(insert "Note that it may show that C++ is not installed even when it is. Check with `M-x c++-ts-mode`")
 	(insert "Installed grammars:\n")
 	(dolist (lang installed)
           (insert (format "  - %s\n" lang)))
