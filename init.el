@@ -472,6 +472,7 @@ Display the number of replacements made."
           "\\*Org Agenda\\*"
           "\\*slime-repl sbcl\\*"
 	  "\\*Claude\\*"
+	  "\\*ChatGPT\\*"
 	  "\\*Warnings\\*"
 	  "\\*compilation\\*"
 	  "\\Backtrace\\*"
@@ -880,11 +881,12 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   :bind (("C-c RET" . gptel-send))
   :config
   (require 'safe)
-  (setq gptel-api-key *gptel-token*)
-  ;; (setq
-  ;;  gptel-model 'claude-3-5-sonnet-20240620 ;  'claude-3-opus-20240229 also available
-  ;;  gptel-backend (gptel-make-anthropic "Claude"
-  ;;                  :stream t :key *api-token*))
+  ;; (setq gptel-api-key *gptel-token*)
+  ;; (setq gptel-model 'gpt-4o)
+  (setq
+   gptel-model 'claude-3-5-sonnet-20240620 ;  'claude-3-opus-20240229 also available
+   gptel-backend (gptel-make-anthropic "Claude"
+                   :stream t :key *api-token*))
   ;; (setq
   ;; gptel-model 'aya:latest
   ;; gptel-backend (gptel-make-ollama "Ollama"   ;Any name of your choosing
