@@ -6,7 +6,6 @@
 ;; INSTALLATION
 ;; ===============================================================
 ;; brew install emacs-plus@29 --with-native-comp --with-xwidgets --with-imagemagick --with-modern-black-variant-icon
-;; brew install emacs-plus@29 --with-xwidgets --with-imagemagick --with-modern-black-variant-icon
 
 ;; ===============================================================
 ;; PACKAGE MANAGEMENT: ELPACA (see early-init.el)
@@ -405,12 +404,28 @@ Done in accordance with the currently loaded ef-theme."
   :init
   (marginalia-mode))
 
+(use-package embark
+  :ensure t
+  :bind
+  (("C-." . embark-act)
+   ("C-h B" . embark-bindings)))
+
+(use-package embark-consult
+  :ensure t)
+
 (use-package consult
   :ensure t)
 
 (use-package dired-preview
   :ensure t
   :hook ((dired-mode . dired-preview-mode)))
+
+(use-package casual
+  :after calc
+  :ensure t
+  :bind
+  (:map calc-mode-map
+   ("C-o" . casual-calc-tmenu)))
 
 ;; ========================
 ;; TEXT EDITING & MOVEMENT
@@ -516,7 +531,7 @@ Display the number of replacements made."
 
 (defun my-org-syntax-table-modify ()
   "Modify `org-mode-syntax-table' for the current org buffer.
-I'm not sure why I made this.  Not used for now."
+This fixes the issue where, in org source blocks, < matches )."
   (modify-syntax-entry ?< "." org-mode-syntax-table)
   (modify-syntax-entry ?> "." org-mode-syntax-table))
 
@@ -562,7 +577,7 @@ I'm not sure why I made this.  Not used for now."
   :hook ((org-mode . variable-pitch-mode)
          (org-mode . visual-line-mode)
          (org-mode . pixel-scroll-precision-mode)
-         ;; (org-mode . my-org-syntax-table-modify)
+         (org-mode . my-org-syntax-table-modify)
          (org-mode . (lambda () (display-line-numbers-mode 0)))))
 
 (use-package mw-thesaurus
@@ -649,6 +664,8 @@ I'm not sure why I made this.  Not used for now."
 ;; PROGRAMMING/IDE/IN BUFFER COMPLETION
 ;; =======================================
 
+(setq-default indent-tabs-mode nil)
+
 ;; Enable built-in tree-sitter support
 (use-package treesit
   :ensure nil  ; built-in package
@@ -724,11 +741,12 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   :ensure t
   :hook
   ((prog-mode . corfu-mode)
-   (shell-mode . corfu-mode)
-   (eshell-mode . corfu-mode))
+   ;; (shell-mode . corfu-mode)
+   ;; (eshell-mode . corfu-mode)
+   )
   :config
-  (setq corfu-auto t)
-  (setq corfu-auto-prefix 2)
+  (setq corfu-auto nil)
+  (setq corfu-auto-prefix 2) ;; NOTE These only apply if corfu-auto is t
   (setq corfu-auto-delay 0.1)
   (setq corfu-echo-documentation 0.25)
   :bind
@@ -806,6 +824,11 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
               :map c++-mode-map
               ("C-c c" . recompile))
   :config
+  (setq-default c-basic-offset 4)
+  (add-hook 'c-mode-common-hook
+          (lambda ()
+            (c-set-style "stroustrup")
+            (setq c-basic-offset 4)))
   (with-eval-after-load 'c-ts-mode
     (define-key c-ts-mode-map (kbd "C-c c") #'recompile))
   (with-eval-after-load 'c++-ts-mode
