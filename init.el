@@ -486,7 +486,9 @@ Display the number of replacements made."
           "\\*Async Shell Command\\*"
           "\\*Org Agenda\\*"
           "\\*slime-repl sbcl\\*"
-	  "\\*Claude\\*"
+          sldb-mode
+          "\\*Claude\\*"
+          "\\*Ollama\\*"
 	  "\\*ChatGPT\\*"
 	  "\\*Warnings\\*"
 	  "\\*compilation\\*"
@@ -505,7 +507,7 @@ Display the number of replacements made."
            buffer
            (append alist
                    `((side . right)
-                     (window-width . 0.4))))
+                     (window-width . 0.6))))
         ;; If there are multiple windows, display at the bottom
         (display-buffer-in-side-window
          buffer
@@ -906,16 +908,22 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   (require 'safe)
   ;; (setq gptel-api-key *gptel-token*)
   ;; (setq gptel-model 'gpt-4o)
-  (setq
-   gptel-model 'claude-3-5-sonnet-20240620 ;  'claude-3-opus-20240229 also available
-   gptel-backend (gptel-make-anthropic "Claude"
-                   :stream t :key *api-token*))
+  ;; (setq
+  ;;  gptel-model 'claude-3-5-sonnet-20240620 ;  'claude-3-opus-20240229 also available
+  ;;  gptel-backend (gptel-make-anthropic "Claude"
+  ;;                  :stream t :key *api-token*))
   ;; (setq
   ;; gptel-model 'aya:latest
   ;; gptel-backend (gptel-make-ollama "Ollama"   ;Any name of your choosing
   ;;                 :host "localhost:11434"     ;Where it's running
   ;;                 :stream t                   ;Stream responses
   ;;                 :models '(aya:latest)))     ;List of models
+  (setq
+   gptel-model 'qwen2.5-coder:32b
+   gptel-backend (gptel-make-ollama "Ollama"
+                   :host "localhost:11434"
+                   :stream t
+                   :models '(qwen2.5-coder:32b aya:latest)))
   (setq gptel-default-mode 'org-mode))
 
 ;;; init.el ends here
