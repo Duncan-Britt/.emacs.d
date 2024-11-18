@@ -356,6 +356,11 @@ Done in accordance with the currently loaded ef-theme."
 							    (set-hl-todo-faces-according-to-ef-theme)
 							    (global-hl-todo-mode)))))
 
+(use-package anzu
+  :ensure t
+  :init
+  (global-anzu-mode 1))
+
 ;; =================================
 ;; NAVIGATION/MINIBUFFER COMPLETION
 ;; =================================
@@ -668,6 +673,9 @@ This fixes the issue where, in org source blocks, < matches )."
 
 (setq-default indent-tabs-mode nil)
 
+(use-package markdown-mode
+  :ensure t)
+
 ;; Enable built-in tree-sitter support
 (use-package treesit
   :ensure nil  ; built-in package
@@ -684,7 +692,6 @@ This fixes the issue where, in org source blocks, < matches )."
 	  (html "https://github.com/tree-sitter/tree-sitter-html")
 	  (json "https://github.com/tree-sitter/tree-sitter-json")
 	  (make "https://github.com/alemuller/tree-sitter-make")
-	  (markdown "https://github.com/ikatyang/tree-sitter-markdown")
 	  (python "https://github.com/tree-sitter/tree-sitter-python")
 	  (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
 	  (toml "https://github.com/tree-sitter/tree-sitter-toml")
@@ -919,11 +926,11 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   ;;                 :stream t                   ;Stream responses
   ;;                 :models '(aya:latest)))     ;List of models
   (setq
-   gptel-model 'qwen2.5-coder:32b
+   gptel-model 'qwen2.5-coder:14b
    gptel-backend (gptel-make-ollama "Ollama"
                    :host "localhost:11434"
                    :stream t
-                   :models '(qwen2.5-coder:32b aya:latest)))
+                   :models '(qwen2.5-coder:14b qwen2.5-coder:32b aya:latest)))
   (setq gptel-default-mode 'org-mode))
 
 ;;; init.el ends here
