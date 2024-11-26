@@ -188,8 +188,8 @@
   :config
   (setq fontaine-presets
         '((regular
-           :default-family "Iosevka Comfy"
-           :fixed-pitch-family "Iosevka Comfy"
+           :default-family "Iosevka"
+           :fixed-pitch-family "Iosevka"
            :fixed-pitch-height 1.0
            :variable-pitch-family "Iosevka Comfy Duo"
            :variable-pitch-height 1.0)
@@ -198,6 +198,12 @@
            :fixed-pitch-family "Iosevka Comfy"
            :fixed-pitch-height 1.0
            :variable-pitch-family "ETBembo"
+           :variable-pitch-height 1.2)
+          (etoile
+           :default-family "Iosevka Comfy"
+           :fixed-pitch-family "Iosevka Comfy"
+           :fixed-pitch-height 1.0
+           :variable-pitch-family "Iosevka Etoile"
            :variable-pitch-height 1.2)))
   (fontaine-mode 1)
   (fontaine-set-preset 'regular))
@@ -843,6 +849,13 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   (with-eval-after-load 'c++-ts-mode
     (define-key c++-ts-mode-map (kbd "C-c c") #'recompile)))
 
+(use-package realgud
+  :ensure t)
+
+(use-package realgud-lldb
+  :after realgud
+  :ensure t)
+
 ;; (add-hook 'c-mode-hook
 ;;           (lambda ()
 ;;             (define-key c-mode-map (kbd "C-c c") 'recompile)))
@@ -880,8 +893,29 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 (load (expand-file-name "~/quicklisp/slime-helper.el"))
 
 ;; =====================
+;; PYTHON
+;; =====================
+
+(use-package exec-path-from-shell ; Without this, eshell would use the homebrew version of python.
+  :ensure t
+  :init
+  (exec-path-from-shell-initialize))
+
+(use-package jupyter-ascending
+  :ensure (:repo "~/code/my-emacs-packages/jupyter-ascending/")
+  :custom
+  (jupyter-ascending-python-command "python3")
+  :bind (:map jupyter-ascending-mode-map
+              ("C-c C-c" . jupyter-ascending-run-cell)
+              ("C-c C-a" . jupyter-ascending-run-all-cells)))
+
+;; =====================
 ;; MISCELLANEOUS
 ;; =====================
+
+(use-package reverso ;; Translation, Thesaurus, Grammar Checking (Online only)
+  :ensure t)
+
 (defun calendar-insert-date ()
   "Capture the date at point, exit the Calendar, insert the date."
   (interactive)
