@@ -447,6 +447,18 @@ Done in accordance with the currently loaded ef-theme."
 ;; MAKE C-s search case-insensitive:
 ;; (setq case-fold-search t)
 
+(use-package undo-tree
+  :ensure t
+  :init
+  (global-undo-tree-mode 1)
+  :config
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-tree-history")))
+  :bind (:map undo-tree-visualizer-mode-map
+              ;; go to selected undo state
+              ("<return>" . undo-tree-visualizer-quit)
+              ;; cancel (return to state before calling undo-tree-visualizer)
+              ("q" . undo-tree-visualizer-abort)))
+
 (use-package yasnippet
   :ensure t
   :config
