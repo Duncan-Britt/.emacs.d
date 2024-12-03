@@ -562,7 +562,7 @@ This fixes the issue where, in org source blocks, < matches )."
 
 (use-package org
   :config
-
+  (add-to-list 'org-entities-user '("yhat" "$\\hat{y}$" nil "&#375;" "yhat" "yhat" "ŷ")) ; TODO Not sure if I'm dealing with latex in a smart way.
   (setq org-agenda-files (list (expand-file-name "~/Dropbox/agenda/agenda.org")))
   ;; (setq org-archive-location "~/Dropbox/agenda/agenda_archive.org::%s_archive") ;; <-- unused? Org Archiver has it's own location.
   ;; (setq org-plantuml-jar-path (expand-file-name "~/plantuml-1.2024.4.jar")) ;; <-- doesn't exist on my new mac
