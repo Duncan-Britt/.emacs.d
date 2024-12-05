@@ -248,7 +248,7 @@
   )
 
 (use-package theme-switcher
-  :after (org ef-themes)
+  :after (org ef-themes modus-themes)
   :ensure (:repo "~/code/my-emacs-packages/theme-switcher/")
   :demand t
   :init
@@ -262,7 +262,8 @@
           "ef-elea-dark"
           "ef-dream"
           "ef-melissa-dark"
-          "ef-owl"))
+          "ef-owl"
+          "modus-vivendi"))
   (setq *theme-switcher-themes-light*
         '("ef-day"
           "ef-light"
@@ -563,6 +564,8 @@ This fixes the issue where, in org source blocks, < matches )."
 (use-package org
   :config
   (add-to-list 'org-entities-user '("yhat" "$\\hat{y}$" nil "&#375;" "yhat" "yhat" "ŷ")) ; TODO Not sure if I'm dealing with latex in a smart way.
+  ;; Latin-1 Table: https://cs.stanford.edu/people/miles/iso8859.html
+  ;; C-h v org-entities-user RET
   (setq org-agenda-files (list (expand-file-name "~/Dropbox/agenda/agenda.org")))
   ;; (setq org-archive-location "~/Dropbox/agenda/agenda_archive.org::%s_archive") ;; <-- unused? Org Archiver has it's own location.
   ;; (setq org-plantuml-jar-path (expand-file-name "~/plantuml-1.2024.4.jar")) ;; <-- doesn't exist on my new mac
@@ -985,6 +988,8 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("fbf73690320aa26f8daffdd1210ef234ed1b0c59f3d001f342b9c0bbf49f531c" "712dda0818312c175a60d94ba676b404fc815f8c7e6c080c9b4061596c60a1db" "d41229b2ff1e9929d0ea3b4fde9ed4c1e0775993df9d998a3cdf37f2358d386b" "937401a2e532f2c8c881b6b3f20d9d4b6b9405bccf72ea6289c9d3f4507eb1ab" "2e7dc2838b7941ab9cabaa3b6793286e5134f583c04bde2fba2f4e20f2617cf7" "a75aff58f0d5bbf230e5d1a02169ac2fbf45c930f816f3a21563304d5140d245" "faf642d1511fb0cb9b8634b2070a097656bdb5d88522657370eeeb11baea4a1c" "7b602fe4a324dc18877dde647eb6f2ff9352566ce16d0b888bfcb870d0abfd70" default))
  '(package-selected-packages
    '(yasnippet vertico sql-indent smartparens rainbow-delimiters projectile popper pdf-tools orderless marginalia magit inf-ruby gptel fontaine flycheck ef-themes dired-preview consult breadcrumb ace-window)))
 (custom-set-faces
