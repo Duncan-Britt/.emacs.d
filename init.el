@@ -204,7 +204,7 @@
            :fixed-pitch-family "Iosevka Comfy"
            :fixed-pitch-height 1.0
            :variable-pitch-family "Iosevka Etoile"
-           :variable-pitch-height 1.2)))
+           :variable-pitch-height 1.0)))
   (fontaine-mode 1)
   (fontaine-set-preset 'regular))
 
