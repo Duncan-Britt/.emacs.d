@@ -248,7 +248,7 @@
   )
 
 (use-package theme-switcher
-  :after (org ef-themes modus-themes)
+  :after (org ef-themes)
   :ensure (:repo "~/code/my-emacs-packages/theme-switcher/")
   :demand t
   :init
