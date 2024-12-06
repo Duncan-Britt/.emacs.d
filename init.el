@@ -428,10 +428,6 @@ Done in accordance with the currently loaded ef-theme."
 (use-package consult
   :ensure t)
 
-(use-package dired-preview
-  :ensure t
-  :hook ((dired-mode . dired-preview-mode)))
-
 (use-package casual
   :after calc
   :ensure t
@@ -810,11 +806,6 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   (setq eglot-autoshutdown t)
   (setq eglot-confirm-server-initiated-edits nil))
 
-(use-package flycheck
-  :ensure t
-  :hook
-  ((prog-mode . flycheck-mode)))
-
 (use-package emacs
   :ensure nil
   :config
@@ -864,12 +855,12 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   (with-eval-after-load 'c++-ts-mode
     (define-key c++-ts-mode-map (kbd "C-c c") #'recompile)))
 
-(use-package realgud
-  :ensure t)
+;; (use-package realgud
+;;   :ensure t)
 
-(use-package realgud-lldb
-  :after realgud
-  :ensure t)
+;; (use-package realgud-lldb
+;;   :after realgud
+;;   :ensure t)
 
 ;; (add-hook 'c-mode-hook
 ;;           (lambda ()
