@@ -262,8 +262,7 @@
           "ef-elea-dark"
           "ef-dream"
           "ef-melissa-dark"
-          "ef-owl"
-          "modus-vivendi"))
+          "ef-owl"))
   (setq *theme-switcher-themes-light*
         '("ef-day"
           "ef-light"
