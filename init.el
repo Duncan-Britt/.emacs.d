@@ -191,13 +191,13 @@
            :default-family "Iosevka"
            :fixed-pitch-family "Iosevka"
            :fixed-pitch-height 1.0
-           :variable-pitch-family "Iosevka Comfy Duo"
+           :variable-pitch-family "Iosevka Comfy Motion Duo"
            :variable-pitch-height 1.0)
           (prose
            :default-family "Iosevka Comfy"
            :fixed-pitch-family "Iosevka Comfy"
            :fixed-pitch-height 1.0
-           :variable-pitch-family "ETBembo"
+           :variable-pitch-family  "ETBembo" ;"Symbola" ;"Antykwa Poltawskiego"
            :variable-pitch-height 1.2)
           (etoile
            :default-family "Iosevka Comfy"
@@ -215,15 +215,15 @@
   :ensure t
   :config
   (setq ef-themes-headings
-        '((0 . (variable-pitch light 1.5))
-          (1 . (variable-pitch light 1.4))
-          (2 . (variable-pitch regular 1.3))
-          (3 . (variable-pitch regular 1.2))
-          (4 . (variable-pitch regular 1.1))
-          (5 . (variable-pitch 1.1)) ; absence of weight means `bold'
-          (6 . (variable-pitch 1.1))
-          (7 . (variable-pitch 1.1))
-          (t . (variable-pitch 1.1))))
+        '((0 variable-pitch light 1.5)
+          (1 variable-pitch light 1.4)
+          (2 variable-pitch regular 1.3)
+          (3 variable-pitch regular 1.2)
+          (4 variable-pitch regular 1.1)
+          (5 variable-pitch 1.1) ; absence of weight means `bold'
+          (6 variable-pitch 1.1)
+          (7 variable-pitch 1.1)
+          (t variable-pitch 1.1)))
   ;; They are nil by default...
   (setq ef-themes-mixed-fonts t
         ef-themes-variable-pitch-ui t)
@@ -262,6 +262,7 @@
           "ef-elea-dark"
           "ef-dream"
           "ef-melissa-dark"
+          "ef-maris-dark"
           "ef-owl"))
   (setq *theme-switcher-themes-light*
         '("ef-day"
@@ -367,9 +368,9 @@ Done in accordance with the currently loaded ef-theme."
   :init
   (global-anzu-mode 1))
 
-;; =================================
-;; NAVIGATION/MINIBUFFER COMPLETION
-;; =================================
+;; ================================================
+;; NAVIGATION/MINIBUFFER COMPLETION/DISCOVERABILITY
+;; ================================================
 
 (use-package projectile
   :ensure t
@@ -432,7 +433,12 @@ Done in accordance with the currently loaded ef-theme."
   :ensure t
   :bind
   (:map calc-mode-map
-   ("C-o" . casual-calc-tmenu)))
+        ("C-o" . casual-calc-tmenu)))
+
+(use-package which-key
+  :ensure t
+  :init
+  (which-key-mode 1))
 
 ;; ========================
 ;; TEXT EDITING & MOVEMENT
@@ -684,6 +690,18 @@ This fixes the issue where, in org source blocks, < matches )."
   (org-mode . paste-img-mode))
 
 ;; =======================================
+;; LINTING, SPELLCHECK
+;; =======================================
+
+;; Spell checker
+(use-package jinx ;; NOTE Custom variable `jinx-include-faces' can be used to add spell checking to comments and string in programming modes. Also see `jinx-exclude-faces'.
+  :ensure t
+  :hook
+  ((org-mode . jinx-mode)
+   (text-mode . jinx-mode))
+  :bind (("M-$" . jinx-correct))) ;; M-x jinx-languages for other languages.
+
+;; =======================================
 ;; PROGRAMMING/IDE/IN BUFFER COMPLETION
 ;; =======================================
 
@@ -803,7 +821,21 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 	 (ruby-ts-mode . eglot-ensure))
   :config
   (setq eglot-autoshutdown t)
-  (setq eglot-confirm-server-initiated-edits nil))
+  (setq eglot-confirm-server-initiated-edits nil)
+
+  (setq eglot-workspace-configuration ;; FIXME Still debugging these.
+        '((harper-ls . (:spell_check t
+                                     :sentence_capitalization t
+                                     :userDictPath "~/dict.txt"
+                                     :fileDictPath "~/.harper/"))))
+  (add-to-list 'eglot-server-programs ;; FIXME Still debugging this.
+               `((text-mode markdown-mode org-mode) .
+                 ("nc" "localhost" "9000"
+                  :initializationOptions
+                  (:settings (:userDictPath ,(expand-file-name "~/dict.txt")
+                                            :fileDictPath ,(expand-file-name "~/.harper/"))
+                             :workspace (:spell_check t :sentence_capitalization t))))) ;; python3 lsp_proxy.py 9000 harper-ls --stdio
+  )
 
 (use-package emacs
   :ensure nil
