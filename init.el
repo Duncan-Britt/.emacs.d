@@ -197,6 +197,14 @@
            :default-family "Iosevka Comfy"
            :fixed-pitch-family "Iosevka Comfy"
            :fixed-pitch-height 1.0
+           :org-level-1-family "Symbola" ;; <-- Requires `fontaine-org'.
+           :org-level-2-family "Symbola"
+           :org-level-3-family "Symbola"
+           :org-level-4-family "Symbola"
+           :org-level-5-family "Symbola"
+           :org-level-6-family "Symbola"
+           :org-level-7-family "Symbola"
+           :org-level-8-family "Symbola"
            :variable-pitch-family  "ETBembo" ;"Symbola" ;"Antykwa Poltawskiego"
            :variable-pitch-height 1.2)
           (etoile
@@ -207,6 +215,11 @@
            :variable-pitch-height 1.0)))
   (fontaine-mode 1)
   (fontaine-set-preset 'regular))
+
+(use-package fontaine-org
+  :ensure (:repo "~/code/my-emacs-packages/fontaine-org/")
+  :init
+  (fontaine-org-mode 1))
 
 (use-package ef-themes
   ;; Make customisations that affect Emacs faces BEFORE loading a theme
@@ -947,6 +960,26 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
               ("C-c C-a" . jupyter-ascending-run-all-cells)))
 
 ;; =====================
+;; RESEARCH & STUDYING
+;; =====================
+
+(use-package pdf-tools
+  :ensure t
+  :config
+  (pdf-tools-install))
+
+(use-package org-pdftools
+  :ensure t
+  :hook (org-mode . org-pdftools-setup-link))
+
+(use-package nov
+  :ensure t
+  :mode ("\\.epub\\'" . nov-mode))
+
+(use-package anki-editor
+  :ensure t)
+
+;; =====================
 ;; MISCELLANEOUS
 ;; =====================
 
@@ -964,11 +997,6 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   :ensure nil
   :config
   (define-key calendar-mode-map (kbd "RET") 'calendar-insert-date))
-
-(use-package pdf-tools
-  :ensure t
-  :config
-  (pdf-tools-install))
 
 (use-package emacs
   :ensure nil
