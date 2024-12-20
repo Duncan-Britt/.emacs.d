@@ -613,14 +613,25 @@ This fixes the issue where, in org source blocks, < matches )."
         '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
   (setq org-export-backends '(ascii html icalendar latex md))
+
+  (setq org-preview-latex-default-process 'dvisvgm)
+  (defun my/resize-org-latex-overlays ()
+    (cl-loop for o in (car (overlay-lists))
+             if (eq (overlay-get o 'org-overlay-type) 'org-latex-overlay)
+             do (plist-put (cdr (overlay-get o 'display))
+		           :scale (expt text-scale-mode-step
+				        text-scale-mode-amount))))
+
   (require 'ox-gfm nil t) ;; <-- For github flavored markdown export
   (require 'blog-publishing)
   (require 'ut-table-manager)
+
   :hook ((org-mode . variable-pitch-mode)
          (org-mode . visual-line-mode)
          (org-mode . pixel-scroll-precision-mode)
          (org-mode . my-org-syntax-table-modify)
-         (org-mode . (lambda () (display-line-numbers-mode 0)))))
+         (org-mode . (lambda () (display-line-numbers-mode 0)))
+         (org-mode . (lambda () (add-hook 'text-scale-mode-hook #'my/resize-org-latex-overlays nil t)))))
 
 (use-package mw-thesaurus
   :ensure t
