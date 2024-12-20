@@ -614,13 +614,15 @@ This fixes the issue where, in org source blocks, < matches )."
           "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
   (setq org-export-backends '(ascii html icalendar latex md))
 
-  (setq org-preview-latex-default-process 'dvisvgm)
-  (defun my/resize-org-latex-overlays ()
+  (setq org-preview-latex-default-process 'dvisvgm) ; Better latex rendering
+  (defun my/resize-org-latex-overlays () ; auto resize latex when resizing text
     (cl-loop for o in (car (overlay-lists))
              if (eq (overlay-get o 'org-overlay-type) 'org-latex-overlay)
              do (plist-put (cdr (overlay-get o 'display))
 		           :scale (expt text-scale-mode-step
 				        text-scale-mode-amount))))
+  (plist-put org-format-latex-options :foreground nil) ; latex previews match theme when switching themes.
+  (plist-put org-format-latex-options :background nil)
 
   (require 'ox-gfm nil t) ;; <-- For github flavored markdown export
   (require 'blog-publishing)
