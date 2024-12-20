@@ -382,7 +382,7 @@ Done in accordance with the currently loaded ef-theme."
   (global-anzu-mode 1))
 
 ;; ================================================
-;; NAVIGATION/MINIBUFFER COMPLETION/DISCOVERABILITY
+;; NAVIGATION/DISCOVERABILITY + COMPLETION FRAMEWORK
 ;; ================================================
 
 (use-package projectile
@@ -399,6 +399,18 @@ Done in accordance with the currently loaded ef-theme."
   :ensure nil  ; This tells use-package not to try to install savehist
   :init
   (savehist-mode))
+
+(use-package casual
+  :after calc
+  :ensure t
+  :bind
+  (:map calc-mode-map
+        ("C-o" . casual-calc-tmenu)))
+
+(use-package which-key
+  :ensure t
+  :init
+  (which-key-mode 1))
 
 (use-package vertico
   :ensure t
@@ -422,7 +434,8 @@ Done in accordance with the currently loaded ef-theme."
   :ensure t
   :custom
   (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion)))))
+  (completion-category-overrides '((file (styles basic partial-completion))
+                                   (eglot (styles orderless)))))
 
 (use-package marginalia
   :ensure t
@@ -441,17 +454,69 @@ Done in accordance with the currently loaded ef-theme."
 (use-package consult
   :ensure t)
 
-(use-package casual
-  :after calc
-  :ensure t
-  :bind
-  (:map calc-mode-map
-        ("C-o" . casual-calc-tmenu)))
+;; corfu + orderless + cape + eglot = in buffer completion framework
+;; corfu is like vertico
+;; cape is like consult
 
-(use-package which-key
+(use-package corfu
+  :ensure t
+  :hook
+  ((prog-mode . corfu-mode)
+   ;; (shell-mode . corfu-mode)
+   ;; (eshell-mode . corfu-mode)
+   )
+  :config
+  (setq corfu-auto nil)
+  (setq corfu-auto-prefix 2) ;; NOTE These only apply if corfu-auto is t
+  (setq corfu-auto-delay 0.1)
+  (setq corfu-echo-documentation 0.25)
+  :bind
+  (:map corfu-map
+        ("TAB" . corfu-next)
+        ([tab] . corfu-next)
+        ("S-TAB" . corfu-previous)
+        ([backtab] . corfu-previous)))
+
+(use-package cape
   :ensure t
   :init
-  (which-key-mode 1))
+  ;; Add `completion-at-point-functions', used by `completion-at-point'.
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+  (add-to-list 'completion-at-point-functions #'cape-line)
+  :config
+  (setq cape-dabbrev-min-length 2)
+  (setq cape-dabbrev-check-other-buffers nil)
+  :bind ("C-'" . completion-at-point))
+
+(use-package eglot
+  :ensure nil
+  :hook ((c-mode . eglot-ensure)
+	 (c-ts-mode . eglot-ensure)
+	 (c++-mode . eglot-ensure)
+	 (c++-ts-mode . eglot-ensure)
+	 (ruby-mode . eglot-ensure)
+	 (ruby-ts-mode . eglot-ensure))
+  :config
+  (setq eglot-autoshutdown t)
+  (setq eglot-confirm-server-initiated-edits nil)
+
+  (setq eglot-workspace-configuration ;; FIXME Still debugging these.
+        '((harper-ls . (:spell_check t
+                                     :sentence_capitalization t
+                                     :userDictPath "~/dict.txt"
+                                     :fileDictPath "~/.harper/"))))
+  (add-to-list 'eglot-server-programs ;; FIXME Still debugging this.
+               `((text-mode markdown-mode org-mode) .
+                 ("nc" "localhost" "9000"
+                  :initializationOptions
+                  (:settings (:userDictPath ,(expand-file-name "~/dict.txt")
+                                            :fileDictPath ,(expand-file-name "~/.harper/"))
+                             :workspace (:spell_check t :sentence_capitalization t))))) ;; python3 lsp_proxy.py 9000 harper-ls --stdio
+  )
+
+;; write a use package declaration for dabbrev
 
 ;; ========================
 ;; TEXT EDITING & MOVEMENT
@@ -728,7 +793,7 @@ This fixes the issue where, in org source blocks, < matches )."
   :bind (("M-$" . jinx-correct))) ;; M-x jinx-languages for other languages.
 
 ;; =======================================
-;; PROGRAMMING/IDE/IN BUFFER COMPLETION
+;; PROGRAMMING
 ;; =======================================
 
 (setq-default indent-tabs-mode nil)
@@ -800,67 +865,6 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 	(insert "(treesit-install-language-grammar 'language-name)\n")
 	(display-buffer (current-buffer)))))
   ;; (check-treesit-grammar-installation)
-  )
-
-;; corfu + orderless + cape + eglot = in buffer completion framework
-;; corfu is like vertico
-;; cape is like consult
-
-(use-package corfu
-  :ensure t
-  :hook
-  ((prog-mode . corfu-mode)
-   ;; (shell-mode . corfu-mode)
-   ;; (eshell-mode . corfu-mode)
-   )
-  :config
-  (setq corfu-auto nil)
-  (setq corfu-auto-prefix 2) ;; NOTE These only apply if corfu-auto is t
-  (setq corfu-auto-delay 0.1)
-  (setq corfu-echo-documentation 0.25)
-  :bind
-  (:map corfu-map
-        ("TAB" . corfu-next)
-        ([tab] . corfu-next)
-        ("S-TAB" . corfu-previous)
-        ([backtab] . corfu-previous)))
-
-(use-package cape
-  :ensure t
-  :init
-  ;; Add `completion-at-point-functions', used by `completion-at-point'.
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-keyword)
-  (add-to-list 'completion-at-point-functions #'cape-line)
-  :config
-  (setq cape-dabbrev-min-length 2)
-  (setq cape-dabbrev-check-other-buffers nil))
-
-(use-package eglot
-  :ensure nil
-  :hook ((c-mode . eglot-ensure)
-	 (c-ts-mode . eglot-ensure)
-	 (c++-mode . eglot-ensure)
-	 (c++-ts-mode . eglot-ensure)
-	 (ruby-mode . eglot-ensure)
-	 (ruby-ts-mode . eglot-ensure))
-  :config
-  (setq eglot-autoshutdown t)
-  (setq eglot-confirm-server-initiated-edits nil)
-
-  (setq eglot-workspace-configuration ;; FIXME Still debugging these.
-        '((harper-ls . (:spell_check t
-                                     :sentence_capitalization t
-                                     :userDictPath "~/dict.txt"
-                                     :fileDictPath "~/.harper/"))))
-  (add-to-list 'eglot-server-programs ;; FIXME Still debugging this.
-               `((text-mode markdown-mode org-mode) .
-                 ("nc" "localhost" "9000"
-                  :initializationOptions
-                  (:settings (:userDictPath ,(expand-file-name "~/dict.txt")
-                                            :fileDictPath ,(expand-file-name "~/.harper/"))
-                             :workspace (:spell_check t :sentence_capitalization t))))) ;; python3 lsp_proxy.py 9000 harper-ls --stdio
   )
 
 (use-package emacs
