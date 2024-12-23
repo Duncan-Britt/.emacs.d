@@ -949,13 +949,7 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 
 (use-package lisp-mode
   :ensure nil  ; lisp-mode is built-in, so we don't need to ensure it
-  :hook ((lisp-mode . prettify-symbols-mode)
-	 ;; This could be useful to add custom keywords for syntax highlighting, and I could use .dir-locals.el to make it directory specific, I think.
-         ;; (lisp-mode . (lambda ()
-         ;;                (font-lock-add-keywords nil
-         ;;                                        '(("\\<\\(val\\|λ\\)\\>" . font-lock-keyword-face)
-         ;;                                          ("\\<\\(is\\|in\\)\\>" . font-lock-function-name-face)))))
-	 ))
+  :hook ((lisp-mode . prettify-symbols-mode)))
 (setq inferior-lisp-program (executable-find "sbcl"))
 (setq slime-lisp-implementations
       `((sbcl (,(executable-find "sbcl") "--dynamic-space-size" "4000"))))
