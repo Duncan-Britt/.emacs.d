@@ -115,12 +115,14 @@
   :ensure nil
   :config
   ;; Initial Frame Size
-  (setq initial-frame-alist
-	(append initial-frame-alist
-		'((left   . 20)
-                  (top    . 0)
-                  (width  . 240)
-                  (height . 60))))
+  (add-hook 'window-setup-hook 'toggle-frame-maximized t)
+  ;; (setq initial-frame-alist
+  ;;       (append initial-frame-alist
+  ;;       	'((left   . 20)
+  ;;                 (top    . 0)
+  ;;                 (width  . 240)
+  ;;                 (height . 60))))
+
   ;; Open Agenda on startup
   (setq inhibit-startup-screen t)
   (add-hook 'emacs-startup-hook
@@ -936,6 +938,10 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 ;; ==================
 
 (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode) ;; lambda becomes λ.
+(use-package pp
+  :ensure nil  ; built-in package
+  :bind
+  ("C-x C-e" . pp-eval-last-sexp))
 
 ;; ==================
 ;; COMMON LISP
