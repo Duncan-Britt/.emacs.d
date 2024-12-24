@@ -12,3 +12,11 @@ history
 projectile-bookmarks.eld
 transient
 undo-tree-history/*
+.cache/*
+bookmarks
+games/*
+nov-places
+projects
+request/*
+tramp
+url/*
