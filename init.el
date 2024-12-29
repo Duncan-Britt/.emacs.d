@@ -5,8 +5,8 @@
 ;; ===============================================================
 ;; INSTALLATION
 ;; ===============================================================
-;; brew install emacs-plus@29 --with-native-comp --with-xwidgets --with-imagemagick --with-modern-black-variant-icon
-;; TODO try this: brew install emacs-plus@29 --with-xwidgets --with-imagemagick --with-modern-black-variant-icon <== no native comp!
+;; brew install emacs-plus@29 --with-xwidgets --with-imagemagick --with-modern-black-variant-icon
+;; If I ever want to try native compilation again -> brew install emacs-plus@29 --with-native-comp --with-xwidgets --with-imagemagick --with-modern-black-variant-icon
 
 ;; ===============================================================
 ;; PACKAGE MANAGEMENT: ELPACA (see early-init.el)
