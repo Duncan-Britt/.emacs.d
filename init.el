@@ -6,7 +6,7 @@
 ;; INSTALLATION
 ;; ===============================================================
 ;; brew install emacs-plus@29 --with-xwidgets --with-imagemagick --with-modern-black-variant-icon
-;; If I ever want to try native compilation again -> brew install emacs-plus@29 --with-native-comp --with-xwidgets --with-imagemagick --with-modern-black-variant-icon
+;; brew install emacs-plus@29 --with-native-comp --with-xwidgets --with-imagemagick --with-modern-black-variant-icon
 
 ;; ===============================================================
 ;; PACKAGE MANAGEMENT: ELPACA (see early-init.el)
@@ -192,6 +192,7 @@
   (setq fontaine-presets
         '((regular
            :default-family "Iosevka"
+           :default-height 130
            :fixed-pitch-family "Iosevka"
            :fixed-pitch-height 1.0
            :variable-pitch-family "Iosevka Comfy Motion Duo"
@@ -387,6 +388,11 @@ Done in accordance with the currently loaded ef-theme."
 ;; ================================================
 ;; NAVIGATION/DISCOVERABILITY + COMPLETION FRAMEWORK
 ;; ================================================
+
+(use-package emacs
+  :ensure nil
+  :config
+  (setq context-menu-mode 1))
 
 (use-package projectile
   :ensure t
@@ -587,12 +593,12 @@ Display the number of replacements made."
          ("s-'"   . popper-cycle))
   :init
   (setq popper-reference-buffers
-        '("\\*Messages\\*"
-          "Output\\*$"
+        '("Output\\*$"
           "\\*Async Shell Command\\*"
           "\\*Org Agenda\\*"
           "\\*slime-repl sbcl\\*"
           "\\*slime-inspector\\*"
+          "\\*sweeprolog-top-level\\*"
           sldb-mode
           "\\*Claude\\*"
           "\\*Ollama\\*"
@@ -668,6 +674,7 @@ This fixes the issue where, in org source blocks, < matches )."
      (sql . t)
      (plantuml . t)
      (shell . t)
+     (prolog . t)
      ))
   ;; Needed to run mysql in org babel
   (add-to-list 'exec-path "/usr/local/mysql-8.3.0-macos14-x86_64/bin") ;; <-- doesn't exist on new mac
@@ -943,7 +950,8 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 (use-package pp
   :ensure nil  ; built-in package
   :bind
-  ("C-x C-e" . pp-eval-last-sexp))
+  ;; ("C-x C-e" . pp-eval-last-sexp) TODO find a better keybinding for this.
+  )
 
 ;; ==================
 ;; COMMON LISP
@@ -960,6 +968,30 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 ;; (setq slime-lisp-implementations '((nyxt ("/opt/homebrew/bin/sbcl" "--dynamic-space-size 3072")
 ;;                                          :env ("CL_SOURCE_REGISTRY=/Users/duncan/quicklisp/dists/quicklisp/software//:~/code/nyxt//:~/code/nyxt/_build//"))))
 (load (expand-file-name "~/quicklisp/slime-helper.el"))
+
+;; ======
+;; PROLOG
+;; ======
+
+;; (use-package prolog
+;;   :ensure nil  ; prolog is built-in, so we don't need to ensure it
+;;   :mode ("\\.pl\\'" . prolog-mode)
+;;   :config
+;;   (setq prolog-electric-if-then-else-flag t))
+
+(use-package sweeprolog
+  :ensure t
+  :mode ("\\.pl\\'" . sweeprolog-mode)
+  :hook ((sweeprolog-mode . sweeprolog-electric-layout-mode)
+         ;; (sweeprolog-mode . (lambda ()
+         ;;                     (push '(":-" . "←") prettify-symbols-alist)
+         ;;                     (prettify-symbols-mode 1)))
+         )
+  :config
+  (setq sweeprolog-enable-flymake nil))
+
+(use-package ob-prolog
+  :ensure t)
 
 ;; =====================
 ;; PYTHON
@@ -1004,6 +1036,12 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 
 (use-package reverso ;; Translation, Thesaurus, Grammar Checking (Online only)
   :ensure t)
+
+(use-package denote
+  :ensure t
+  :config
+  (setq denote-directory (expand-file-name "~/Dropbox/notes/"))
+  :hook (dired-mode . denote-dired-mode))
 
 (defun calendar-insert-date ()
   "Capture the date at point, exit the Calendar, insert the date."
