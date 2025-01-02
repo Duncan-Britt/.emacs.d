@@ -7,6 +7,8 @@
 ;; ===============================================================
 ;; brew install emacs-plus@29 --with-xwidgets --with-imagemagick --with-modern-black-variant-icon
 ;; brew install emacs-plus@29 --with-native-comp --with-xwidgets --with-imagemagick --with-modern-black-variant-icon
+;; Get spotlight search to find Emacs on MacOS:
+;; osascript -e 'tell application "Finder" to make alias file to posix file "/opt/homebrew/opt/emacs-plus@29/Emacs.app" at POSIX file "/Applications" with properties {name:"Emacs.app"}'
 
 ;; ===============================================================
 ;; PACKAGE MANAGEMENT: ELPACA (see early-init.el)
@@ -245,9 +247,21 @@
   (setq ef-themes-mixed-fonts t
         ef-themes-variable-pitch-ui t)
   ;; Start up theme:
-  (mapc #'disable-theme custom-enabled-themes) ; Disable all other themes to avoid awkward blending:
+  ;; (mapc #'disable-theme custom-enabled-themes) ; Disable all other themes to avoid awkward blending:
   ;; (load-theme 'ef-dream :no-confirm)
-  (ef-themes-select 'ef-dream)
+  ;; (ef-themes-select 'ef-dream)
+  (defun load-last-theme ()
+    "Load the last used theme from file."
+    (if (file-exists-p theme-state-file)
+        (progn
+          (mapc #'disable-theme custom-enabled-themes) ; Disable all other themes to avoid awkward blending:
+          (let ((last-theme (with-temp-buffer
+                              (insert-file-contents theme-state-file)
+                              (intern (buffer-string)))))
+            (ef-themes-select last-theme)))
+      (ef-themes-select 'ef-dream)))
+
+  (load-last-theme)
   ;; use this to load the theme which also calls `ef-themes-post-load-hook':
   ;; (ef-themes-select 'ef-winter)
 
@@ -298,10 +312,23 @@
         ("C-c C-x C-v" . ts-toggle-inline-images)))
 
 (use-package theme-switcher-consult
-  :after (theme-switcher consult)
+  :after (fontaine theme-switcher ef-themes consult)
   :ensure (:repo "~/code/my-emacs-packages/theme-switcher-consult/")
   :bind
-  ("C-t" . theme-switcher-consult-choose-theme))
+  ("C-t" . theme-switcher-consult-choose-theme)
+  :config
+  (defvar theme-state-file (expand-file-name "last-theme" user-emacs-directory)
+    "File to save the last used theme.")
+
+  (defun save-current-theme (&rest _)
+    "Save the current theme to a file."
+    (when-let ((current-theme (car custom-enabled-themes)))
+      (with-temp-file theme-state-file
+        (insert (symbol-name current-theme)))))
+
+  (advice-add 'ef-themes-select :after #'save-current-theme)
+  (advice-add 'theme-switcher-choose-theme :after #'save-current-theme)
+  (advice-add 'theme-switcher-consult--apply-theme :after #'save-current-theme))
 
 (use-package breadcrumb
   :ensure t
@@ -589,8 +616,8 @@ Display the number of replacements made."
 (use-package popper
   :after projectile
   :ensure t
-  :bind (("C-c C-'"   . popper-toggle)
-         ("s-'"   . popper-cycle))
+  :bind (("C-c C-;"   . popper-toggle)
+         ("s-;"   . popper-cycle))
   :init
   (setq popper-reference-buffers
         '("Output\\*$"
@@ -950,8 +977,7 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 (use-package pp
   :ensure nil  ; built-in package
   :bind
-  ;; ("C-x C-e" . pp-eval-last-sexp) TODO find a better keybinding for this.
-  )
+  ("C-c C-p" . pp-eval-last-sexp))
 
 ;; ==================
 ;; COMMON LISP
@@ -1033,6 +1059,9 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 ;; =====================
 ;; MISCELLANEOUS
 ;; =====================
+
+(use-package djvu
+  :ensure t)
 
 (use-package reverso ;; Translation, Thesaurus, Grammar Checking (Online only)
   :ensure t)
