@@ -198,10 +198,16 @@
            :fixed-pitch-family "Iosevka"
            :fixed-pitch-height 1.0
            :variable-pitch-family "Iosevka Comfy Motion Duo"
-           :variable-pitch-height 1.0)
+           :variable-pitch-height 1.0
+           :mode-line-active-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
+           :mode-line-active-height 1.0
+           :mode-line-inactive-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
+           :mode-line-inactive-height 1.0
+           :header-line-family "Iosevka Comfy Motion Duo"
+           :header-line-height 1.0)
           (prose
-           :default-family "Iosevka Comfy"
-           :fixed-pitch-family "Iosevka Comfy"
+           :default-family "Iosevka"
+           :fixed-pitch-family "Iosevka"
            :fixed-pitch-height 1.0
            :org-level-1-family "Symbola" ;; <-- Requires `fontaine-org'.
            :org-level-2-family "Symbola"
@@ -212,13 +218,13 @@
            :org-level-7-family "Symbola"
            :org-level-8-family "Symbola"
            :variable-pitch-family  "ETBembo" ;"Symbola" ;"Antykwa Poltawskiego"
-           :variable-pitch-height 1.2)
-          (etoile
-           :default-family "Iosevka Comfy"
-           :fixed-pitch-family "Iosevka Comfy"
-           :fixed-pitch-height 1.0
-           :variable-pitch-family "Iosevka Etoile"
-           :variable-pitch-height 1.0)))
+           :variable-pitch-height 1.2
+           :mode-line-active-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
+           :mode-line-active-height 0.8
+           :mode-line-inactive-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
+           :mode-line-inactive-height 0.8
+           :header-line-family "Iosevka Comfy Motion Duo"
+           :header-line-height 0.8)))
   (fontaine-mode 1)
   (fontaine-set-preset 'regular))
 
@@ -707,7 +713,7 @@ This fixes the issue where, in org source blocks, < matches )."
   (add-to-list 'exec-path "/usr/local/mysql-8.3.0-macos14-x86_64/bin") ;; <-- doesn't exist on new mac
   (setq org-babel-python-command "python3")
   (setq org-log-note-clock-out t)
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.0))
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.4))
   (setq org-image-actual-width nil)
   (setq org-list-allow-alphabetical t)
   (setq org-latex-listings 'minted ;; Export to LateX PDF using minted package
