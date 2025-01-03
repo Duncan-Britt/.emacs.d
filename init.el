@@ -1093,7 +1093,11 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 (use-package emacs
   :ensure nil
   :config
-  (fset 'yes-or-no-p 'y-or-n-p))
+  (fset 'yes-or-no-p 'y-or-n-p)
+  (setq large-file-warning-threshold 30000000))
+
+(use-package directory-slideshow
+  :ensure (:repo "~/code/my-emacs-packages/directory-slideshow/"))
 
 (use-package transient
   :ensure t)
