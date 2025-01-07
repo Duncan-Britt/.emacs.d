@@ -631,7 +631,9 @@ Display the number of replacements made."
           "\\*Org Agenda\\*"
           "\\*slime-repl sbcl\\*"
           "\\*slime-inspector\\*"
+          "\\*Ciao\\*"
           "\\*sweeprolog-top-level\\*"
+          "\\*prolog\\*"
           sldb-mode
           "\\*Claude\\*"
           "\\*Ollama\\*"
@@ -1011,9 +1013,78 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 ;;   :config
 ;;   (setq prolog-electric-if-then-else-flag t))
 
+(use-package ciao
+  :ensure nil
+  :hook ((ciao-mode . display-line-numbers-mode)
+         (ciao-mode . my-ciao-remap-faces)
+         (ciao-mode . hl-todo-mode))
+  :config
+  (defun my-ciao-remap-faces ()
+    "Remap Ciao faces to standard font-lock faces using face-remapping-alist."
+    (face-remap-add-relative 'ciao-face-variable 'font-lock-variable-name-face)
+    (face-remap-add-relative 'ciao-face-string 'font-lock-string-face)
+    (face-remap-add-relative 'ciao-face-comment 'font-lock-comment-face)
+    (face-remap-add-relative 'ciao-face-clauseheadname 'font-lock-function-name-face)
+    ;; (face-remap-add-relative 'ciao-face-quoted-atom 'font-lock-constant-face)
+    ;; (face-remap-add-relative 'ciao-face-script-header 'font-lock-preprocessor-face)
+    ;; (face-remap-add-relative 'ciao-face-concurrency-op 'font-lock-keyword-face)
+    (face-remap-add-relative 'ciao-face-cut 'font-lock-negation-char-face)
+    ;; (face-remap-add-relative 'ciao-face-funexp-atom 'font-lock-function-name-face)
+    ;; (face-remap-add-relative 'ciao-face-builtin-directive 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-predicate-directive 'font-lock-builtin-face)
+    (face-remap-add-relative 'ciao-face-module-directive 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-condcode-directive 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-library-directive 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-user-directive 'font-lock-builtin-face)
+
+    ;; (face-remap-add-relative 'ciao-face-checked-assrt 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-true-assrt 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-false-assrt 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-trust-assrt 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-entry-assrt 'font-lock-builtin-face)
+    (face-remap-add-relative 'ciao-face-check-assrt 'font-lock-preprocessor-face)
+    ;; (face-remap-add-relative 'ciao-face-prop-assrt 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-test-assrt 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-texec-assrt 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-type-assrt 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-modedef-assrt 'font-lock-builtin-face)
+
+    (face-remap-add-relative 'ciao-face-prompt 'font-lock-keyword-face)
+    ;; (face-remap-add-relative 'ciao-face-answer-var 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-answer-val 'font-lock-builtin-face)
+    (face-remap-add-relative 'ciao-face-yes-answer 'font-lock-builtin-face)
+    (face-remap-add-relative 'ciao-face-no-answer 'font-lock-keyword-face)
+
+    ;; (face-remap-add-relative 'ciaopp-option 'font-lock-builtin-face)
+
+    ;; (face-remap-add-relative 'ciao-face-startup-message 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-debug-mess 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-error-mess 'font-lock-builtin-face)
+    (face-remap-add-relative 'ciao-face-warning-mess 'font-lock-warning-face)
+    ;; (face-remap-add-relative 'ciao-face-note-mess 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-passed-mess 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-failed-mess 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-aborted-mess 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-other-mess 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-highlight-code 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-selection-5-face 'font-lock-builtin-face)
+
+    ;; (face-remap-add-relative 'ciao-face-lpdoc-command 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-lpdoc-verbatim 'font-lock-builtin-face)
+    (face-remap-add-relative 'ciao-face-lpdoc-comment 'font-lock-doc-face)
+    ;; (face-remap-add-relative 'ciao-face-lpdoc-bug-comment 'font-lock-builtin-face)
+
+    ;; (face-remap-add-relative 'ciao-face-debug-call 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-debug-exit 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-debug-fail 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-debug-redo 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-debug-expansion 'font-lock-builtin-face)
+    ;; (face-remap-add-relative 'ciao-face-debug-breakpoint 'font-lock-builtin-face)
+    ))
+
 (use-package sweeprolog
   :ensure t
-  :mode ("\\.pl\\'" . sweeprolog-mode)
+  ;; :mode ("\\.pl\\'" . sweeprolog-mode)
   :hook ((sweeprolog-mode . sweeprolog-electric-layout-mode)
          ;; (sweeprolog-mode . (lambda ()
          ;;                     (push '(":-" . "←") prettify-symbols-alist)
@@ -1157,3 +1228,8 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+; @begin(36059606)@ - Do not edit these lines - added automatically!
+(if (file-exists-p "/Users/duncan/.ciaoroot/v1.24.0-m1/ciao_emacs/elisp/ciao-site-file.el")
+  (load-file "/Users/duncan/.ciaoroot/v1.24.0-m1/ciao_emacs/elisp/ciao-site-file.el"))
+; @end(36059606)@ - End of automatically added lines.
