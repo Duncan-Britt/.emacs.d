@@ -5,10 +5,17 @@
 ;; ===============================================================
 ;; INSTALLATION
 ;; ===============================================================
-;; brew install emacs-plus@29 --with-xwidgets --with-imagemagick --with-modern-black-variant-icon
-;; brew install emacs-plus@29 --with-native-comp --with-xwidgets --with-imagemagick --with-modern-black-variant-icon
-;; Get spotlight search to find Emacs on MacOS:
-;; osascript -e 'tell application "Finder" to make alias file to posix file "/opt/homebrew/opt/emacs-plus@29/Emacs.app" at POSIX file "/Applications" with properties {name:"Emacs.app"}'
+;; ./configure \
+;; --with-modules \
+;; --with-native-compilation=aot \
+;; --with-toolkit-scroll-bars \
+;; --with-tree-sitter \
+;; --with-json \
+;; --without-imagemagick \
+;; --without-mailutils \
+;; --without-dbus \
+;; --with-xinput2 \
+;; CFLAGS="-O2 -mtune=native -march=native -fomit-frame-pointer"
 
 ;; ===============================================================
 ;; PACKAGE MANAGEMENT: ELPACA (see early-init.el)
