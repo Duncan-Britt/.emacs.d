@@ -641,6 +641,7 @@ Display the number of replacements made."
           "\\*Ciao\\*"
           "\\*sweeprolog-top-level\\*"
           "\\*prolog\\*"
+          "\\*Python\\*"
           sldb-mode
           "\\*Claude\\*"
           "\\*Ollama\\*"
