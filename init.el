@@ -18,6 +18,23 @@
 ;; --with-xinput2 \
 ;; CFLAGS="-O2 -mtune=native -march=native -fomit-frame-pointer"
 
+;; For Linux:
+;; ./configure \
+;; --with-modules \
+;; --with-native-compilation=aot \
+;; --with-x \
+;; --with-x-toolkit=lucid \
+;; --with-toolkit-scroll-bars \
+;; --with-tree-sitter \
+;; --with-json \
+;; --without-imagemagick \
+;; --without-mailutils \
+;; --with-xinput2 \
+;; --with-cairo \
+;; --with-harfbuzz \ <-- Cairo & Harfbuzz combine to provide better font rendering on Linux.
+;; CFLAGS="-O2 -mtune=native -march=native -fomit-frame-pointer"
+
+
 ;; ===============================================================
 ;; PACKAGE MANAGEMENT: ELPACA (see early-init.el)
 ;; ===============================================================
@@ -117,6 +134,24 @@
 (load "~/.safe/safe.el")
 (with-eval-after-load 'safe
   (load "~/code/my-emacs-packages/rotor/rotor.el"))
+
+;; ==================
+;; PACKAGE MANAGEMENT
+;; ==================
+(defmacro use-package-local-or-remote (package-name local-path remote-repo &rest use-package-args)
+  `(if (file-directory-p ,local-path)
+       (use-package ,package-name
+         :ensure (:repo ,local-path)
+         ,@use-package-args)
+     (use-package ,package-name
+         :ensure (:host github :repo ,remote-repo)
+         ,@use-package-args)))
+
+(defmacro use-package-when-local (package-name local-path &rest use-package-args)
+  `(when (file-directory-p ,local-path)
+     (use-package ,package-name
+       :ensure (:repo ,local-path)
+       ,@use-package-args)))
 
 ;; ===============
 ;; STARTUP
@@ -236,10 +271,11 @@
   (fontaine-mode 1)
   (fontaine-set-preset 'regular))
 
-(use-package fontaine-org
-  :ensure (:repo "~/code/my-emacs-packages/fontaine-org/")
-  :init
-  (fontaine-org-mode 1))
+(use-package-local-or-remote fontaine-org
+                             "~/code/my-emacs-packages/fontaine-org/"
+                             "Duncan-Britt/fontaine-org"
+                             :init
+                             (fontaine-org-mode 1))
 
 (use-package ef-themes
   ;; Make customisations that affect Emacs faces BEFORE loading a theme
@@ -292,57 +328,59 @@
   ;; - `ef-themes-preview-colors-current'
   )
 
-(use-package theme-switcher
-  :after (org ef-themes)
-  :ensure (:repo "~/code/my-emacs-packages/theme-switcher/")
-  :demand t
-  :init
-  (setq *theme-switcher-themes-dark*
-        '("ef-trio-dark"
-          "ef-rosa"
-          "ef-winter"
-          "ef-autumn"
-          "ef-cherie"
-          "ef-tritanopia-dark"
-          "ef-elea-dark"
-          "ef-dream"
-          "ef-melissa-dark"
-          "ef-maris-dark"
-          "ef-owl"))
-  (setq *theme-switcher-themes-light*
-        '("ef-day"
-          "ef-light"
-          "ef-kassio"
-          "ef-frost"
-          "ef-arbutus"
-          "ef-melissa-light"
-          "ef-maris-light"
-          "ef-elea-light"
-          "ef-summer"
-          "ef-cyprus"
-          "ef-reverie"))
-  :bind
-  (:map org-mode-map
-        ("C-c C-x C-v" . ts-toggle-inline-images)))
+(use-package-local-or-remote theme-switcher
+                             "~/code/my-emacs-packages/theme-switcher/"
+                             "Duncan-Britt/theme-switcher"
+                             :after (org ef-themes)
+                             :demand t
+                             :init
+                             (setq *theme-switcher-themes-dark*
+                                   '("ef-trio-dark"
+                                     "ef-rosa"
+                                     "ef-winter"
+                                     "ef-autumn"
+                                     "ef-cherie"
+                                     "ef-tritanopia-dark"
+                                     "ef-elea-dark"
+                                     "ef-dream"
+                                     "ef-melissa-dark"
+                                     "ef-maris-dark"
+                                     "ef-owl"))
+                             (setq *theme-switcher-themes-light*
+                                   '("ef-day"
+                                     "ef-light"
+                                     "ef-kassio"
+                                     "ef-frost"
+                                     "ef-arbutus"
+                                     "ef-melissa-light"
+                                     "ef-maris-light"
+                                     "ef-elea-light"
+                                     "ef-summer"
+                                     "ef-cyprus"
+                                     "ef-reverie"))
+                             :bind
+                             (:map org-mode-map
+                                   ("C-c C-x C-v" . ts-toggle-inline-images)))
 
-(use-package theme-switcher-consult
-  :after (fontaine theme-switcher ef-themes consult)
-  :ensure (:repo "~/code/my-emacs-packages/theme-switcher-consult/")
-  :bind
-  ("C-t" . theme-switcher-consult-choose-theme)
-  :config
-  (defvar theme-state-file (expand-file-name "last-theme" user-emacs-directory)
-    "File to save the last used theme.")
+(use-package-local-or-remote theme-switcher-consult
+                             "~/code/my-emacs-packages/theme-switcher-consult/"
+                             "Duncan-Britt/theme-switcher-consult"
+                             :after (fontaine theme-switcher ef-themes consult)
+                             :bind
+                             ("C-t" . theme-switcher-consult-choose-theme)
+                             :config
+                             (defvar theme-state-file (expand-file-name "last-theme" user-emacs-directory)
+                               "File to save the last used theme.")
 
-  (defun save-current-theme (&rest _)
-    "Save the current theme to a file."
-    (when-let ((current-theme (car custom-enabled-themes)))
-      (with-temp-file theme-state-file
-        (insert (symbol-name current-theme)))))
+                             (defun save-current-theme (&rest _)
+                               "Save the current theme to a file."
+                               (when-let ((current-theme (car custom-enabled-themes)))
+                                 (with-temp-file theme-state-file
+                                   (insert (symbol-name current-theme)))))
 
-  (advice-add 'ef-themes-select :after #'save-current-theme)
-  (advice-add 'theme-switcher-choose-theme :after #'save-current-theme)
-  (advice-add 'theme-switcher-consult--apply-theme :after #'save-current-theme))
+                             (advice-add 'ef-themes-select :after #'save-current-theme)
+                             (advice-add 'theme-switcher-choose-theme :after #'save-current-theme)
+                             (advice-add 'theme-switcher-consult--apply-theme :after #'save-current-theme))
 
 (use-package breadcrumb
   :ensure t
@@ -695,6 +733,7 @@ This fixes the issue where, in org source blocks, < matches )."
   (modify-syntax-entry ?> "." org-mode-syntax-table))
 
 (use-package org
+  :after (ob-prolog)
   :config
   (add-to-list 'org-entities-user '("yhat" "$\\hat{y}$" nil "&#375;" "yhat" "yhat" "ŷ")) ; TODO Not sure if I'm dealing with latex in a smart way.
   ;; Latin-1 Table: https://cs.stanford.edu/people/miles/iso8859.html
@@ -773,7 +812,7 @@ This fixes the issue where, in org source blocks, < matches )."
   :after org)
 
 (use-package olivetti
-  :ensure (:repo "~/code/vendored-emacs-packages/olivetti")
+  :ensure (:host github :repo "rnkn/olivetti")
   :custom (olivetti-body-width 140)
   :hook (org-mode . olivetti-mode))
 
@@ -798,22 +837,23 @@ This fixes the issue where, in org source blocks, < matches )."
   (org-appear-autosubmarkers t))
 
 (use-package org-cmenu
-  :ensure (:repo "~/code/vendored-emacs-packages/org-cmenu/")
+  :ensure (:host github :repo "misohena/org-cmenu")
   :after org
   :config (require 'org-cmenu-setup)
   :bind
   (:map org-mode-map
         ("M-n" . org-cmenu)))
 
-(use-package archiver
-  :after org
-  :ensure (:repo "~/code/my-emacs-packages/archiver/")
-  :init
-  (setq *archiver-agenda-archive-location*
-        (expand-file-name "~/Dropbox/agenda/agenda_archive.org"))
-  :bind
-  (:map org-mode-map
-        ("C-c C-x C-a" . archiver-archive-heading)))
+(use-package-local-or-remote archiver
+                             "~/code/my-emacs-packages/archiver/"
+                             "Duncan-Britt/emacs-archiver"
+                             :after org
+                             :init
+                             (setq *archiver-agenda-archive-location*
+                                   (expand-file-name "~/Dropbox/agenda/agenda_archive.org"))
+                             :bind
+                             (:map org-mode-map
+                                   ("C-c C-x C-a" . archiver-archive-heading)))
 
 ;; automatically toggle latex previews in org mode.
 (use-package org-fragtog
@@ -831,11 +871,12 @@ This fixes the issue where, in org source blocks, < matches )."
   :config
   (setq ob-async-no-async-languages-alist '("ipython")))
 
-(use-package paste-img
-  :after (org org-download)
-  :ensure (:repo "~/code/my-emacs-packages/paste-img/")
-  :hook
-  (org-mode . paste-img-mode))
+(use-package-local-or-remote paste-img
+                             "~/code/my-emacs-packages/paste-img/"
+                             "Duncan-Britt/paste-img"
+                             :after (org org-download)
+                             :hook
+                             (org-mode . paste-img-mode))
 
 ;; =======================================
 ;; LINTING, SPELLCHECK
@@ -1012,7 +1053,8 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 ;; (setq inferior-lisp-program "/opt/homebrew/bin/sbcl")
 ;; (setq slime-lisp-implementations '((nyxt ("/opt/homebrew/bin/sbcl" "--dynamic-space-size 3072")
 ;;                                          :env ("CL_SOURCE_REGISTRY=/Users/duncan/quicklisp/dists/quicklisp/software//:~/code/nyxt//:~/code/nyxt/_build//"))))
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
+(when (file-directory-p "~/quicklisp")
+  (load (expand-file-name "~/quicklisp/slime-helper.el")))
 
 ;; ======
 ;; PROLOG
@@ -1116,13 +1158,13 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   :init
   (exec-path-from-shell-initialize))
 
-(use-package jupyter-ascending
-  :ensure (:repo "~/code/my-emacs-packages/jupyter-ascending/")
-  :custom
-  (jupyter-ascending-python-command "python3")
-  :bind (:map jupyter-ascending-mode-map
-              ("C-c C-c" . jupyter-ascending-run-cell)
-              ("C-c C-a" . jupyter-ascending-run-all-cells)))
+;; (use-package jupyter-ascending
+;;   :ensure (:repo "~/code/my-emacs-packages/jupyter-ascending/")
+;;   :custom
+;;   (jupyter-ascending-python-command "python3")
+;;   :bind (:map jupyter-ascending-mode-map
+;;               ("C-c C-c" . jupyter-ascending-run-cell)
+;;               ("C-c C-a" . jupyter-ascending-run-all-cells)))
 
 ;; =====================
 ;; RESEARCH & STUDYING
@@ -1178,8 +1220,8 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   (fset 'yes-or-no-p 'y-or-n-p)
   (setq large-file-warning-threshold 30000000))
 
-(use-package directory-slideshow
-  :ensure (:repo "~/code/my-emacs-packages/directory-slideshow/"))
+(use-package-when-local directory-slideshow
+                        "~/code/my-emacs-packages/directory-slideshow/")
 
 (use-package transient
   :ensure t)
