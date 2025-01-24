@@ -131,9 +131,11 @@
 ;; LOAD PATH
 ;; ============
 (add-to-list 'load-path "~/.emacs.d/lisp/") ;; NOTE: Use (require 'package) to use the code in the lisp directory
-(load "~/.safe/safe.el")
-(with-eval-after-load 'safe
-  (load "~/code/my-emacs-packages/rotor/rotor.el"))
+(when (and (file-exists-p "~/.safe/safe.el")
+           (file-exists-p "~/code/my-emacs-packages/rotor/rotor.el"))
+  (load "~/.safe/safe.el")
+  (with-eval-after-load 'safe
+    (load "~/code/my-emacs-packages/rotor/rotor.el")))
 
 ;; ==================
 ;; PACKAGE MANAGEMENT
