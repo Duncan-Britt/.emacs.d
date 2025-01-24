@@ -5,6 +5,7 @@
 ;; ===============================================================
 ;; INSTALLATION
 ;; ===============================================================
+;; For MacOS:
 ;; ./configure \
 ;; --with-modules \
 ;; --with-native-compilation=aot \
@@ -742,6 +743,8 @@ This fixes the issue where, in org source blocks, < matches )."
 				        text-scale-mode-amount))))
   (plist-put org-format-latex-options :foreground nil) ; latex previews match theme when switching themes.
   (plist-put org-format-latex-options :background nil)
+
+  (setq org-cite-csl-styles-dir "~/code/citation-styles/") ; <-- for Bibtex Bibliography styles on latex export
 
   (require 'ox-gfm nil t) ;; <-- For github flavored markdown export
   (require 'blog-publishing)
