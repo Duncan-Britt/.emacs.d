@@ -589,7 +589,8 @@ Done in accordance with the currently loaded ef-theme."
 	 (c++-mode . eglot-ensure)
 	 (c++-ts-mode . eglot-ensure)
 	 (ruby-mode . eglot-ensure)
-	 (ruby-ts-mode . eglot-ensure))
+	 (ruby-ts-mode . eglot-ensure)
+         (python-mode . eglot-ensure))
   :config
   (setq eglot-autoshutdown t)
   (setq eglot-confirm-server-initiated-edits nil)
