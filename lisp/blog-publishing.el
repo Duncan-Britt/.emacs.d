@@ -1,14 +1,14 @@
 ;;; blog-publishing.el --- Set up publishing projects for my blog
 
 ;;; Commentary:
-;; 
+;;
 
 ;;; Code:
 (require 'ox-publish)
 
 (setq org-html-validation-link nil                    ;; Don't show validation link
       org-html-head-include-spcript nil               ;; Use our own scripts
-      org-html-head-include-default-style nil)        ;; Use our own styles      
+      org-html-head-include-default-style nil)        ;; Use our own styles
 ;;      org-html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" />")
 
 (setq org-html-htmlize-output-type 'css)
@@ -215,50 +215,51 @@ Overrides org-html-template defined in Emacs core."
   "Path to directory where website source resides.")
 
 ;; Define the publishing project
-(setq org-publish-project-alist
-      (list
-       (list "org-pages"
-             :recursive nil
-             :base-directory (concat *path-to-source-directory* "/content/")
-             :base-extension "org"             
-             :publishing-directory (concat *path-to-publishing-directory* "/public")
-             :publishing-function 'org-html-publish-to-html
-             :exclude ".*\~\\|.*\.draft\.org"
-             :with-author nil         ;; Don't include author name
-             :with-creator nil        ;; Don't include Emacs and Org versions in footer
-             :with-toc nil            ;; Don't include table of contents
-             :section-numbers nil     ;; Don't include section numbers
-             :time-stamp-file nil     ;; Don't include time stamp in file
-             :html-preamble (read-file (concat *path-to-source-directory* "/layout/preamble.html"))
-             :auto-sitemap nil)
-       (list "blog-content"
-             :recursive t
-             :base-directory "~/code/my-website-src/content/blog"
-             :base-extension "org\\|html"
-             :publishing-directory (concat *path-to-publishing-directory* "/public/blog")
-             :publishing-function 'org-html-publish-to-html
-             :exclude ".*\~\\|.*\.draft\.org"
-             :with-author nil         ;; Don't include author name
-             :with-creator nil        ;; Don't include Emacs and Org versions in footer
-             :with-toc t              ;; Include table of contents
-             ;; :with-tags t
-             :section-numbers nil     ;; Don't include section numbers
-             :time-stamp-file nil     ;; Don't include time stamp in file
-             :html-preamble (read-file (concat *path-to-source-directory* "/layout/preamble.html"))
-             :auto-sitemap t
-             :sitemap-filename "blog-archive.org"
-             :sitemap-title "Blog Posts"
-             :sitemap-sort-files 'anti-chronologically
-             :sitemap-format-entry 'org-blog-sitemap-format-entry
-             :sitemap-function 'org-blog-sitemap-function
-             :sitemap-style 'list)
-       (list "static"
-             :recursive t
-             :base-directory (concat *path-to-source-directory* "/content")
-             :exclude ".*\~\\|.*node_modules\/.*" ;; Using CDN, excluding local node modules             
-             :base-extension "css\\|js\\|html\\|png\\|jpg\\|jpeg\\|svg\\|webp\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|stl\\|obj\\|wasm\\|eot\\|woff\\|woff2\\|ttf"
-             :publishing-directory (concat *path-to-publishing-directory* "/public")
-             :publishing-function 'org-publish-attachment)
-       ))
+(when (file-directory-p *path-to-source-directory*)
+  (setq org-publish-project-alist
+        (list
+         (list "org-pages"
+               :recursive nil
+               :base-directory (concat *path-to-source-directory* "/content/")
+               :base-extension "org"
+               :publishing-directory (concat *path-to-publishing-directory* "/public")
+               :publishing-function 'org-html-publish-to-html
+               :exclude ".*\~\\|.*\.draft\.org"
+               :with-author nil         ;; Don't include author name
+               :with-creator nil        ;; Don't include Emacs and Org versions in footer
+               :with-toc nil            ;; Don't include table of contents
+               :section-numbers nil     ;; Don't include section numbers
+               :time-stamp-file nil     ;; Don't include time stamp in file
+               :html-preamble (read-file (concat *path-to-source-directory* "/layout/preamble.html"))
+               :auto-sitemap nil)
+         (list "blog-content"
+               :recursive t
+               :base-directory "~/code/my-website-src/content/blog"
+               :base-extension "org\\|html"
+               :publishing-directory (concat *path-to-publishing-directory* "/public/blog")
+               :publishing-function 'org-html-publish-to-html
+               :exclude ".*\~\\|.*\.draft\.org"
+               :with-author nil         ;; Don't include author name
+               :with-creator nil        ;; Don't include Emacs and Org versions in footer
+               :with-toc t              ;; Include table of contents
+               ;; :with-tags t
+               :section-numbers nil     ;; Don't include section numbers
+               :time-stamp-file nil     ;; Don't include time stamp in file
+               :html-preamble (read-file (concat *path-to-source-directory* "/layout/preamble.html"))
+               :auto-sitemap t
+               :sitemap-filename "blog-archive.org"
+               :sitemap-title "Blog Posts"
+               :sitemap-sort-files 'anti-chronologically
+               :sitemap-format-entry 'org-blog-sitemap-format-entry
+               :sitemap-function 'org-blog-sitemap-function
+               :sitemap-style 'list)
+         (list "static"
+               :recursive t
+               :base-directory (concat *path-to-source-directory* "/content")
+               :exclude ".*\~\\|.*node_modules\/.*" ;; Using CDN, excluding local node modules
+               :base-extension "css\\|js\\|html\\|png\\|jpg\\|jpeg\\|svg\\|webp\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|stl\\|obj\\|wasm\\|eot\\|woff\\|woff2\\|ttf"
+               :publishing-directory (concat *path-to-publishing-directory* "/public")
+               :publishing-function 'org-publish-attachment)
+         )))
 
 (provide 'blog-publishing)
