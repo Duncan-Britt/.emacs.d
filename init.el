@@ -137,9 +137,9 @@
   (with-eval-after-load 'safe
     (load "~/code/my-emacs-packages/rotor/rotor.el")))
 
-;; ==================
-;; PACKAGE MANAGEMENT
-;; ==================
+;; ===========================
+;; PORTABILITY/SYNCHRONIZATION
+;; ===========================
 (defmacro use-package-local-or-remote (package-name local-path remote-repo &rest use-package-args)
   `(if (file-directory-p ,local-path)
        (use-package ,package-name
@@ -154,6 +154,8 @@
      (use-package ,package-name
        :ensure (:repo ,local-path)
        ,@use-package-args)))
+
+(global-auto-revert-mode 1)
 
 ;; ===============
 ;; STARTUP
