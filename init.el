@@ -920,7 +920,7 @@ This fixes the issue where, in org source blocks, < matches )."
 	  (html "https://github.com/tree-sitter/tree-sitter-html")
 	  (json "https://github.com/tree-sitter/tree-sitter-json")
 	  (make "https://github.com/alemuller/tree-sitter-make")
-	  (python "https://github.com/tree-sitter/tree-sitter-python")
+	  ;; (python "https://github.com/tree-sitter/tree-sitter-python")
 	  (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
 	  (toml "https://github.com/tree-sitter/tree-sitter-toml")
 	  (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
@@ -932,7 +932,7 @@ This fixes the issue where, in org source blocks, < matches )."
 	  ;; (c++-mode . c++-ts-mode) OKAY I don't use c++-ts-mode because << on new lines don't indent correctly.
           (css-mode . css-ts-mode)
 	  (json-mode . json-ts-mode)
-          (python-mode . python-ts-mode)
+          ;; (python-mode . python-ts-mode)
 	  ;; (ruby-mode . ruby-ts-mode) OKAY I don't use ruby-ts-mode because C-M-f doesn't work in it - Oct. 2024
 	  (yaml-mode . yaml-ts-mode)))
 
