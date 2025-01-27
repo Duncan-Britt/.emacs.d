@@ -164,22 +164,7 @@
 (use-package emacs
   :ensure nil
   :config
-  ;; Initial Frame Size
-  (add-hook 'window-setup-hook 'toggle-frame-maximized t)
-  ;; (setq initial-frame-alist
-  ;;       (append initial-frame-alist
-  ;;       	'((left   . 20)
-  ;;                 (top    . 0)
-  ;;                 (width  . 240)
-  ;;                 (height . 60))))
-
-  ;; Open Agenda on startup
-  (setq inhibit-startup-screen t)
-  (add-hook 'emacs-startup-hook
-            (lambda ()
-              (find-file "~/Dropbox/agenda/agenda.org") ;; <-- org file
-              (org-agenda-list)))                       ;; <-- calendar
-  )
+  (setq inhibit-startup-screen t))
 
 ;; ============================
 ;; APPEARANCE
@@ -196,272 +181,56 @@
   :hook
   ((prog-mode . display-line-numbers-mode)))
 
-(use-package ligature
-  :ensure t
-  :config
-  ;; Enable the "www" ligature in every possible major mode
-  (ligature-set-ligatures 't '("www"))
-  (ligature-set-ligatures 'org-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
-                                      ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
-                                      "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
-                                      "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
-                                      "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
-                                      "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
-                                      "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
-                                      "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
-                                      ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
-                                      "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
-                                      "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
-                                      "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
-                                      "\\\\" "://"))
-  ;; Enable traditional ligature support in eww-mode, if the
-  ;; `variable-pitch' face supports it
-  (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
-  ;; Enable all Cascadia Code ligatures in programming modes
-  (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
-                                       ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
-                                       "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
-                                       "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
-                                       "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
-                                       "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
-                                       "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
-                                       "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
-                                       ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
-                                       "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
-                                       "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
-                                       "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
-                                       "\\\\" "://"))
-  ;; Enables ligature checks globally in all buffers. You can also do it
-  ;; per mode with `ligature-mode'.
-  (global-ligature-mode t))
+;; (use-package ef-themes
+;;   ;; Make customisations that affect Emacs faces BEFORE loading a theme
+;;   ;; (any change needs a theme re-load to take effect).
+;;   :after (fontaine org-bullets)
+;;   :ensure t
+;;   :config
+;;   (setq ef-themes-headings
+;;         '((0 variable-pitch light 1.5)
+;;           (1 variable-pitch light 1.4)
+;;           (2 variable-pitch regular 1.3)
+;;           (3 variable-pitch regular 1.2)
+;;           (4 variable-pitch regular 1.1)
+;;           (5 variable-pitch 1.1) ; absence of weight means `bold'
+;;           (6 variable-pitch 1.1)
+;;           (7 variable-pitch 1.1)
+;;           (t variable-pitch 1.1)))
+;;   ;; They are nil by default...
+;;   (setq ef-themes-mixed-fonts t
+;;         ef-themes-variable-pitch-ui t)
+;;   ;; Start up theme:
+;;   ;; (mapc #'disable-theme custom-enabled-themes) ; Disable all other themes to avoid awkward blending:
+;;   ;; (load-theme 'ef-dream :no-confirm)
+;;   ;; (ef-themes-select 'ef-dream)
+;;   (defun load-last-theme ()
+;;     "Load the last used theme from file."
+;;     (if (file-exists-p theme-state-file)
+;;         (progn
+;;           (mapc #'disable-theme custom-enabled-themes) ; Disable all other themes to avoid awkward blending:
+;;           (let ((last-theme (with-temp-buffer
+;;                               (insert-file-contents theme-state-file)
+;;                               (intern (buffer-string)))))
+;;             (ef-themes-select last-theme)))
+;;       (ef-themes-select 'ef-dream)))
 
-(use-package fontaine
-  :ensure t
-  :config
-  (setq fontaine-presets
-        '((regular
-           :default-family "Iosevka"
-           :default-height 130
-           :fixed-pitch-family "Iosevka"
-           :fixed-pitch-height 1.0
-           :variable-pitch-family "Iosevka Comfy Motion Duo"
-           :variable-pitch-height 1.0
-           :mode-line-active-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
-           :mode-line-active-height 1.0
-           :mode-line-inactive-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
-           :mode-line-inactive-height 1.0
-           :header-line-family "Iosevka Comfy Motion Duo"
-           :header-line-height 1.0)
-          (prose
-           :default-family "Iosevka"
-           :fixed-pitch-family "Iosevka"
-           :fixed-pitch-height 1.0
-           :org-level-1-family "Symbola" ;; <-- Requires `fontaine-org'.
-           :org-level-2-family "Symbola"
-           :org-level-3-family "Symbola"
-           :org-level-4-family "Symbola"
-           :org-level-5-family "Symbola"
-           :org-level-6-family "Symbola"
-           :org-level-7-family "Symbola"
-           :org-level-8-family "Symbola"
-           :variable-pitch-family  "ETBembo" ;"Symbola" ;"Antykwa Poltawskiego"
-           :variable-pitch-height 1.2
-           :mode-line-active-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
-           :mode-line-active-height 0.8
-           :mode-line-inactive-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
-           :mode-line-inactive-height 0.8
-           :header-line-family "Iosevka Comfy Motion Duo"
-           :header-line-height 0.8)))
-  (fontaine-mode 1)
-  (fontaine-set-preset 'regular))
+;;   (load-last-theme)
+;;   ;; use this to load the theme which also calls `ef-themes-post-load-hook':
+;;   ;; (ef-themes-select 'ef-winter)
 
-(use-package-local-or-remote fontaine-org
-                             "~/code/my-emacs-packages/fontaine-org/"
-                             "Duncan-Britt/fontaine-org"
-                             :init
-                             (fontaine-org-mode 1))
+;;   ;; The themes we provide are recorded in the `ef-themes-dark-themes' and `ef-themes-light-themes'.
 
-(use-package ef-themes
-  ;; Make customisations that affect Emacs faces BEFORE loading a theme
-  ;; (any change needs a theme re-load to take effect).
-  :after (fontaine org-bullets)
-  :ensure t
-  :config
-  (setq ef-themes-headings
-        '((0 variable-pitch light 1.5)
-          (1 variable-pitch light 1.4)
-          (2 variable-pitch regular 1.3)
-          (3 variable-pitch regular 1.2)
-          (4 variable-pitch regular 1.1)
-          (5 variable-pitch 1.1) ; absence of weight means `bold'
-          (6 variable-pitch 1.1)
-          (7 variable-pitch 1.1)
-          (t variable-pitch 1.1)))
-  ;; They are nil by default...
-  (setq ef-themes-mixed-fonts t
-        ef-themes-variable-pitch-ui t)
-  ;; Start up theme:
-  ;; (mapc #'disable-theme custom-enabled-themes) ; Disable all other themes to avoid awkward blending:
-  ;; (load-theme 'ef-dream :no-confirm)
-  ;; (ef-themes-select 'ef-dream)
-  (defun load-last-theme ()
-    "Load the last used theme from file."
-    (if (file-exists-p theme-state-file)
-        (progn
-          (mapc #'disable-theme custom-enabled-themes) ; Disable all other themes to avoid awkward blending:
-          (let ((last-theme (with-temp-buffer
-                              (insert-file-contents theme-state-file)
-                              (intern (buffer-string)))))
-            (ef-themes-select last-theme)))
-      (ef-themes-select 'ef-dream)))
-
-  (load-last-theme)
-  ;; use this to load the theme which also calls `ef-themes-post-load-hook':
-  ;; (ef-themes-select 'ef-winter)
-
-  ;; The themes we provide are recorded in the `ef-themes-dark-themes' and `ef-themes-light-themes'.
-
-  ;; We also provide these commands, but do not assign them to any key:
-  ;;
-  ;; - `ef-themes-toggle'
-  ;; - `ef-themes-select'
-  ;; - `ef-themes-select-dark'
-  ;; - `ef-themes-select-light'
-  ;; - `ef-themes-load-random'
-  ;; - `ef-themes-preview-colors'
-  ;; - `ef-themes-preview-colors-current'
-  )
-
-(use-package-local-or-remote theme-switcher
-                             "~/code/my-emacs-packages/theme-switcher/"
-                             "Duncan-Britt/theme-switcher"
-                             :after (org ef-themes)
-                             :demand t
-                             :init
-                             (setq *theme-switcher-themes-dark*
-                                   '("ef-trio-dark"
-                                     "ef-rosa"
-                                     "ef-winter"
-                                     "ef-autumn"
-                                     "ef-cherie"
-                                     "ef-tritanopia-dark"
-                                     "ef-elea-dark"
-                                     "ef-dream"
-                                     "ef-melissa-dark"
-                                     "ef-maris-dark"
-                                     "ef-owl"))
-                             (setq *theme-switcher-themes-light*
-                                   '("ef-day"
-                                     "ef-light"
-                                     "ef-kassio"
-                                     "ef-frost"
-                                     "ef-arbutus"
-                                     "ef-melissa-light"
-                                     "ef-maris-light"
-                                     "ef-elea-light"
-                                     "ef-summer"
-                                     "ef-cyprus"
-                                     "ef-reverie"))
-                             :bind
-                             (:map org-mode-map
-                                   ("C-c C-x C-v" . ts-toggle-inline-images)))
-
-(use-package-local-or-remote theme-switcher-consult
-                             "~/code/my-emacs-packages/theme-switcher-consult/"
-                             "Duncan-Britt/theme-switcher-consult"
-                             :after (fontaine theme-switcher ef-themes consult)
-                             :bind
-                             ("C-t" . theme-switcher-consult-choose-theme)
-                             :config
-                             (defvar theme-state-file (expand-file-name "last-theme" user-emacs-directory)
-                               "File to save the last used theme.")
-
-                             (defun save-current-theme (&rest _)
-                               "Save the current theme to a file."
-                               (when-let ((current-theme (car custom-enabled-themes)))
-                                 (with-temp-file theme-state-file
-                                   (insert (symbol-name current-theme)))))
-
-                             (advice-add 'ef-themes-select :after #'save-current-theme)
-                             (advice-add 'theme-switcher-choose-theme :after #'save-current-theme)
-                             (advice-add 'theme-switcher-consult--apply-theme :after #'save-current-theme))
-
-(use-package breadcrumb
-  :ensure t
-  :config
-  (breadcrumb-mode))
-
-(use-package spaceline
-  :ensure t
-  :config
-  (require 'spaceline-config)
-  (spaceline-emacs-theme)
-
-  (defun my-spaceline-theme ()
-    "My custom Spaceline theme."
-    (setq-default mode-line-format
-                  '("%e"
-                    mode-line-front-space
-                    ;; evil-mode-line-tag
-                    mode-line-mule-info
-                    mode-line-client
-                    mode-line-modified
-                    mode-line-remote
-                    mode-line-frame-identification
-                    mode-line-buffer-identification
-                    "   "
-                    "   "
-                    ;; mode-line-position
-                    (vc-mode vc-mode) ;; Remove this line to exclude Git branch
-                    "  "
-                    ;; mode-line-modes
-                    mode-line-misc-info
-                    mode-line-end-spaces)))
-
-  ;; Apply your custom theme
-  (my-spaceline-theme)
-  ;; display time in mode line
-  (setq display-time-day-and-date t
-        display-time-24hr-format nil)
-  (display-time)
-
-  (display-battery-mode 1))
-
-(use-package hl-todo
-  :ensure t
-  :config
-  (require 'theme-switcher)
-  (require 'theme-switcher-consult)
-  (require 'ef-themes)
-  (require 'hl-todo)
-  (global-hl-todo-mode)
-  (defun set-hl-todo-faces-according-to-ef-theme ()
-    "Sets the faces of different TODO-esq keywords for the hl-todo package.
-Done in accordance with the currently loaded ef-theme."
-    (let ((theme (car custom-enabled-themes)))
-      (when (and (boundp 'ef-themes-collection)
-	     (member theme ef-themes-collection))
-	(let* ((palette-var (intern (concat (symbol-name theme) "-palette")))
-	       (palette (symbol-value palette-var))
-	       (red (cadr (assoc 'red palette)))
-	       (green (cadr (assoc 'green palette)))
-	       (yellow (cadr (assoc 'yellow palette)))
-	       (cyan (cadr (assoc 'cyan palette))))
-	  (setq hl-todo-keyword-faces
-		`(("TODO" . ,red)
-		  ("DONE" . ,green)
-		  ("NOTE" . ,yellow)
-		  ("FIXME" . ,red)
-		  ("OKAY" . ,cyan)))))))
-  (when (fboundp 'theme-switcher-choose-theme)
-    (set-hl-todo-faces-according-to-ef-theme)
-    (advice-add 'theme-switcher-choose-theme :after (lambda (&rest _)
-						      (set-hl-todo-faces-according-to-ef-theme)
-						      (global-hl-todo-mode))))
-  (when (fboundp 'theme-switcher-consult-choose-theme)
-    (advice-add 'theme-switcher-consult-choose-theme :after (lambda (&rest _)
-							    (set-hl-todo-faces-according-to-ef-theme)
-							    (global-hl-todo-mode)))))
+;;   ;; We also provide these commands, but do not assign them to any key:
+;;   ;;
+;;   ;; - `ef-themes-toggle'
+;;   ;; - `ef-themes-select'
+;;   ;; - `ef-themes-select-dark'
+;;   ;; - `ef-themes-select-light'
+;;   ;; - `ef-themes-load-random'
+;;   ;; - `ef-themes-preview-colors'
+;;   ;; - `ef-themes-preview-colors-current'
+;;   )
 
 (use-package anzu
   :ensure t
@@ -632,12 +401,6 @@ Done in accordance with the currently loaded ef-theme."
               ;; cancel (return to state before calling undo-tree-visualizer)
               ("q" . undo-tree-visualizer-abort)))
 
-(use-package yasnippet
-  :ensure t
-  :config
-  (setq yas-snippet-dirs '("~/code/yasnippets"))
-  (yas-global-mode 1))
-
 (use-package avy
   :ensure t
   :bind
@@ -727,174 +490,6 @@ Display the number of replacements made."
   :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
-;; ==================
-;; ORG MODE
-;; ==================
-
-(defun my-org-syntax-table-modify ()
-  "Modify `org-mode-syntax-table' for the current org buffer.
-This fixes the issue where, in org source blocks, < matches )."
-  (modify-syntax-entry ?< "." org-mode-syntax-table)
-  (modify-syntax-entry ?> "." org-mode-syntax-table))
-
-(use-package org
-  :after (ob-prolog)
-  :config
-  (add-to-list 'org-entities-user '("yhat" "$\\hat{y}$" nil "&#375;" "yhat" "yhat" "ŷ")) ; TODO Not sure if I'm dealing with latex in a smart way.
-  ;; Latin-1 Table: https://cs.stanford.edu/people/miles/iso8859.html
-  ;; C-h v org-entities-user RET
-  (setq org-agenda-files (list (expand-file-name "~/Dropbox/agenda/agenda.org")))
-  ;; (setq org-archive-location "~/Dropbox/agenda/agenda_archive.org::%s_archive") ;; <-- unused? Org Archiver has it's own location.
-  ;; (setq org-plantuml-jar-path (expand-file-name "~/plantuml-1.2024.4.jar")) ;; <-- doesn't exist on my new mac
-  (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
-  (org-babel-do-load-languages ;; Org source block execution
-   'org-babel-load-languages
-   '((emacs-lisp . t)
-     (python . t)
-     (ruby . t)
-     (js . t)
-     (C . t)
-     (octave . t)
-     (latex . t)
-     (lisp . t)
-     (dot . t)
-     (matlab . t)
-     (sql . t)
-     (plantuml . t)
-     (shell . t)
-     (prolog . t)
-     ))
-  ;; Needed to run mysql in org babel
-  (add-to-list 'exec-path "/usr/local/mysql-8.3.0-macos14-x86_64/bin") ;; <-- doesn't exist on new mac
-  (setq org-babel-python-command "python3")
-  (setq org-log-note-clock-out t)
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.4))
-  (setq org-image-actual-width nil)
-  (setq org-list-allow-alphabetical t)
-  (setq org-latex-listings 'minted ;; Export to LateX PDF using minted package
-        org-latex-packages-alist '(("" "minted"))
-        org-latex-pdf-process
-        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-  (setq org-export-backends '(ascii html icalendar latex md))
-
-  (setq org-preview-latex-default-process 'dvisvgm) ; Better latex rendering
-  (defun my/resize-org-latex-overlays () ; auto resize latex when resizing text
-    (cl-loop for o in (car (overlay-lists))
-             if (eq (overlay-get o 'org-overlay-type) 'org-latex-overlay)
-             do (plist-put (cdr (overlay-get o 'display))
-		           :scale (expt text-scale-mode-step
-				        text-scale-mode-amount))))
-  (plist-put org-format-latex-options :foreground nil) ; latex previews match theme when switching themes.
-  (plist-put org-format-latex-options :background nil)
-
-  (setq org-cite-csl-styles-dir "~/code/citation-styles/") ; <-- for Bibtex Bibliography styles on latex export
-
-  (require 'ox-gfm nil t) ;; <-- For github flavored markdown export
-  (require 'blog-publishing)
-  (require 'ut-table-manager)
-
-  :hook ((org-mode . variable-pitch-mode)
-         (org-mode . visual-line-mode)
-         (org-mode . pixel-scroll-precision-mode)
-         (org-mode . my-org-syntax-table-modify)
-         (org-mode . (lambda () (display-line-numbers-mode 0)))
-         (org-mode . (lambda () (add-hook 'text-scale-mode-hook #'my/resize-org-latex-overlays nil t)))))
-
-(use-package mw-thesaurus
-  :ensure t
-  :after org
-  :bind
-  (:map org-mode-map
-        ("C-c t" . mw-thesaurus-lookup-dwim)))
-
-(use-package ox-gfm
-  :ensure t
-  :after org)
-
-(use-package ox-epub
-  :ensure t
-  :after org)
-
-(use-package olivetti
-  :ensure (:host github :repo "rnkn/olivetti")
-  :custom (olivetti-body-width 140)
-  :hook (org-mode . olivetti-mode))
-
-(use-package org-bullets
-  :after org
-  :ensure t
-  :config
-  (add-hook 'org-mode-hook (lambda ()
-                             (org-bullets-mode 1)
-                             (org-indent-mode 1))))
-
-(use-package org-appear
-  :ensure t
-  :after org
-  :hook (org-mode . org-appear-mode)
-  :custom
-  (org-hide-emphasis-markers t) ; Hide /emphasis/ markers in org mode
-  (org-appear-autolinks t) ; <-- This doesn't work when hyperbole package is loaded.
-  (org-pretty-entities t)
-  (org-pretty-entities-include-sub-superscripts t)
-  (org-appear-autoentities t)
-  (org-appear-autosubmarkers t))
-
-(use-package org-cmenu
-  :ensure (:host github :repo "misohena/org-cmenu")
-  :after org
-  :config (require 'org-cmenu-setup)
-  :bind
-  (:map org-mode-map
-        ("M-n" . org-cmenu)))
-
-(use-package-local-or-remote archiver
-                             "~/code/my-emacs-packages/archiver/"
-                             "Duncan-Britt/emacs-archiver"
-                             :after org
-                             :init
-                             (setq *archiver-agenda-archive-location*
-                                   (expand-file-name "~/Dropbox/agenda/agenda_archive.org"))
-                             :bind
-                             (:map org-mode-map
-                                   ("C-c C-x C-a" . archiver-archive-heading)))
-
-;; automatically toggle latex previews in org mode.
-(use-package org-fragtog
-  :ensure t
-  :hook (org-mode . org-fragtog-mode))
-
-(use-package org-download
-  :ensure t
-  :custom
-  (org-download-image-attr-list '("#+attr_org: :width 600")))
-
-(use-package ob-async
-  :ensure t
-  :after org
-  :config
-  (setq ob-async-no-async-languages-alist '("ipython")))
-
-(use-package-local-or-remote paste-img
-                             "~/code/my-emacs-packages/paste-img/"
-                             "Duncan-Britt/paste-img"
-                             :after (org org-download)
-                             :hook
-                             (org-mode . paste-img-mode))
-
-;; =======================================
-;; LINTING, SPELLCHECK
-;; =======================================
-
-;; Spell checker
-(use-package jinx ;; NOTE Custom variable `jinx-include-faces' can be used to add spell checking to comments and string in programming modes. Also see `jinx-exclude-faces'.
-  :ensure t
-  :hook
-  ((org-mode . jinx-mode)
-   (text-mode . jinx-mode))
-  :bind (("M-$" . jinx-correct))) ;; M-x jinx-languages for other languages.
-
 ;; =======================================
 ;; PROGRAMMING
 ;; =======================================
@@ -904,147 +499,11 @@ This fixes the issue where, in org source blocks, < matches )."
 (use-package markdown-mode
   :ensure t)
 
-;; Enable built-in tree-sitter support
-(use-package treesit
-  :ensure nil  ; built-in package
-  :config
-  (setq treesit-language-source-alist
-	'((bash "https://github.com/tree-sitter/tree-sitter-bash")
-	  (c "https://github.com/tree-sitter/tree-sitter-c")
-	  (c++ "https://github.com/tree-sitter/tree-sitter-cpp")
-	  (cmake "https://github.com/uyha/tree-sitter-cmake")
-	  (common-lisp "https://github.com/tree-sitter-grammars/tree-sitter-commonlisp")
-	  (css "https://github.com/tree-sitter/tree-sitter-css")
-	  (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-	  (go "https://github.com/tree-sitter/tree-sitter-go")
-	  (html "https://github.com/tree-sitter/tree-sitter-html")
-	  (json "https://github.com/tree-sitter/tree-sitter-json")
-	  (make "https://github.com/alemuller/tree-sitter-make")
-	  ;; (python "https://github.com/tree-sitter/tree-sitter-python")
-	  (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
-	  (toml "https://github.com/tree-sitter/tree-sitter-toml")
-	  (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
-
-  ;; Enable tree-sitter for languages with available grammars
-  (setq major-mode-remap-alist
-	'((bash-mode . bash-ts-mode)
-	  (c-mode . c-ts-mode)
-	  ;; (c++-mode . c++-ts-mode) OKAY I don't use c++-ts-mode because << on new lines don't indent correctly.
-          (css-mode . css-ts-mode)
-	  (json-mode . json-ts-mode)
-          ;; (python-mode . python-ts-mode)
-	  ;; (ruby-mode . ruby-ts-mode) OKAY I don't use ruby-ts-mode because C-M-f doesn't work in it - Oct. 2024
-	  (yaml-mode . yaml-ts-mode)))
-
-  (dolist (mapping major-mode-remap-alist)
-    (let* ((ts-mode (cdr mapping))
-           (lang (intern (string-remove-suffix "-ts-mode" (symbol-name ts-mode)))))
-      (when (and (not (treesit-ready-p lang t))
-		 (not (eq lang 'c++))) ; Do c++ manually, interactively.
-        (treesit-install-language-grammar lang))))
-
-  (defun check-treesit-grammar-installation ()
-    "Check and report the installation status of tree-sitter grammars.
-Note that it may show that C++ is not installed even when it is. Check with `M-x c++-ts-mode'"
-    (let (installed not-installed)
-      (dolist (mapping major-mode-remap-alist)
-	(let* ((ts-mode (cdr mapping))
-               (lang (intern (string-remove-suffix "-ts-mode" (symbol-name ts-mode)))))
-          (if (treesit-ready-p lang t)
-              (push lang installed)
-            (push lang not-installed))))
-
-      (with-current-buffer (get-buffer-create "*Tree-sitter Status*")
-	(erase-buffer)
-	(insert "Tree-sitter Grammar Installation Status:\n\n")
-	(insert "Note that it may show that C++ is not installed even when it is. Check with `M-x c++-ts-mode`")
-	(insert "Installed grammars:\n")
-	(dolist (lang installed)
-          (insert (format "  - %s\n" lang)))
-	(insert "\nNot installed grammars:\n")
-	(dolist (lang not-installed)
-          (insert (format "  - %s\n" lang)))
-	(insert "\nTo install missing grammars, you can use:\n")
-	(insert "(treesit-install-language-grammar 'language-name)\n")
-	(display-buffer (current-buffer)))))
-  ;; (check-treesit-grammar-installation)
-  )
-
-(use-package magit
-  :ensure t
-  :config
-  (defun my/is-text-file-using-file-cmd (filename)
-    "Use external 'file' command to detect if FILENAME is a text file."
-    (when (and filename
-               (file-exists-p filename)
-               (file-readable-p filename))
-      (if-let ((file-cmd (executable-find "file")))
-          (with-temp-buffer
-            (when (zerop (call-process file-cmd nil t nil "--brief" "--mime-type"
-                                       (expand-file-name filename)))
-              (goto-char (point-min))
-              (looking-at "text/")))
-        (progn
-          (lwarn 'file-detection :warning
-                 "'file' command not found in %s at line %d"
-                 (or load-file-name buffer-file-name)
-                 (line-number-at-pos))
-          nil))))
-
-  (defun my/delete-trailing-whitespace-in-repo (&rest _args)
-    "Delete trailing whitespace in the current git repository."
-    (when (and (buffer-file-name)
-               (vc-git-root default-directory)
-               (executable-find "file"))
-      (save-excursion
-        (let* ((initially-open-buffers (mapcar #'buffer-file-name (buffer-list)))
-               (default-directory (vc-git-root (buffer-file-name)))
-               (modified-buffer-files (mapcar #'buffer-file-name
-                                              (seq-filter (lambda (buf)
-                                                            (and (buffer-modified-p buf)
-                                                                 (buffer-file-name buf)))  ; Check buffer has a file
-                                                          (buffer-list))))
-               (changed-files-in-repo (mapcar (lambda (x) (expand-file-name x))
-                                              (magit-unstaged-files)))
-               (changed-text-files-in-repo (seq-filter (lambda (file-path)
-                                                         (and (my/is-text-file-using-file-cmd file-path)
-                                                              (not (seq-some
-                                                                    (lambda (buf-file)
-                                                                      (file-equal-p (expand-file-name file-path)
-                                                                                    buf-file))
-                                                                    modified-buffer-files))))
-                                                       changed-files-in-repo)))
-          (dolist (file changed-text-files-in-repo)
-            (with-current-buffer (find-file-noselect file)
-              (delete-trailing-whitespace)
-              (save-buffer)
-              (unless (seq-some
-                       (lambda (initially-open-buffer-file)
-                         (file-equal-p (buffer-file-name)
-                                       initially-open-buffer-file))
-                       initially-open-buffers)
-                (kill-buffer))))))))
-  (advice-add 'magit-status :before #'my/delete-trailing-whitespace-in-repo))
-
 (use-package rainbow-delimiters
   :ensure t
   :hook
   ((emacs-lisp-mode . rainbow-delimiters-mode)
    (lisp-mode . rainbow-delimiters-mode)))
-
-(use-package sql-indent
-  :ensure t
-  :hook ((sql-mode . sqlind-minor-mode)
-         (cql-mode . sqlind-minor-mode))
-  :config
-  ;; You can further customize indentation or align rules here if needed
-  )
-
-(use-package simple-httpd
-  :ensure t)
-
-(use-package inf-ruby
-  :ensure t)
 
 ;; ===============
 ;; C/C++ stuff
@@ -1092,116 +551,6 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   :bind
   ("C-c C-p" . pp-eval-last-sexp))
 
-;; ==================
-;; COMMON LISP
-;; ==================
-
-(use-package lisp-mode
-  :ensure nil  ; lisp-mode is built-in, so we don't need to ensure it
-  :hook ((lisp-mode . prettify-symbols-mode)))
-(setq inferior-lisp-program (executable-find "sbcl"))
-(setq slime-lisp-implementations
-      `((sbcl (,(executable-find "sbcl") "--dynamic-space-size" "4000"))))
-;; For hacking on Nyxt:
-;; (setq inferior-lisp-program "/opt/homebrew/bin/sbcl")
-;; (setq slime-lisp-implementations '((nyxt ("/opt/homebrew/bin/sbcl" "--dynamic-space-size 3072")
-;;                                          :env ("CL_SOURCE_REGISTRY=/Users/duncan/quicklisp/dists/quicklisp/software//:~/code/nyxt//:~/code/nyxt/_build//"))))
-(when (file-directory-p "~/quicklisp")
-  (load (expand-file-name "~/quicklisp/slime-helper.el")))
-
-;; ======
-;; PROLOG
-;; ======
-
-;; (use-package prolog
-;;   :ensure nil  ; prolog is built-in, so we don't need to ensure it
-;;   :mode ("\\.pl\\'" . prolog-mode)
-;;   :config
-;;   (setq prolog-electric-if-then-else-flag t))
-
-(use-package ciao
-  :ensure nil
-  :hook ((ciao-mode . display-line-numbers-mode)
-         (ciao-mode . my-ciao-remap-faces)
-         (ciao-mode . hl-todo-mode))
-  :config
-  (defun my-ciao-remap-faces ()
-    "Remap Ciao faces to standard font-lock faces using face-remapping-alist."
-    (face-remap-add-relative 'ciao-face-variable 'font-lock-variable-name-face)
-    (face-remap-add-relative 'ciao-face-string 'font-lock-string-face)
-    (face-remap-add-relative 'ciao-face-comment 'font-lock-comment-face)
-    (face-remap-add-relative 'ciao-face-clauseheadname 'font-lock-function-name-face)
-    ;; (face-remap-add-relative 'ciao-face-quoted-atom 'font-lock-constant-face)
-    ;; (face-remap-add-relative 'ciao-face-script-header 'font-lock-preprocessor-face)
-    ;; (face-remap-add-relative 'ciao-face-concurrency-op 'font-lock-keyword-face)
-    (face-remap-add-relative 'ciao-face-cut 'font-lock-negation-char-face)
-    ;; (face-remap-add-relative 'ciao-face-funexp-atom 'font-lock-function-name-face)
-    ;; (face-remap-add-relative 'ciao-face-builtin-directive 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-predicate-directive 'font-lock-builtin-face)
-    (face-remap-add-relative 'ciao-face-module-directive 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-condcode-directive 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-library-directive 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-user-directive 'font-lock-builtin-face)
-
-    ;; (face-remap-add-relative 'ciao-face-checked-assrt 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-true-assrt 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-false-assrt 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-trust-assrt 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-entry-assrt 'font-lock-builtin-face)
-    (face-remap-add-relative 'ciao-face-check-assrt 'font-lock-preprocessor-face)
-    ;; (face-remap-add-relative 'ciao-face-prop-assrt 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-test-assrt 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-texec-assrt 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-type-assrt 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-modedef-assrt 'font-lock-builtin-face)
-
-    (face-remap-add-relative 'ciao-face-prompt 'font-lock-keyword-face)
-    ;; (face-remap-add-relative 'ciao-face-answer-var 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-answer-val 'font-lock-builtin-face)
-    (face-remap-add-relative 'ciao-face-yes-answer 'font-lock-builtin-face)
-    (face-remap-add-relative 'ciao-face-no-answer 'font-lock-keyword-face)
-
-    ;; (face-remap-add-relative 'ciaopp-option 'font-lock-builtin-face)
-
-    ;; (face-remap-add-relative 'ciao-face-startup-message 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-debug-mess 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-error-mess 'font-lock-builtin-face)
-    (face-remap-add-relative 'ciao-face-warning-mess 'font-lock-warning-face)
-    ;; (face-remap-add-relative 'ciao-face-note-mess 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-passed-mess 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-failed-mess 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-aborted-mess 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-other-mess 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-highlight-code 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-selection-5-face 'font-lock-builtin-face)
-
-    ;; (face-remap-add-relative 'ciao-face-lpdoc-command 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-lpdoc-verbatim 'font-lock-builtin-face)
-    (face-remap-add-relative 'ciao-face-lpdoc-comment 'font-lock-doc-face)
-    ;; (face-remap-add-relative 'ciao-face-lpdoc-bug-comment 'font-lock-builtin-face)
-
-    ;; (face-remap-add-relative 'ciao-face-debug-call 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-debug-exit 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-debug-fail 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-debug-redo 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-debug-expansion 'font-lock-builtin-face)
-    ;; (face-remap-add-relative 'ciao-face-debug-breakpoint 'font-lock-builtin-face)
-    ))
-
-(use-package sweeprolog
-  :ensure t
-  ;; :mode ("\\.pl\\'" . sweeprolog-mode)
-  :hook ((sweeprolog-mode . sweeprolog-electric-layout-mode)
-         ;; (sweeprolog-mode . (lambda ()
-         ;;                     (push '(":-" . "←") prettify-symbols-alist)
-         ;;                     (prettify-symbols-mode 1)))
-         )
-  :config
-  (setq sweeprolog-enable-flymake nil))
-
-(use-package ob-prolog
-  :ensure t)
-
 ;; =====================
 ;; PYTHON
 ;; =====================
@@ -1211,56 +560,12 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   :init
   (exec-path-from-shell-initialize))
 
-;; (use-package jupyter-ascending
-;;   :ensure (:repo "~/code/my-emacs-packages/jupyter-ascending/")
-;;   :custom
-;;   (jupyter-ascending-python-command "python3")
-;;   :bind (:map jupyter-ascending-mode-map
-;;               ("C-c C-c" . jupyter-ascending-run-cell)
-;;               ("C-c C-a" . jupyter-ascending-run-all-cells)))
-
-;; =====================
-;; RESEARCH & STUDYING
-;; =====================
-
-(use-package pdf-tools
-  :ensure t
-  :config
-  (pdf-tools-install))
-
-(use-package org-pdftools
-  :ensure t
-  :hook (org-mode . org-pdftools-setup-link))
-
-(use-package nov
-  :ensure t
-  :mode ("\\.epub\\'" . nov-mode))
-
-(use-package anki-editor
-  :ensure t)
-
 ;; =====================
 ;; MISCELLANEOUS
 ;; =====================
 
 (use-package djvu
   :ensure t)
-
-(use-package reverso ;; Translation, Thesaurus, Grammar Checking (Online only)
-  :ensure t)
-
-(use-package denote
-  :ensure t
-  :config
-  (setq denote-directory (expand-file-name "~/Dropbox/notes/"))
-  :hook (dired-mode . denote-dired-mode))
-
-(defun calendar-insert-date ()
-  "Capture the date at point, exit the Calendar, insert the date."
-  (interactive)
-  (seq-let (month day year) (save-match-data (calendar-cursor-to-date))
-    (calendar-exit)
-    (insert (format "<%d-%02d-%02d>" year month day))))
 
 (use-package calendar
   :ensure nil
@@ -1279,32 +584,6 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 
 (use-package transient
   :ensure t)
-
-(use-package gptel
-  :after transient
-  :ensure t
-  :bind (("C-c RET" . gptel-send))
-  :config
-  (require 'safe)
-  ;; (setq gptel-api-key *gptel-token*)
-  ;; (setq gptel-model 'gpt-4o)
-  ;; (setq
-  ;;  gptel-model 'claude-3-5-sonnet-20240620 ;  'claude-3-opus-20240229 also available
-  ;;  gptel-backend (gptel-make-anthropic "Claude"
-  ;;                  :stream t :key *api-token*))
-  ;; (setq
-  ;; gptel-model 'aya:latest
-  ;; gptel-backend (gptel-make-ollama "Ollama"   ;Any name of your choosing
-  ;;                 :host "localhost:11434"     ;Where it's running
-  ;;                 :stream t                   ;Stream responses
-  ;;                 :models '(aya:latest)))     ;List of models
-  (setq
-   gptel-model 'qwen2.5-coder:14b
-   gptel-backend (gptel-make-ollama "Ollama"
-                   :host "localhost:11434"
-                   :stream t
-                   :models '(qwen2.5-coder:14b qwen2.5-coder:32b aya:latest)))
-  (setq gptel-default-mode 'org-mode))
 
 ;;; init.el ends here
 (custom-set-variables
@@ -1335,8 +614,3 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-
-; @begin(36059606)@ - Do not edit these lines - added automatically!
-(if (file-exists-p "/Users/duncan/.ciaoroot/v1.24.0-m1/ciao_emacs/elisp/ciao-site-file.el")
-  (load-file "/Users/duncan/.ciaoroot/v1.24.0-m1/ciao_emacs/elisp/ciao-site-file.el"))
-; @end(36059606)@ - End of automatically added lines.
