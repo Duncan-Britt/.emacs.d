@@ -590,10 +590,13 @@ Done in accordance with the currently loaded ef-theme."
 	 (c++-ts-mode . eglot-ensure)
 	 (ruby-mode . eglot-ensure)
 	 (ruby-ts-mode . eglot-ensure)
-         (python-mode . eglot-ensure))
+         (python-mode . eglot-ensure)
+         (asm-mode . eglot-ensure))
   :config
   (setq eglot-autoshutdown t)
   (setq eglot-confirm-server-initiated-edits nil)
+  (add-to-list 'eglot-server-programs
+             '(asm-mode . ("asm-lsp")))
 
   (setq eglot-workspace-configuration ;; FIXME Still debugging these.
         '((harper-ls . (:spell_check t
@@ -1170,6 +1173,15 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 ;;   :bind (:map jupyter-ascending-mode-map
 ;;               ("C-c C-c" . jupyter-ascending-run-cell)
 ;;               ("C-c C-a" . jupyter-ascending-run-all-cells)))
+
+;; =========
+;; ASSEMBLY
+;; =========
+
+(add-hook 'asm-mode-hook
+          (lambda ()
+            (setq comment-start "#")
+            (setq comment-end "")))
 
 ;; =====================
 ;; RESEARCH & STUDYING
