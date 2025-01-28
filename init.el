@@ -596,8 +596,7 @@ Done in accordance with the currently loaded ef-theme."
   (setq eglot-autoshutdown t)
   (setq eglot-confirm-server-initiated-edits nil)
   (add-to-list 'eglot-server-programs
-             '(asm-mode . ("asm-lsp")))
-
+               '(asm-mode . ("asm-lsp")))
   (setq eglot-workspace-configuration ;; FIXME Still debugging these.
         '((harper-ls . (:spell_check t
                                      :sentence_capitalization t
@@ -1330,6 +1329,11 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
    '(yasnippet vertico sql-indent smartparens rainbow-delimiters projectile popper pdf-tools orderless marginalia magit inf-ruby gptel fontaine flycheck ef-themes dired-preview consult breadcrumb ace-window))
  '(safe-local-variable-values
    '((eval progn
+           (add-to-list 'load-path
+                        (expand-file-name "dev"
+                                          (locate-dominating-file default-directory ".dir-locals.el")))
+           (require 'compyle))
+     (eval progn
            (add-to-list 'load-path
                         (expand-file-name "dev"
                                           (locate-dominating-file default-directory ".dir-locals.el")))
