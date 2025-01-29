@@ -1213,6 +1213,16 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   :init
   (exec-path-from-shell-initialize))
 
+(use-package python
+  :ensure nil
+  :config
+  (when (and (eq system-type 'gnu/linux)
+             (string= (system-name) "duncans-macbookpro"))
+    (setq python-shell-interpreter "python3.10")))
+
+(use-package lark-mode
+  :ensure t)
+
 ;; (use-package jupyter-ascending
 ;;   :ensure (:repo "~/code/my-emacs-packages/jupyter-ascending/")
 ;;   :custom
