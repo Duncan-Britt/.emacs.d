@@ -1116,11 +1116,12 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 ;; PROLOG
 ;; ======
 
-;; (use-package prolog
-;;   :ensure nil  ; prolog is built-in, so we don't need to ensure it
-;;   :mode ("\\.pl\\'" . prolog-mode)
-;;   :config
-;;   (setq prolog-electric-if-then-else-flag t))
+(use-package prolog
+  :ensure nil  ; prolog is built-in, so we don't need to ensure it
+  :mode ("\\.pl\\'" . prolog-mode)
+  :config
+  (setq prolog-electric-if-then-else-flag t)
+  (setq prolog-program-name "scryer-prolog"))
 
 (use-package ciao
   :ensure nil
@@ -1364,6 +1365,6 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
  )
 
 ; @begin(36059606)@ - Do not edit these lines - added automatically!
-(if (file-exists-p "/Users/duncan/.ciaoroot/v1.24.0-m1/ciao_emacs/elisp/ciao-site-file.el")
-  (load-file "/Users/duncan/.ciaoroot/v1.24.0-m1/ciao_emacs/elisp/ciao-site-file.el"))
+;; (if (file-exists-p "/home/duncan/.ciaoroot/v1.24.0-m1/ciao_emacs/elisp/ciao-site-file.el")
+;;   (load-file "/home/duncan/.ciaoroot/v1.24.0-m1/ciao_emacs/elisp/ciao-site-file.el"))
 ; @end(36059606)@ - End of automatically added lines.
