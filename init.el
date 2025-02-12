@@ -178,7 +178,8 @@
   (add-hook 'emacs-startup-hook
             (lambda ()
               (find-file "~/Dropbox/agenda/agenda.org") ;; <-- org file
-              (org-agenda-list)))                       ;; <-- calendar
+              (org-agenda-list) ;; <-- calendar
+              (elpaca-log nil t)))                       
   )
 
 ;; ============================
@@ -590,13 +591,20 @@ Done in accordance with the currently loaded ef-theme."
 	 (c++-ts-mode . eglot-ensure)
 	 (ruby-mode . eglot-ensure)
 	 (ruby-ts-mode . eglot-ensure)
-         (python-mode . eglot-ensure)
+         ;; (python-mode . eglot-ensure)
+         (js-mode . eglot-ensure)
          (asm-mode . eglot-ensure))
   :config
   (setq eglot-autoshutdown t)
-  (setq eglot-confirm-server-initiated-edits nil)
+  (setq eglot-confirm-server-initiated-edits nil)  
   (add-to-list 'eglot-server-programs
                '(asm-mode . ("asm-lsp")))
+  (add-to-list 'eglot-server-programs
+               '(web-mode . ("vscode-html-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs
+               '(js-mode . ("typescript-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs
+             '(elixir-mode . ("~/.elixir-ls/language_server.sh")))
   (setq eglot-workspace-configuration ;; FIXME Still debugging these.
         '((harper-ls . (:spell_check t
                                      :sentence_capitalization t
@@ -610,8 +618,6 @@ Done in accordance with the currently loaded ef-theme."
                                             :fileDictPath ,(expand-file-name "~/.harper/"))
                              :workspace (:spell_check t :sentence_capitalization t))))) ;; python3 lsp_proxy.py 9000 harper-ls --stdio
   )
-
-;; write a use package declaration for dabbrev
 
 ;; ========================
 ;; TEXT EDITING & MOVEMENT
@@ -681,7 +687,7 @@ Display the number of replacements made."
   (setq popper-reference-buffers
         '("Output\\*$"
           "\\*Async Shell Command\\*"
-          "\\*Org Agenda\\*"
+          ;; "\\*Org Agenda\\*"
           "\\*slime-repl sbcl\\*"
           "\\*slime-inspector\\*"
           "\\*Ciao\\*"
@@ -690,6 +696,7 @@ Display the number of replacements made."
           "\\*Python\\*"
           sldb-mode
           "\\*Claude\\*"
+          "\\*DeepSeek\\*"
           "\\*Ollama\\*"
 	  "\\*ChatGPT\\*"
 	  "\\*Warnings\\*"
@@ -740,7 +747,7 @@ This fixes the issue where, in org source blocks, < matches )."
   (modify-syntax-entry ?> "." org-mode-syntax-table))
 
 (use-package org
-  :after (ob-prolog)
+  :after (ob-prolog ob-elixir)
   :config
   (add-to-list 'org-entities-user '("yhat" "$\\hat{y}$" nil "&#375;" "yhat" "yhat" "ŷ")) ; TODO Not sure if I'm dealing with latex in a smart way.
   ;; Latin-1 Table: https://cs.stanford.edu/people/miles/iso8859.html
@@ -765,6 +772,7 @@ This fixes the issue where, in org source blocks, < matches )."
      (plantuml . t)
      (shell . t)
      (prolog . t)
+     (elixir . t)
      ))
   ;; Needed to run mysql in org babel
   (add-to-list 'exec-path "/usr/local/mysql-8.3.0-macos14-x86_64/bin") ;; <-- doesn't exist on new mac
@@ -1049,6 +1057,26 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 (use-package inf-ruby
   :ensure t)
 
+(use-package web-mode
+  :ensure t
+  :mode ("\\.html\\'" . web-mode))
+
+;; ======
+;; ELIXIR
+;; ======
+
+(use-package elixir-mode
+  :ensure t)
+
+(use-package inf-elixir
+  :ensure t)
+
+(use-package mix
+  :ensure t)
+
+(use-package ob-elixir
+  :ensure t)
+
 ;; ===============
 ;; C/C++ stuff
 ;; ===============
@@ -1309,24 +1337,28 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   :bind (("C-c RET" . gptel-send))
   :config
   (require 'safe)
-  ;; (setq gptel-api-key *gptel-token*)
-  ;; (setq gptel-model 'gpt-4o)
-  ;; (setq
-  ;;  gptel-model 'claude-3-5-sonnet-20240620 ;  'claude-3-opus-20240229 also available
-  ;;  gptel-backend (gptel-make-anthropic "Claude"
-  ;;                  :stream t :key *api-token*))
   ;; (setq
   ;; gptel-model 'aya:latest
   ;; gptel-backend (gptel-make-ollama "Ollama"   ;Any name of your choosing
   ;;                 :host "localhost:11434"     ;Where it's running
   ;;                 :stream t                   ;Stream responses
   ;;                 :models '(aya:latest)))     ;List of models
-  (setq
-   gptel-model 'qwen2.5-coder:14b
-   gptel-backend (gptel-make-ollama "Ollama"
-                   :host "localhost:11434"
-                   :stream t
-                   :models '(qwen2.5-coder:14b qwen2.5-coder:32b aya:latest)))
+  ;; (setq
+  ;;  gptel-model 'qwen2.5-coder:14b
+  ;;  gptel-backend (gptel-make-ollama "Ollama"
+  ;;                  :host "localhost:11434"
+  ;;                  :stream t
+  ;;                  :models '(qwen2.5-coder:14b qwen2.5-coder:32b aya:latest)))
+  
+  (setq gptel-model   'deepseek-coder
+        gptel-backend
+        (gptel-make-openai "DeepSeek" ; Any name you want
+          :host "api.deepseek.com"
+          :endpoint "/chat/completions"
+          :stream t
+          :key *deep-token* ; can be a function that returns the key
+          :models '(deepseek-chat deepseek-coder)))
+
   (setq gptel-default-mode 'org-mode))
 
 ;;; init.el ends here
