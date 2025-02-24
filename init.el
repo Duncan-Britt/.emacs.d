@@ -179,7 +179,7 @@
             (lambda ()
               (find-file "~/Dropbox/agenda/agenda.org") ;; <-- org file
               (org-agenda-list) ;; <-- calendar
-              (elpaca-log nil t)))                       
+              (elpaca-log nil t)))
   )
 
 ;; ============================
@@ -232,6 +232,7 @@
                                        "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
                                        "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
                                        "\\\\" "://"))
+  (ligature-set-ligatures 'tla+-mode '("<>" "<=" ">=" "~>" "/=" "/\\" "\\/" "=>" "==" "->"))
   ;; Enables ligature checks globally in all buffers. You can also do it
   ;; per mode with `ligature-mode'.
   (global-ligature-mode t))
@@ -241,9 +242,9 @@
   :config
   (setq fontaine-presets
         '((regular
-           :default-family "Iosevka"
+           :default-family "Iosevka Duncan"
            :default-height 130
-           :fixed-pitch-family "Iosevka"
+           :fixed-pitch-family "Iosevka Duncan"
            :fixed-pitch-height 1.0
            :variable-pitch-family "Iosevka Comfy Motion Duo"
            :variable-pitch-height 1.0
@@ -254,8 +255,8 @@
            :header-line-family "Iosevka Comfy Motion Duo"
            :header-line-height 1.0)
           (prose
-           :default-family "Iosevka"
-           :fixed-pitch-family "Iosevka"
+           :default-family "Iosevka Duncan"
+           :fixed-pitch-family "Iosevka Duncan"
            :fixed-pitch-height 1.0
            :org-level-1-family "Symbola" ;; <-- Requires `fontaine-org'.
            :org-level-2-family "Symbola"
@@ -596,7 +597,7 @@ Done in accordance with the currently loaded ef-theme."
          (asm-mode . eglot-ensure))
   :config
   (setq eglot-autoshutdown t)
-  (setq eglot-confirm-server-initiated-edits nil)  
+  (setq eglot-confirm-server-initiated-edits nil)
   (add-to-list 'eglot-server-programs
                '(asm-mode . ("asm-lsp")))
   (add-to-list 'eglot-server-programs
@@ -604,7 +605,9 @@ Done in accordance with the currently loaded ef-theme."
   (add-to-list 'eglot-server-programs
                '(js-mode . ("typescript-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs
-             '(elixir-mode . ("~/.elixir-ls/language_server.sh")))
+               '(elixir-mode . ("~/.elixir-ls/language_server.sh")))
+  (add-to-list 'eglot-server-programs
+               '(erlang-mode . ("elp" "server")))
   (setq eglot-workspace-configuration ;; FIXME Still debugging these.
         '((harper-ls . (:spell_check t
                                      :sentence_capitalization t
@@ -693,6 +696,7 @@ Display the number of replacements made."
           "\\*Ciao\\*"
           "\\*sweeprolog-top-level\\*"
           "\\*prolog\\*"
+          "\\*erlang\\*"
           "\\*Python\\*"
           sldb-mode
           "\\*Claude\\*"
@@ -1077,6 +1081,19 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 (use-package ob-elixir
   :ensure t)
 
+;; ======
+;; ERLANG
+;; ======
+
+(use-package erlang ;; https://www.erlang.org/docs/24/man/erlang.el
+  :ensure t)
+
+;; LSP: https://whatsapp.github.io/erlang-language-platform/
+;; edts           Erlang Development Tool Suite
+;; erlstack-mode  Minor mode for analysing Erlang stacktraces
+;; lfe-mode       Flavoured Erlang mode
+;; earl           Erlang distribution protocol implementation
+
 ;; ===============
 ;; C/C++ stuff
 ;; ===============
@@ -1092,9 +1109,12 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   (add-hook 'c-mode-common-hook
           (lambda ()
             (c-set-style "stroustrup")
-            (setq c-basic-offset 4)))
+            (setq c-basic-offset 4)))  
   (with-eval-after-load 'c-ts-mode
+    (setq c-ts-mode-indent-offset 4)
+    (setq c-ts-mode-indent-style 'bsd)
     (define-key c-ts-mode-map (kbd "C-c c") #'recompile))
+  
   (with-eval-after-load 'c++-ts-mode
     (define-key c++-ts-mode-map (kbd "C-c c") #'recompile)))
 
@@ -1270,6 +1290,30 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
             (setq comment-start "#")
             (setq comment-end "")))
 
+;; =====
+;; TLA+
+;; =====
+;; See lisp/tla+-mode.el
+(require 'tla+-mode)
+
+(use-package tla+-mode
+  :ensure nil
+  :mode ("\\.tla\\'" . tla+-mode)
+  :hook (tla+-mode . (lambda ()
+                       (tla+/load-symbols)
+                       (prettify-symbols-mode 1))))
+
+;; ========
+;; PlantUML
+;; ========
+
+(use-package plantuml-mode
+  :ensure t
+  :config
+  (setq org-plantuml-jar-path (expand-file-name "~/Downloads/installers/plantuml-mit-1.2025.1.jar"))
+  (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
+  (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t))))
+
 ;; =====================
 ;; RESEARCH & STUDYING
 ;; =====================
@@ -1349,7 +1393,11 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   ;;                  :host "localhost:11434"
   ;;                  :stream t
   ;;                  :models '(qwen2.5-coder:14b qwen2.5-coder:32b aya:latest)))
-  
+
+  ;; (setq
+  ;;  gptel-model 'claude-3-5-sonnet-20240620 ;  'claude-3-opus-20240229 also available
+  ;;  gptel-backend (gptel-make-anthropic "Claude"
+  ;;                  :stream t :key *a-gptel-token*))
   (setq gptel-model   'deepseek-coder
         gptel-backend
         (gptel-make-openai "DeepSeek" ; Any name you want
@@ -1388,7 +1436,8 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
                         (expand-file-name "dev"
                                           (locate-dominating-file default-directory ".dir-locals.el")))
            (require 'define-course)
-           (require 'describe)))))
+           (require 'describe))))
+ '(tla+-tlatools-path "~/Downloads/installers/tla2tools.jar"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
