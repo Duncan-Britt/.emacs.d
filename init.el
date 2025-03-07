@@ -254,6 +254,19 @@
            :mode-line-inactive-height 1.0
            :header-line-family "Iosevka Comfy Motion Duo"
            :header-line-height 1.0)
+          (present
+           :default-family "Iosevka Duncan"
+           :default-height 150
+           :fixed-pitch-family "Iosevka Duncan"
+           :fixed-pitch-height 1.0
+           :variable-pitch-family "Iosevka Comfy Motion Duo"
+           :variable-pitch-height 1.0
+           :mode-line-active-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
+           :mode-line-active-height 1.0
+           :mode-line-inactive-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
+           :mode-line-inactive-height 1.0
+           :header-line-family "Iosevka Comfy Motion Duo"
+           :header-line-height 1.0)
           (prose
            :default-family "Iosevka Duncan"
            :fixed-pitch-family "Iosevka Duncan"
@@ -608,6 +621,7 @@ Done in accordance with the currently loaded ef-theme."
                '(elixir-mode . ("~/.elixir-ls/language_server.sh")))
   (add-to-list 'eglot-server-programs
                '(erlang-mode . ("elp" "server")))
+
   (setq eglot-workspace-configuration ;; FIXME Still debugging these.
         '((harper-ls . (:spell_check t
                                      :sentence_capitalization t
@@ -720,7 +734,7 @@ Display the number of replacements made."
            buffer
            (append alist
                    `((side . right)
-                     (window-width . 0.6))))
+                     (window-width . 0.5))))
         ;; If there are multiple windows, display at the bottom
         (display-buffer-in-side-window
          buffer
@@ -1109,12 +1123,12 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   (add-hook 'c-mode-common-hook
           (lambda ()
             (c-set-style "stroustrup")
-            (setq c-basic-offset 4)))  
+            (setq c-basic-offset 4)))
   (with-eval-after-load 'c-ts-mode
     (setq c-ts-mode-indent-offset 4)
     (setq c-ts-mode-indent-style 'bsd)
     (define-key c-ts-mode-map (kbd "C-c c") #'recompile))
-  
+
   (with-eval-after-load 'c++-ts-mode
     (define-key c++-ts-mode-map (kbd "C-c c") #'recompile)))
 
@@ -1338,6 +1352,25 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 ;; MISCELLANEOUS
 ;; =====================
 
+(require 'morning-pages)
+
+(use-package time
+  :ensure nil
+  :config
+  (setq world-clock-list
+        '(("America/Denver" "Denver")
+          ("Asia/Saigon" "Saigon")
+          ("America/New_York" "Princeton")))
+  (setq world-clock-time-format "%t%A %B %_d%n%l:%M %p%n===============================")
+  ;; C-h f format-time-string
+  ;; %d <- day of month, e.g. `03'
+  ;; %A <- week day, e.g. `Monday'
+  ;; %B <- month, e.g. `March'
+  ;; %R <- military time, e.g. `22:35'
+  ;; %Z <- time zone, e.g. `+07' or `EST'
+  ;; %I <- 12 hour clock hour, %l is blank padded version
+  )
+
 (use-package djvu
   :ensure t)
 
@@ -1398,6 +1431,9 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   ;;  gptel-model 'claude-3-5-sonnet-20240620 ;  'claude-3-opus-20240229 also available
   ;;  gptel-backend (gptel-make-anthropic "Claude"
   ;;                  :stream t :key *a-gptel-token*))
+  (gptel-make-anthropic "Claude"
+    :stream t :key *a-gptel-token*)
+
   (setq gptel-model   'deepseek-coder
         gptel-backend
         (gptel-make-openai "DeepSeek" ; Any name you want
