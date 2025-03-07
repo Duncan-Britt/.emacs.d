@@ -508,7 +508,7 @@ Done in accordance with the currently loaded ef-theme."
   (savehist-mode))
 
 (use-package casual
-  :after calc
+  :after (calc transient)
   :ensure t
   :bind
   (:map calc-mode-map
@@ -999,6 +999,7 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   )
 
 (use-package magit
+  :after transient
   :ensure t
   :config
   ;; (defun my/is-text-file-using-file-cmd (filename)
