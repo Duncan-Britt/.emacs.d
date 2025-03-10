@@ -1,10 +1,9 @@
-;;; package --- init.el
+;;; init.el --- Personal Emacs configuration -*- lexical-binding: t; -*-
 ;;; Commentary:
-;;; Code:
+;; ┌──────────────┐
+;; │ Installation │
+;; └──────────────┘
 
-;; ===============================================================
-;; INSTALLATION
-;; ===============================================================
 ;; For MacOS:
 ;; ./configure \
 ;; --with-modules \
@@ -33,14 +32,12 @@
 ;; --with-cairo \
 ;; --with-harfbuzz \ <-- Cairo & Harfbuzz combine to provide better font rendering on Linux.
 ;; CFLAGS="-O2 -mtune=native -march=native -fomit-frame-pointer"
+;;; Code:
+;; ┌────────────────────────────────────────────────┐
+;; │ Package Management: Elpaca (see early-init.el) │
+;; └────────────────────────────────────────────────┘
 
-
-;; ===============================================================
-;; PACKAGE MANAGEMENT: ELPACA (see early-init.el)
-;; ===============================================================
-
-;; Example Elpaca configuration -*- lexical-binding: t; -*-
-(defvar elpaca-installer-version 0.7)
+(defvar elpaca-installer-version 0.10)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
 (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
@@ -106,9 +103,10 @@
 ;;Useful for configuring built-in emacs features.
 ;; (use-package emacs :ensure nil :config (setq ring-bell-function #'ignore))
 
-;; ===============
-;; AUTOSAVE CRAP
-;; ===============
+;; ┌──────────────────────────────┐
+;; │ Autosave, Backups, Lockfiles │
+;; └──────────────────────────────┘
+
 ;; Set up a directory for storing backup files
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 
@@ -127,9 +125,10 @@
 ;; Don't create lock files
 (setq create-lockfiles nil)
 
-;; ============
-;; LOAD PATH
-;; ============
+;; ┌───────────┐
+;; │ Load Path │
+;; └───────────┘
+
 (add-to-list 'load-path "~/.emacs.d/lisp/") ;; NOTE: Use (require 'package) to use the code in the lisp directory
 (when (and (file-exists-p "~/.safe/safe.el")
            (file-exists-p "~/code/my-emacs-packages/rotor/rotor.el"))
@@ -137,9 +136,10 @@
   (with-eval-after-load 'safe
     (load "~/code/my-emacs-packages/rotor/rotor.el")))
 
-;; ===========================
-;; PORTABILITY/SYNCHRONIZATION
-;; ===========================
+;; ┌───────────────────────────────┐
+;; │ Portability & Synchronization │
+;; └───────────────────────────────┘
+
 (defmacro use-package-local-or-remote (package-name local-path remote-repo &rest use-package-args)
   `(if (file-directory-p ,local-path)
        (use-package ,package-name
@@ -157,9 +157,9 @@
 
 (global-auto-revert-mode 1)
 
-;; ===============
-;; STARTUP
-;; ===============
+;; ┌─────────┐
+;; │ Startup │
+;; └─────────┘
 
 (use-package emacs
   :ensure nil
@@ -182,9 +182,9 @@
               (elpaca-log nil t)))
   )
 
-;; ============================
-;; APPEARANCE
-;; ============================
+;; ┌────────────┐
+;; │ Appearance │
+;; └────────────┘
 
 (use-package emacs
   :ensure nil
@@ -483,14 +483,60 @@ Done in accordance with the currently loaded ef-theme."
   :init
   (global-anzu-mode 1))
 
-;; ================================================
-;; NAVIGATION/DISCOVERABILITY + COMPLETION FRAMEWORK
-;; ================================================
+(use-package org
+  :ensure nil
+  :config
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.4))
+  (setq org-image-actual-width nil)
+  (setq org-preview-latex-default-process 'dvisvgm) ; Better latex rendering
+  (defun my/resize-org-latex-overlays () ; auto resize latex when resizing text
+    (cl-loop for o in (car (overlay-lists))
+             if (eq (overlay-get o 'org-overlay-type) 'org-latex-overlay)
+             do (plist-put (cdr (overlay-get o 'display))
+		           :scale (expt text-scale-mode-step
+				        text-scale-mode-amount))))
+  (plist-put org-format-latex-options :foreground nil) ; latex previews match theme when switching themes.
+  (plist-put org-format-latex-options :background nil)
+  :hook ((org-mode . variable-pitch-mode)
+         (org-mode . visual-line-mode)
+         (org-mode . pixel-scroll-precision-mode)
+         (org-mode . (lambda () (display-line-numbers-mode 0)))
+         (org-mode . (lambda () (add-hook 'text-scale-mode-hook #'my/resize-org-latex-overlays nil t)))))
+
+(use-package olivetti
+  :ensure (:host github :repo "rnkn/olivetti")
+  :custom (olivetti-body-width 140)
+  :hook (org-mode . olivetti-mode))
+
+(use-package org-bullets
+  :after org
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda ()
+                             (org-bullets-mode 1)
+                             (org-indent-mode 1))))
+
+(use-package org-appear
+  :ensure t
+  :after org
+  :hook (org-mode . org-appear-mode)
+  :custom
+  (org-hide-emphasis-markers t) ; Hide /emphasis/ markers in org mode
+  (org-appear-autolinks t) ; <-- This doesn't work when hyperbole package is loaded.
+  (org-pretty-entities t)
+  (org-pretty-entities-include-sub-superscripts nil)
+  (org-appear-autoentities t)
+  (org-appear-autosubmarkers t))
+
+;; ┌───────────────────────────────────────────────────┐
+;; │ Navigation/Discoverability + Completion Framework │
+;; └───────────────────────────────────────────────────┘
 
 (use-package emacs
   :ensure nil
   :config
-  (setq context-menu-mode 1))
+  (context-menu-mode)
+  (savehist-mode))
 
 (use-package projectile
   :ensure t
@@ -501,11 +547,6 @@ Done in accordance with the currently loaded ef-theme."
   (projectile-mode +1)
   ;; Recommended keymap prefix on macOS
   (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map))
-
-(use-package savehist
-  :ensure nil  ; This tells use-package not to try to install savehist
-  :init
-  (savehist-mode))
 
 (use-package casual
   :after (calc transient)
@@ -605,7 +646,6 @@ Done in accordance with the currently loaded ef-theme."
 	 (c++-ts-mode . eglot-ensure)
 	 (ruby-mode . eglot-ensure)
 	 (ruby-ts-mode . eglot-ensure)
-         ;; (python-mode . eglot-ensure)
          (js-mode . eglot-ensure)
          (asm-mode . eglot-ensure))
   :config
@@ -620,27 +660,16 @@ Done in accordance with the currently loaded ef-theme."
   (add-to-list 'eglot-server-programs
                '(elixir-mode . ("~/.elixir-ls/language_server.sh")))
   (add-to-list 'eglot-server-programs
-               '(erlang-mode . ("elp" "server")))
+               '(erlang-mode . ("elp" "server"))))
 
-  (setq eglot-workspace-configuration ;; FIXME Still debugging these.
-        '((harper-ls . (:spell_check t
-                                     :sentence_capitalization t
-                                     :userDictPath "~/dict.txt"
-                                     :fileDictPath "~/.harper/"))))
-  (add-to-list 'eglot-server-programs ;; FIXME Still debugging this.
-               `((text-mode markdown-mode org-mode) .
-                 ("nc" "localhost" "9000"
-                  :initializationOptions
-                  (:settings (:userDictPath ,(expand-file-name "~/dict.txt")
-                                            :fileDictPath ,(expand-file-name "~/.harper/"))
-                             :workspace (:spell_check t :sentence_capitalization t))))) ;; python3 lsp_proxy.py 9000 harper-ls --stdio
-  )
+;; ┌─────────────────────────┐
+;; │ Text Editing & Movement │
+;; └─────────────────────────┘
 
-;; ========================
-;; TEXT EDITING & MOVEMENT
-;; =======================
-
-(setq next-line-add-newlines t) ;; c-n adds newlines
+(use-package emacs
+  :ensure nil
+  :config ;; c-n adds newlines
+  (setq next-line-add-newlines t))
 
 ;; MAKE C-s search case-insensitive:
 ;; (setq case-fold-search t)
@@ -650,7 +679,8 @@ Done in accordance with the currently loaded ef-theme."
   :init
   (global-undo-tree-mode 1)
   :config
-  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-tree-history")))
+  (setq undo-tree-history-directory-alist
+        `(("." . ,(expand-file-name "undo-tree-history" user-emacs-directory))))
   :bind (:map undo-tree-visualizer-mode-map
               ;; go to selected undo state
               ("<return>" . undo-tree-visualizer-quit)
@@ -691,9 +721,9 @@ Display the number of replacements made."
         (setq count (1+ count)))
       (message "Replaced %d occurrences of '%s'." count from))))
 
-;; ========================
-;; WINDOW MANAGEMENT
-;; ========================
+;; ┌───────────────────┐
+;; │ Window Management │
+;; └───────────────────┘
 
 (use-package popper
   :after projectile
@@ -754,20 +784,20 @@ Display the number of replacements made."
   :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
-;; ==================
-;; ORG MODE
-;; ==================
-
-(defun my-org-syntax-table-modify ()
-  "Modify `org-mode-syntax-table' for the current org buffer.
-This fixes the issue where, in org source blocks, < matches )."
-  (modify-syntax-entry ?< "." org-mode-syntax-table)
-  (modify-syntax-entry ?> "." org-mode-syntax-table))
+;; ┌──────────┐
+;; │ Org Mode │
+;; └──────────┘
 
 (use-package org
   :after (ob-prolog ob-elixir)
   :config
-  (add-to-list 'org-entities-user '("yhat" "$\\hat{y}$" nil "&#375;" "yhat" "yhat" "ŷ")) ; TODO Not sure if I'm dealing with latex in a smart way.
+  (defun my/org-syntax-table-modify ()
+    "Modify `org-mode-syntax-table' for the current org buffer.
+This fixes the issue where, in org source blocks, < matches )."
+    (modify-syntax-entry ?< "." org-mode-syntax-table)
+    (modify-syntax-entry ?> "." org-mode-syntax-table))
+  
+  (add-to-list 'org-entities-user '("yhat" "$\\hat{y}$" nil "&#375;" "yhat" "yhat" "ŷ")) ; TODO Not sure if I'm dealing with latex in a smart way.  
   ;; Latin-1 Table: https://cs.stanford.edu/people/miles/iso8859.html
   ;; C-h v org-entities-user RET
   (setq org-agenda-files (list (expand-file-name "~/Dropbox/agenda/agenda.org")))
@@ -782,7 +812,6 @@ This fixes the issue where, in org source blocks, < matches )."
      (js . t)
      (C . t)
      (octave . t)
-     (latex . t)
      (lisp . t)
      (dot . t)
      (matlab . t)
@@ -795,46 +824,20 @@ This fixes the issue where, in org source blocks, < matches )."
   ;; Needed to run mysql in org babel
   (add-to-list 'exec-path "/usr/local/mysql-8.3.0-macos14-x86_64/bin") ;; <-- doesn't exist on new mac
   (setq org-babel-python-command "python3")
-  (setq org-log-note-clock-out t)
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.4))
-  (setq org-image-actual-width nil)
+  (setq org-log-note-clock-out t)  
   (setq org-list-allow-alphabetical t)
   (setq org-latex-listings 'minted ;; Export to LateX PDF using minted package
         org-latex-packages-alist '(("" "minted"))
         org-latex-pdf-process
         '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-  (setq org-export-backends '(ascii html icalendar latex md))
-
-  (setq org-preview-latex-default-process 'dvisvgm) ; Better latex rendering
-  (defun my/resize-org-latex-overlays () ; auto resize latex when resizing text
-    (cl-loop for o in (car (overlay-lists))
-             if (eq (overlay-get o 'org-overlay-type) 'org-latex-overlay)
-             do (plist-put (cdr (overlay-get o 'display))
-		           :scale (expt text-scale-mode-step
-				        text-scale-mode-amount))))
-  (plist-put org-format-latex-options :foreground nil) ; latex previews match theme when switching themes.
-  (plist-put org-format-latex-options :background nil)
-
-  (setq org-cite-csl-styles-dir "~/code/citation-styles/") ; <-- for Bibtex Bibliography styles on latex export
+  (setq org-export-backends '(ascii html icalendar latex md))   
 
   (require 'ox-gfm nil t) ;; <-- For github flavored markdown export
   (require 'blog-publishing)
   (require 'ut-table-manager)
 
-  :hook ((org-mode . variable-pitch-mode)
-         (org-mode . visual-line-mode)
-         (org-mode . pixel-scroll-precision-mode)
-         (org-mode . my-org-syntax-table-modify)
-         (org-mode . (lambda () (display-line-numbers-mode 0)))
-         (org-mode . (lambda () (add-hook 'text-scale-mode-hook #'my/resize-org-latex-overlays nil t)))))
-
-(use-package mw-thesaurus
-  :ensure t
-  :after org
-  :bind
-  (:map org-mode-map
-        ("C-c t" . mw-thesaurus-lookup-dwim)))
+  :hook ((org-mode . my/org-syntax-table-modify)))
 
 (use-package ox-gfm
   :ensure t
@@ -843,31 +846,6 @@ This fixes the issue where, in org source blocks, < matches )."
 (use-package ox-epub
   :ensure t
   :after org)
-
-(use-package olivetti
-  :ensure (:host github :repo "rnkn/olivetti")
-  :custom (olivetti-body-width 140)
-  :hook (org-mode . olivetti-mode))
-
-(use-package org-bullets
-  :after org
-  :ensure t
-  :config
-  (add-hook 'org-mode-hook (lambda ()
-                             (org-bullets-mode 1)
-                             (org-indent-mode 1))))
-
-(use-package org-appear
-  :ensure t
-  :after org
-  :hook (org-mode . org-appear-mode)
-  :custom
-  (org-hide-emphasis-markers t) ; Hide /emphasis/ markers in org mode
-  (org-appear-autolinks t) ; <-- This doesn't work when hyperbole package is loaded.
-  (org-pretty-entities t)
-  (org-pretty-entities-include-sub-superscripts t)
-  (org-appear-autoentities t)
-  (org-appear-autosubmarkers t))
 
 (use-package org-cmenu
   :ensure (:host github :repo "misohena/org-cmenu")
@@ -911,9 +889,9 @@ This fixes the issue where, in org source blocks, < matches )."
                              :hook
                              (org-mode . paste-img-mode))
 
-;; =======================================
-;; LINTING, SPELLCHECK
-;; =======================================
+;; ┌─────────┐
+;; │ Writing │
+;; └─────────┘
 
 ;; Spell checker
 (use-package jinx ;; NOTE Custom variable `jinx-include-faces' can be used to add spell checking to comments and string in programming modes. Also see `jinx-exclude-faces'.
@@ -923,9 +901,41 @@ This fixes the issue where, in org source blocks, < matches )."
    (text-mode . jinx-mode))
   :bind (("M-$" . jinx-correct))) ;; M-x jinx-languages for other languages.
 
-;; =======================================
-;; PROGRAMMING
-;; =======================================
+(use-package mw-thesaurus
+  :ensure t
+  :after org
+  :bind
+  (:map org-mode-map
+        ("C-c t" . mw-thesaurus-lookup-dwim)))
+
+(use-package reverso ;; Translation, Thesaurus, Grammar Checking (Online only)
+  :ensure t)
+
+;; ┌─────────────┐
+;; │ Programming │
+;; └─────────────┘
+
+(defun insert-box-comment (text)
+  "Create a box comment with TEXT inside using the current mode's comment syntax."
+  (interactive "sEnter text for box: ")
+  (let* ((raw-comment (if comment-start comment-start "// "))
+         (comment-marker
+          (cond
+           ((derived-mode-p 'emacs-lisp-mode) ";; ")
+           ((derived-mode-p 'prolog-mode 'erlang-mode) "%% ")
+           ;; Single-character comment markers that should be doubled
+           ((and (= (length (string-trim raw-comment)) 1)
+                 (not (string-match-p " $" raw-comment)))
+            (concat raw-comment raw-comment " "))
+           (t (if (string-match-p " $" raw-comment)
+                  raw-comment
+                (concat raw-comment " ")))))
+         (text-width (length text))
+         (box-width (+ text-width 2))
+         (top-line (concat comment-marker "┌" (make-string box-width ?─) "┐"))
+         (mid-line (concat comment-marker "│ " text " │"))
+         (bot-line (concat comment-marker "└" (make-string box-width ?─) "┘")))
+    (insert top-line "\n" mid-line "\n" bot-line "\n")))
 
 (setq-default indent-tabs-mode nil)
 
@@ -939,8 +949,6 @@ This fixes the issue where, in org source blocks, < matches )."
   (setq treesit-language-source-alist
 	'((bash "https://github.com/tree-sitter/tree-sitter-bash")
 	  (c "https://github.com/tree-sitter/tree-sitter-c")
-	  (c++ "https://github.com/tree-sitter/tree-sitter-cpp")
-	  (cmake "https://github.com/uyha/tree-sitter-cmake")
 	  (common-lisp "https://github.com/tree-sitter-grammars/tree-sitter-commonlisp")
 	  (css "https://github.com/tree-sitter/tree-sitter-css")
 	  (elisp "https://github.com/Wilfred/tree-sitter-elisp")
@@ -948,27 +956,26 @@ This fixes the issue where, in org source blocks, < matches )."
 	  (html "https://github.com/tree-sitter/tree-sitter-html")
 	  (json "https://github.com/tree-sitter/tree-sitter-json")
 	  (make "https://github.com/alemuller/tree-sitter-make")
-	  ;; (python "https://github.com/tree-sitter/tree-sitter-python")
 	  (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
 	  (toml "https://github.com/tree-sitter/tree-sitter-toml")
 	  (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
   ;; Enable tree-sitter for languages with available grammars
   (setq major-mode-remap-alist
+        ;; I don't use c++-ts-mode because << on new lines don't indent correctly. ~ 2024
+        ;; I don't use python-ts-mode, forgot why ~ 2024
+        ;; I don't use ruby-ts-mode because C-M-f doesn't work in it - Oct. 2024
 	'((bash-mode . bash-ts-mode)
 	  (c-mode . c-ts-mode)
-	  ;; (c++-mode . c++-ts-mode) OKAY I don't use c++-ts-mode because << on new lines don't indent correctly.
           (css-mode . css-ts-mode)
 	  (json-mode . json-ts-mode)
-          ;; (python-mode . python-ts-mode)
-	  ;; (ruby-mode . ruby-ts-mode) OKAY I don't use ruby-ts-mode because C-M-f doesn't work in it - Oct. 2024
 	  (yaml-mode . yaml-ts-mode)))
 
   (dolist (mapping major-mode-remap-alist)
     (let* ((ts-mode (cdr mapping))
            (lang (intern (string-remove-suffix "-ts-mode" (symbol-name ts-mode)))))
       (when (and (not (treesit-ready-p lang t))
-		 (not (eq lang 'c++))) ; Do c++ manually, interactively.
+		 (not (eq lang 'c++))) ; Do c++ manually, interactively, if desired
         (treesit-install-language-grammar lang))))
 
   (defun check-treesit-grammar-installation ()
@@ -1000,61 +1007,7 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 
 (use-package magit
   :after transient
-  :ensure t
-  :config
-  ;; (defun my/is-text-file-using-file-cmd (filename)
-  ;;   "Use external 'file' command to detect if FILENAME is a text file."
-  ;;   (when (and filename
-  ;;              (file-exists-p filename)
-  ;;              (file-readable-p filename))
-  ;;     (if-let ((file-cmd (executable-find "file")))
-  ;;         (with-temp-buffer
-  ;;           (when (zerop (call-process file-cmd nil t nil "--brief" "--mime-type"
-  ;;                                      (expand-file-name filename)))
-  ;;             (goto-char (point-min))
-  ;;             (looking-at "text/")))
-  ;;       (progn
-  ;;         (lwarn 'file-detection :warning
-  ;;                "'file' command not found in %s at line %d"
-  ;;                (or load-file-name buffer-file-name)
-  ;;                (line-number-at-pos))
-  ;;         nil))))
-
-  ;; (defun my/delete-trailing-whitespace-in-repo (&rest _args)
-  ;;   "Delete trailing whitespace in the current git repository."
-  ;;   (when (and (buffer-file-name)
-  ;;              (vc-git-root default-directory)
-  ;;              (executable-find "file"))
-  ;;     (save-excursion
-  ;;       (let* ((initially-open-buffers (mapcar #'buffer-file-name (buffer-list)))
-  ;;              (default-directory (vc-git-root (buffer-file-name)))
-  ;;              (modified-buffer-files (mapcar #'buffer-file-name
-  ;;                                             (seq-filter (lambda (buf)
-  ;;                                                           (and (buffer-modified-p buf)
-  ;;                                                                (buffer-file-name buf)))  ; Check buffer has a file
-  ;;                                                         (buffer-list))))
-  ;;              (changed-files-in-repo (mapcar (lambda (x) (expand-file-name x))
-  ;;                                             (magit-unstaged-files)))
-  ;;              (changed-text-files-in-repo (seq-filter (lambda (file-path)
-  ;;                                                        (and (my/is-text-file-using-file-cmd file-path)
-  ;;                                                             (not (seq-some
-  ;;                                                                   (lambda (buf-file)
-  ;;                                                                     (file-equal-p (expand-file-name file-path)
-  ;;                                                                                   buf-file))
-  ;;                                                                   modified-buffer-files))))
-  ;;                                                      changed-files-in-repo)))
-  ;;         (dolist (file changed-text-files-in-repo)
-  ;;           (with-current-buffer (find-file-noselect file)
-  ;;             (delete-trailing-whitespace)
-  ;;             (save-buffer)
-  ;;             (unless (seq-some
-  ;;                      (lambda (initially-open-buffer-file)
-  ;;                        (file-equal-p (buffer-file-name)
-  ;;                                      initially-open-buffer-file))
-  ;;                      initially-open-buffers)
-  ;;               (kill-buffer))))))))
-  ;; (advice-add 'magit-status :before #'my/delete-trailing-whitespace-in-repo)
-  )
+  :ensure t)
 
 (use-package rainbow-delimiters
   :ensure t
@@ -1066,7 +1019,6 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   :ensure t
   :hook ((sql-mode . sqlind-minor-mode)
          (cql-mode . sqlind-minor-mode))
-  :config
   ;; You can further customize indentation or align rules here if needed
   )
 
@@ -1080,9 +1032,9 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   :ensure t
   :mode ("\\.html\\'" . web-mode))
 
-;; ======
-;; ELIXIR
-;; ======
+;; ┌────────┐
+;; │ Elixir │
+;; └────────┘
 
 (use-package elixir-mode
   :ensure t)
@@ -1096,9 +1048,9 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 (use-package ob-elixir
   :ensure t)
 
-;; ======
-;; ERLANG
-;; ======
+;; ┌────────┐
+;; │ Erlang │
+;; └────────┘
 
 (use-package erlang ;; https://www.erlang.org/docs/24/man/erlang.el
   :ensure t)
@@ -1109,9 +1061,9 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 ;; lfe-mode       Flavoured Erlang mode
 ;; earl           Erlang distribution protocol implementation
 
-;; ===============
-;; C/C++ stuff
-;; ===============
+;; ┌───────┐
+;; │ C/C++ │
+;; └───────┘
 
 (use-package cc-mode
   :ensure nil
@@ -1148,9 +1100,9 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 ;;           (lambda ()
 ;;             (define-key c++-mode-map (kbd "C-c c") 'recompile)))
 
-;; ==================
-;; EMACS LISP
-;; ==================
+;; ┌────────────┐
+;; │ Emacs Lisp │
+;; └────────────┘
 
 (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode) ;; lambda becomes λ.
 (use-package pp
@@ -1158,9 +1110,9 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   :bind
   ("C-c C-p" . pp-eval-last-sexp))
 
-;; ==================
-;; COMMON LISP
-;; ==================
+;; ┌─────────────┐
+;; │ Common Lisp │
+;; └─────────────┘
 
 (use-package lisp-mode
   :ensure nil  ; lisp-mode is built-in, so we don't need to ensure it
@@ -1175,9 +1127,9 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 (when (file-directory-p "~/quicklisp")
   (load (expand-file-name "~/quicklisp/slime-helper.el")))
 
-;; ======
-;; PROLOG
-;; ======
+;; ┌────────┐
+;; │ Prolog │
+;; └────────┘
 
 (use-package prolog
   :ensure nil  ; prolog is built-in, so we don't need to ensure it
@@ -1269,9 +1221,9 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 (use-package ob-prolog
   :ensure t)
 
-;; =====================
-;; PYTHON
-;; =====================
+;; ┌────────┐
+;; │ Python │
+;; └────────┘
 
 (use-package exec-path-from-shell ; Without this, eshell would use the homebrew version of python.
   :ensure t
@@ -1288,26 +1240,19 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 (use-package lark-mode
   :ensure t)
 
-;; (use-package jupyter-ascending
-;;   :ensure (:repo "~/code/my-emacs-packages/jupyter-ascending/")
-;;   :custom
-;;   (jupyter-ascending-python-command "python3")
-;;   :bind (:map jupyter-ascending-mode-map
-;;               ("C-c C-c" . jupyter-ascending-run-cell)
-;;               ("C-c C-a" . jupyter-ascending-run-all-cells)))
-
-;; =========
-;; ASSEMBLY
-;; =========
+;; ┌──────────┐
+;; │ Assembly │
+;; └──────────┘
 
 (add-hook 'asm-mode-hook
           (lambda ()
             (setq comment-start "#")
             (setq comment-end "")))
 
-;; =====
-;; TLA+
-;; =====
+;; ┌──────┐
+;; │ TLA+ │
+;; └──────┘
+
 ;; See lisp/tla+-mode.el
 (require 'tla+-mode)
 
@@ -1318,9 +1263,9 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
                        (tla+/load-symbols)
                        (prettify-symbols-mode 1))))
 
-;; ========
-;; PlantUML
-;; ========
+;; ┌──────────┐
+;; │ PlantUML │
+;; └──────────┘
 
 (use-package plantuml-mode
   :ensure t
@@ -1329,18 +1274,25 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
   (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t))))
 
-;; =====================
-;; RESEARCH & STUDYING
-;; =====================
+;; ┌──────────────────────┐
+;; │ Knowledge Management │
+;; └──────────────────────┘
+
+(use-package denote
+  :ensure t
+  :config
+  (setq denote-directory (expand-file-name "~/Dropbox/notes/"))
+  :hook (dired-mode . denote-dired-mode))
 
 (use-package pdf-tools
   :ensure t
   :config
   (pdf-tools-install))
 
-(use-package org-pdftools
-  :ensure t
-  :hook (org-mode . org-pdftools-setup-link))
+(use-package-local-or-remote org-pdftools
+                             "~/code/my-emacs-packages/org-pdftools/"
+                             "Duncan-Britt/org-pdftools"
+                             :hook (org-mode . org-pdftools-setup-link))
 
 (use-package nov
   :ensure t
@@ -1349,9 +1301,36 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 (use-package anki-editor
   :ensure t)
 
-;; =====================
-;; MISCELLANEOUS
-;; =====================
+;; ┌───────────┐
+;; │ Citations │
+;; └───────────┘
+
+(use-package org
+  :ensure nil
+  :config
+  ;; for Bibtex Bibliography styles on latex export
+  (setq org-cite-csl-styles-dir "~/code/citation-styles/"))
+
+(use-package citeproc
+  :ensure t
+  :after org
+  :config
+  ;; Optional basic configuration
+  (setq org-cite-export-processors '((t citeproc))))
+
+;; ┌───────────────┐
+;; │ Miscellaneous │
+;; └───────────────┘
+
+(use-package emacs
+  :ensure nil
+  :config
+  (fset 'yes-or-no-p 'y-or-n-p)
+  (setq large-file-warning-threshold 30000000)
+  (save-place-mode 1))
+
+(use-package transient
+  :ensure t)
 
 (require 'morning-pages)
 
@@ -1372,41 +1351,21 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   ;; %I <- 12 hour clock hour, %l is blank padded version
   )
 
-(use-package djvu
-  :ensure t)
-
-(use-package reverso ;; Translation, Thesaurus, Grammar Checking (Online only)
-  :ensure t)
-
-(use-package denote
-  :ensure t
-  :config
-  (setq denote-directory (expand-file-name "~/Dropbox/notes/"))
-  :hook (dired-mode . denote-dired-mode))
-
-(defun calendar-insert-date ()
-  "Capture the date at point, exit the Calendar, insert the date."
-  (interactive)
-  (seq-let (month day year) (save-match-data (calendar-cursor-to-date))
-    (calendar-exit)
-    (insert (format "<%d-%02d-%02d>" year month day))))
-
 (use-package calendar
   :ensure nil
   :config
+  (defun calendar-insert-date ()
+    "Capture the date at point, exit the Calendar, insert the date."
+    (interactive)
+    (seq-let (month day year) (save-match-data (calendar-cursor-to-date))
+      (calendar-exit)
+      (insert (format "<%d-%02d-%02d>" year month day))))
   (define-key calendar-mode-map (kbd "RET") 'calendar-insert-date))
-
-(use-package emacs
-  :ensure nil
-  :config
-  (fset 'yes-or-no-p 'y-or-n-p)
-  (setq large-file-warning-threshold 30000000)
-  (save-place-mode 1))
 
 (use-package-when-local directory-slideshow
                         "~/code/my-emacs-packages/directory-slideshow/")
 
-(use-package transient
+(use-package djvu
   :ensure t)
 
 (use-package gptel
@@ -1415,34 +1374,25 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   :bind (("C-c RET" . gptel-send))
   :config
   (require 'safe)
-  ;; (setq
-  ;; gptel-model 'aya:latest
-  ;; gptel-backend (gptel-make-ollama "Ollama"   ;Any name of your choosing
-  ;;                 :host "localhost:11434"     ;Where it's running
-  ;;                 :stream t                   ;Stream responses
-  ;;                 :models '(aya:latest)))     ;List of models
-  ;; (setq
-  ;;  gptel-model 'qwen2.5-coder:14b
-  ;;  gptel-backend (gptel-make-ollama "Ollama"
-  ;;                  :host "localhost:11434"
-  ;;                  :stream t
-  ;;                  :models '(qwen2.5-coder:14b qwen2.5-coder:32b aya:latest)))
 
-  ;; (setq
-  ;;  gptel-model 'claude-3-5-sonnet-20240620 ;  'claude-3-opus-20240229 also available
-  ;;  gptel-backend (gptel-make-anthropic "Claude"
-  ;;                  :stream t :key *a-gptel-token*))
-  (gptel-make-anthropic "Claude"
-    :stream t :key *a-gptel-token*)
-
-  (setq gptel-model   'deepseek-coder
+  (setq gptel--known-backends (assoc-delete-all "ChatGPT" gptel--known-backends))
+  
+  (setq gptel-model 'claude-3-7-sonnet-20250219
         gptel-backend
-        (gptel-make-openai "DeepSeek" ; Any name you want
-          :host "api.deepseek.com"
-          :endpoint "/chat/completions"
-          :stream t
-          :key *deep-token* ; can be a function that returns the key
-          :models '(deepseek-chat deepseek-coder)))
+        (gptel-make-anthropic "Claude"
+          :stream t :key *a-gptel-token*))
+
+  (gptel-make-openai "DeepSeek" ; Any name you want
+    :host "api.deepseek.com"
+    :endpoint "/chat/completions"
+    :stream t
+    :key *deep-token* ; can be a function that returns the key
+    :models '(deepseek-chat deepseek-coder))
+
+  (gptel-make-ollama "Ollama"
+    :host "localhost:11434"
+    :stream t
+    :models '(qwen2.5-coder:14b qwen2.5-coder:32b aya:latest))
 
   (setq gptel-default-mode 'org-mode))
 
@@ -1457,7 +1407,8 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
  '(package-selected-packages
    '(yasnippet vertico sql-indent smartparens rainbow-delimiters projectile popper pdf-tools orderless marginalia magit inf-ruby gptel fontaine flycheck ef-themes dired-preview consult breadcrumb ace-window))
  '(safe-local-variable-values
-   '((eval progn
+   '((allout-layout . t)
+     (eval progn
            (add-to-list 'load-path
                         (expand-file-name "dev"
                                           (locate-dominating-file default-directory ".dir-locals.el")))
