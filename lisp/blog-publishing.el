@@ -1,4 +1,4 @@
-;;; blog-publishing.el --- Set up publishing projects for my blog
+;;; blog-publishing.el --- Set up publishing projects for my blog -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;

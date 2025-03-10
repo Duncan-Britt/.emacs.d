@@ -1,0 +1,342 @@
+;;; appearance.el --- Themes, Fonts, etc... -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;; ┌────────────┐
+;; │ Appearance │
+;; └────────────┘
+;;; Code:
+(require 'portable)
+
+(use-package emacs
+  :ensure nil
+  :config
+  (setq-default truncate-lines t)
+  (tool-bar-mode -1)    ; Remove toolbar
+  (scroll-bar-mode -1)  ; Remove scroll bar
+  (blink-cursor-mode)
+  (global-hl-line-mode)
+  :hook
+  ((prog-mode . display-line-numbers-mode)))
+
+(use-package ligature
+  :ensure t
+  :config
+  ;; Enable the "www" ligature in every possible major mode
+  (ligature-set-ligatures 't '("www"))
+  (ligature-set-ligatures 'org-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                                      ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                                      "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                                      "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                                      "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                                      "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                                      "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                                      "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                                      ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                                      "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                                      "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                                      "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                                      "\\\\" "://"))
+  ;; Enable traditional ligature support in eww-mode, if the
+  ;; `variable-pitch' face supports it
+  (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+  ;; Enable all Cascadia Code ligatures in programming modes
+  (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                                       ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                                       "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                                       "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                                       "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                                       "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                                       "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                                       "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                                       ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                                       "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                                       "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                                       "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                                       "\\\\" "://"))
+  (ligature-set-ligatures 'tla+-mode '("<>" "<=" ">=" "~>" "/=" "/\\" "\\/" "=>" "==" "->"))
+  ;; Enables ligature checks globally in all buffers. You can also do it
+  ;; per mode with `ligature-mode'.
+  (global-ligature-mode t))
+
+(use-package fontaine
+  :ensure t
+  :config
+  (setq fontaine-presets
+        '((regular
+           :default-family "Iosevka Duncan"
+           :default-height 130
+           :fixed-pitch-family "Iosevka Duncan"
+           :fixed-pitch-height 1.0
+           :variable-pitch-family "Iosevka Comfy Motion Duo"
+           :variable-pitch-height 1.0
+           :mode-line-active-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
+           :mode-line-active-height 1.0
+           :mode-line-inactive-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
+           :mode-line-inactive-height 1.0
+           :header-line-family "Iosevka Comfy Motion Duo"
+           :header-line-height 1.0)
+          (present
+           :default-family "Iosevka Duncan"
+           :default-height 150
+           :fixed-pitch-family "Iosevka Duncan"
+           :fixed-pitch-height 1.0
+           :variable-pitch-family "Iosevka Comfy Motion Duo"
+           :variable-pitch-height 1.0
+           :mode-line-active-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
+           :mode-line-active-height 1.0
+           :mode-line-inactive-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
+           :mode-line-inactive-height 1.0
+           :header-line-family "Iosevka Comfy Motion Duo"
+           :header-line-height 1.0)
+          (prose
+           :default-family "Iosevka Duncan"
+           :fixed-pitch-family "Iosevka Duncan"
+           :fixed-pitch-height 1.0
+           :org-level-1-family "Symbola" ;; <-- Requires `fontaine-org'.
+           :org-level-2-family "Symbola"
+           :org-level-3-family "Symbola"
+           :org-level-4-family "Symbola"
+           :org-level-5-family "Symbola"
+           :org-level-6-family "Symbola"
+           :org-level-7-family "Symbola"
+           :org-level-8-family "Symbola"
+           :variable-pitch-family  "ETBembo" ;"Symbola" ;"Antykwa Poltawskiego"
+           :variable-pitch-height 1.2
+           :mode-line-active-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
+           :mode-line-active-height 0.8
+           :mode-line-inactive-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
+           :mode-line-inactive-height 0.8
+           :header-line-family "Iosevka Comfy Motion Duo"
+           :header-line-height 0.8)))
+  (fontaine-mode 1)
+  (fontaine-set-preset 'regular))
+
+(use-package-local-or-remote
+ fontaine-org
+ "~/code/my-emacs-packages/fontaine-org/"
+ "Duncan-Britt/fontaine-org"
+ :after fontaine
+ :init
+ (fontaine-org-mode 1))
+
+(use-package ef-themes
+  ;; Make customisations that affect Emacs faces BEFORE loading a theme
+  ;; (any change needs a theme re-load to take effect).
+  :after (fontaine org-bullets)
+  :ensure t
+  :config
+  (setq ef-themes-headings
+        '((0 variable-pitch light 1.5)
+          (1 variable-pitch light 1.4)
+          (2 variable-pitch regular 1.3)
+          (3 variable-pitch regular 1.2)
+          (4 variable-pitch regular 1.1)
+          (5 variable-pitch 1.1) ; absence of weight means `bold'
+          (6 variable-pitch 1.1)
+          (7 variable-pitch 1.1)
+          (t variable-pitch 1.1)))
+  ;; They are nil by default...
+  (setq ef-themes-mixed-fonts t
+        ef-themes-variable-pitch-ui t)
+  ;; Start up theme:
+  ;; (mapc #'disable-theme custom-enabled-themes) ; Disable all other themes to avoid awkward blending:
+  ;; (load-theme 'ef-dream :no-confirm)
+  ;; (ef-themes-select 'ef-dream)
+  (defun load-last-theme ()
+    "Load the last used theme from file."
+    (if (file-exists-p theme-state-file)
+        (progn
+          (mapc #'disable-theme custom-enabled-themes) ; Disable all other themes to avoid awkward blending:
+          (let ((last-theme (with-temp-buffer
+                              (insert-file-contents theme-state-file)
+                              (intern (buffer-string)))))
+            (ef-themes-select last-theme)))
+      (ef-themes-select 'ef-dream)))
+
+  (load-last-theme)
+  ;; use this to load the theme which also calls `ef-themes-post-load-hook':
+  ;; (ef-themes-select 'ef-winter)
+
+  ;; The themes we provide are recorded in the `ef-themes-dark-themes' and `ef-themes-light-themes'.
+
+  ;; We also provide these commands, but do not assign them to any key:
+  ;;
+  ;; - `ef-themes-toggle'
+  ;; - `ef-themes-select'
+  ;; - `ef-themes-select-dark'
+  ;; - `ef-themes-select-light'
+  ;; - `ef-themes-load-random'
+  ;; - `ef-themes-preview-colors'
+  ;; - `ef-themes-preview-colors-current'
+  )
+
+(use-package-local-or-remote
+ theme-switcher
+ "~/code/my-emacs-packages/theme-switcher/"
+ "Duncan-Britt/theme-switcher"
+ :after (org ef-themes)
+ :demand t
+ :init
+ (setq *theme-switcher-themes-dark*
+       '("ef-trio-dark" "ef-rosa" "ef-winter"
+         "ef-autumn" "ef-cherie" "ef-tritanopia-dark"
+         "ef-elea-dark" "ef-dream" "ef-melissa-dark"
+         "ef-maris-dark" "ef-owl"))
+ (setq *theme-switcher-themes-light*
+       '("ef-day" "ef-light" "ef-kassio" "ef-frost"
+         "ef-arbutus" "ef-melissa-light" "ef-maris-light"
+         "ef-elea-light" "ef-summer" "ef-cyprus"
+         "ef-reverie"))
+ :bind
+ (:map org-mode-map
+       ("C-c C-x C-v" . ts-toggle-inline-images)))
+
+(use-package-local-or-remote
+ theme-switcher-consult
+ "~/code/my-emacs-packages/theme-switcher-consult/"
+ "Duncan-Britt/theme-switcher-consult"
+ :after (fontaine theme-switcher ef-themes consult)
+ :bind
+ ("C-t" . theme-switcher-consult-choose-theme)
+ :config
+ (defvar theme-state-file (expand-file-name "last-theme" user-emacs-directory)
+   "File to save the last used theme.")
+
+ (defun save-current-theme (&rest _)
+   "Save the current theme to a file."
+   (when-let ((current-theme (car custom-enabled-themes)))
+     (with-temp-file theme-state-file
+       (insert (symbol-name current-theme)))))
+
+ (advice-add 'ef-themes-select :after #'save-current-theme)
+ (advice-add 'theme-switcher-choose-theme :after #'save-current-theme)
+ (advice-add 'theme-switcher-consult--apply-theme :after #'save-current-theme))
+
+(use-package breadcrumb
+  :ensure t
+  :config
+  (breadcrumb-mode))
+
+(use-package spaceline
+  :ensure t
+  :config
+  (require 'spaceline-config)
+  (spaceline-emacs-theme)
+
+  (defun my-spaceline-theme ()
+    "My custom Spaceline theme."
+    (setq-default mode-line-format
+                  '("%e"
+                    mode-line-front-space
+                    ;; evil-mode-line-tag
+                    mode-line-mule-info
+                    mode-line-client
+                    mode-line-modified
+                    mode-line-remote
+                    mode-line-frame-identification
+                    mode-line-buffer-identification
+                    "   "
+                    "   "
+                    ;; mode-line-position
+                    (vc-mode vc-mode) ;; Remove this line to exclude Git branch
+                    "  "
+                    ;; mode-line-modes
+                    mode-line-misc-info
+                    mode-line-end-spaces)))
+
+  ;; Apply your custom theme
+  (my-spaceline-theme)
+  ;; display time in mode line
+  (setq display-time-day-and-date t
+        display-time-24hr-format nil)
+  (display-time)
+
+  (display-battery-mode 1))
+
+(use-package hl-todo
+  :ensure t
+  :config
+  (require 'theme-switcher)
+  (require 'theme-switcher-consult)
+  (require 'ef-themes)
+  (require 'hl-todo)
+  (global-hl-todo-mode)
+  (defun set-hl-todo-faces-according-to-ef-theme ()
+    "Sets the faces of different TODO-esq keywords for the hl-todo package.
+Done in accordance with the currently loaded ef-theme."
+    (let ((theme (car custom-enabled-themes)))
+      (when (and (boundp 'ef-themes-collection)
+	     (member theme ef-themes-collection))
+	(let* ((palette-var (intern (concat (symbol-name theme) "-palette")))
+	       (palette (symbol-value palette-var))
+	       (red (cadr (assoc 'red palette)))
+	       (green (cadr (assoc 'green palette)))
+	       (yellow (cadr (assoc 'yellow palette)))
+	       (cyan (cadr (assoc 'cyan palette))))
+	  (setq hl-todo-keyword-faces
+		`(("TODO" . ,red)
+		  ("DONE" . ,green)
+		  ("NOTE" . ,yellow)
+		  ("FIXME" . ,red)
+		  ("OKAY" . ,cyan)))))))
+  (when (fboundp 'theme-switcher-choose-theme)
+    (set-hl-todo-faces-according-to-ef-theme)
+    (advice-add 'theme-switcher-choose-theme :after (lambda (&rest _)
+						      (set-hl-todo-faces-according-to-ef-theme)
+						      (global-hl-todo-mode))))
+  (when (fboundp 'theme-switcher-consult-choose-theme)
+    (advice-add 'theme-switcher-consult-choose-theme :after (lambda (&rest _)
+							    (set-hl-todo-faces-according-to-ef-theme)
+							    (global-hl-todo-mode)))))
+
+(use-package anzu
+  :ensure t
+  :init
+  (global-anzu-mode 1))
+
+(use-package org
+  :ensure nil
+  :config
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.4))
+  (setq org-image-actual-width nil)
+  (setq org-preview-latex-default-process 'dvisvgm) ; Better latex rendering
+  (defun my/resize-org-latex-overlays () ; auto resize latex when resizing text
+    (cl-loop for o in (car (overlay-lists))
+             if (eq (overlay-get o 'org-overlay-type) 'org-latex-overlay)
+             do (plist-put (cdr (overlay-get o 'display))
+		           :scale (expt text-scale-mode-step
+				        text-scale-mode-amount))))
+  (plist-put org-format-latex-options :foreground nil) ; latex previews match theme when switching themes.
+  (plist-put org-format-latex-options :background nil)
+  :hook ((org-mode . variable-pitch-mode)
+         (org-mode . visual-line-mode)
+         (org-mode . pixel-scroll-precision-mode)
+         (org-mode . (lambda () (display-line-numbers-mode 0)))
+         (org-mode . (lambda () (add-hook 'text-scale-mode-hook #'my/resize-org-latex-overlays nil t)))))
+
+(use-package olivetti
+  :ensure (:host github :repo "rnkn/olivetti")
+  :custom (olivetti-body-width 140)
+  :hook (org-mode . olivetti-mode))
+
+(use-package org-bullets
+  :after org
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda ()
+                             (org-bullets-mode 1)
+                             (org-indent-mode 1))))
+
+(use-package org-appear
+  :ensure t
+  :after org
+  :hook (org-mode . org-appear-mode)
+  :custom
+  (org-hide-emphasis-markers t) ; Hide /emphasis/ markers in org mode
+  (org-appear-autolinks t) ; <-- This doesn't work when hyperbole package is loaded.
+  (org-pretty-entities t)
+  (org-pretty-entities-include-sub-superscripts nil)
+  (org-appear-autoentities t)
+  (org-appear-autosubmarkers t))
+
+(provide 'appearance)

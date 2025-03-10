@@ -1,4 +1,4 @@
-;;; ut-table-manager.el --- Manage job application table
+;;; ut-table-manager.el --- Manage job application table -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; This package provides functions to manage a job application table in org-mode.

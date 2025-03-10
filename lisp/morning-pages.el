@@ -1,7 +1,9 @@
-;;; morning-pages.el --- Set up publishing projects for my blog
+;;; morning-pages.el --- Based on The Artist's Way -*- lexical-binding: t; -*-
 
 ;;; Commentary:
-;;
+;; ┌───────────────┐
+;; │ Morning Pages │
+;; └───────────────┘
 
 ;;; Code:
 
@@ -38,7 +40,5 @@
   "Restore the saved font preset when the buffer is killed."
   (when morning-pages--saved-font-preset
     (fontaine-set-preset morning-pages--saved-font-preset)))
-
-
 
 (provide 'morning-pages)
