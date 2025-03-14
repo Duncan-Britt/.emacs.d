@@ -207,16 +207,16 @@ This fixes the issue where, in org source blocks, < matches )."
 ;; │ RSS │
 ;; └─────┘
 
-(use-package elfeed
-  :ensure t
-  :config
-  (setq elfeed-feeds '(("https://sachachua.com/blog/feed/index.xml" blog emacs)
-                       ("https://karthinks.com/index.xml" blog emacs)
-                       ("http://yummymelon.com/devnull/feeds/all.atom.xml" blog emacs)
-                       ("https://mcclim.common-lisp.dev/rss.xml" programming lisp gui)
-                       ("https://bitbashing.io/feed.xml" blog programming)
-                       ("https://world-playground-deceit.net/blog/new-posts.xml" blog programming lisp emacs)
-                       )))
+;; (use-package elfeed ;; TODO debug elfeed. Not working.
+;;   :ensure t
+;;   :config
+;;   (setq elfeed-feeds '(("https://sachachua.com/blog/feed/index.xml" blog emacs)
+;;                        ("https://karthinks.com/index.xml" blog emacs)
+;;                        ("http://yummymelon.com/devnull/feeds/all.atom.xml" blog emacs)
+;;                        ("https://mcclim.common-lisp.dev/rss.xml" programming lisp gui)
+;;                        ("https://bitbashing.io/feed.xml" blog programming)
+;;                        ("https://world-playground-deceit.net/blog/new-posts.xml" blog programming lisp emacs)
+;;                        )))
 
 ;; `elfeed-score' https://github.com/sp1ff/elfeed-score
 ;; (use-package elfeed-score
