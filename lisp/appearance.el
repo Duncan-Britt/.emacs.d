@@ -339,4 +339,9 @@ Done in accordance with the currently loaded ef-theme."
   (org-appear-autoentities t)
   (org-appear-autosubmarkers t))
 
+(use-package org-fragtog
+  ;; automatically toggle latex previews in org mode.
+  :ensure t
+  :hook (org-mode . org-fragtog-mode))
+
 (provide 'appearance)

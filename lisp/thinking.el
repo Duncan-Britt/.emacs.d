@@ -12,7 +12,7 @@
 ;; └──────────┘
 
 (use-package org
-  :after (ob-prolog ob-elixir)
+  :after (ob-prolog ob-elixir ob-restclient)
   :config
   (defun my/org-syntax-table-modify ()
     "Modify `org-mode-syntax-table' for the current org buffer.
@@ -43,7 +43,7 @@ This fixes the issue where, in org source blocks, < matches )."
      (shell . t)
      (prolog . t)
      (elixir . t)
-     ))
+     (restclient . t)))
   ;; Needed to run mysql in org babel
   (add-to-list 'exec-path "/usr/local/mysql-8.3.0-macos14-x86_64/bin") ;; <-- doesn't exist on new mac
   (setq org-babel-python-command "python3")
@@ -70,14 +70,6 @@ This fixes the issue where, in org source blocks, < matches )."
   :ensure t
   :after org)
 
-(use-package org-cmenu
-  :ensure (:host github :repo "misohena/org-cmenu")
-  :after org
-  :config (require 'org-cmenu-setup)
-  :bind
-  (:map org-mode-map
-        ("M-n" . org-cmenu)))
-
 (use-package-local-or-remote
  archiver
  "~/code/my-emacs-packages/archiver/"
@@ -89,11 +81,6 @@ This fixes the issue where, in org source blocks, < matches )."
  :bind
  (:map org-mode-map
        ("C-c C-x C-a" . archiver-archive-heading)))
-
-;; automatically toggle latex previews in org mode.
-(use-package org-fragtog
-  :ensure t
-  :hook (org-mode . org-fragtog-mode))
 
 (use-package org-download
   :ensure t
@@ -215,5 +202,54 @@ This fixes the issue where, in org source blocks, < matches )."
     :models '(qwen2.5-coder:14b qwen2.5-coder:32b aya:latest))
 
   (setq gptel-default-mode 'org-mode))
+
+;; ┌─────┐
+;; │ RSS │
+;; └─────┘
+
+(use-package elfeed
+  :ensure t
+  :config
+  (setq elfeed-feeds '(("https://sachachua.com/blog/feed/index.xml" blog emacs)
+                       ("https://karthinks.com/index.xml" blog emacs)
+                       ("http://yummymelon.com/devnull/feeds/all.atom.xml" blog emacs)
+                       ("https://mcclim.common-lisp.dev/rss.xml" programming lisp gui)
+                       ("https://bitbashing.io/feed.xml" blog programming)
+                       ("https://world-playground-deceit.net/blog/new-posts.xml" blog programming lisp emacs)
+                       )))
+
+;; `elfeed-score' https://github.com/sp1ff/elfeed-score
+;; (use-package elfeed-score
+;;   :ensure t
+;;   :config
+;;   (progn
+;;     (elfeed-score-enable)
+;;     (define-key elfeed-search-mode-map "=" elfeed-score-map)))
+
+;; `elfeed-goodies'
+;; https://github.com/jeetelongname/elfeed-goodies
+;; (use-package elfeed-goodies
+;;   :after elfeed
+;;   :ensure t
+;;   :config
+;;   (elfeed-goodies/setup))
+
+;; `elfeed-tube'
+;; https://github.com/karthink/elfeed-tube
+;; (use-package elfeed-tube
+;;   :ensure t ;; or :straight t
+;;   :after elfeed
+;;   :demand t
+;;   :config
+;;   ;; (setq elfeed-tube-auto-save-p nil) ; default value
+;;   ;; (setq elfeed-tube-auto-fetch-p t)  ; default value
+;;   (elfeed-tube-setup)
+
+;;   :bind (:map elfeed-show-mode-map
+;;          ("F" . elfeed-tube-fetch)
+;;          ([remap save-buffer] . elfeed-tube-save)
+;;          :map elfeed-search-mode-map
+;;          ("F" . elfeed-tube-fetch)
+;;          ([remap save-buffer] . elfeed-tube-save)))
 
 (provide 'thinking)

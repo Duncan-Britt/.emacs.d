@@ -117,7 +117,8 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 
 (use-package web-mode
   :ensure t
-  :mode ("\\.html\\'" . web-mode))
+  :mode (("\\.html\\'" . web-mode)
+         ("\\.mustache\\'" . web-mode)))
 
 ;; ┌────────┐
 ;; │ Elixir │
@@ -360,5 +361,24 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   (setq org-plantuml-jar-path (expand-file-name "~/Downloads/installers/plantuml-mit-1.2025.1.jar"))
   (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
   (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t))))
+
+;; ┌─────────────┐
+;; │ Environment │
+;; └─────────────┘
+(use-package direnv
+  :ensure t
+  :config
+  (direnv-mode))
+
+;; ┌──────────┐
+;; │ Networks │
+;; └──────────┘
+(use-package restclient
+  ;; see examples:
+  ;; https://github.com/pashky/restclient.el/blob/master/examples/httpbin
+  :ensure t)
+
+(use-package ob-restclient
+  :ensure t)
 
 (provide 'programming)

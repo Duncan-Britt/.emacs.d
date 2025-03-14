@@ -29,6 +29,14 @@
   (:map calc-mode-map
         ("C-o" . casual-calc-tmenu)))
 
+(use-package org-cmenu
+  :ensure (:host github :repo "misohena/org-cmenu")
+  :after org
+  :config (require 'org-cmenu-setup)
+  :bind
+  (:map org-mode-map
+        ("M-n" . org-cmenu)))
+
 (use-package which-key
   :ensure t
   :init
