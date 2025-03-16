@@ -216,6 +216,8 @@ This fixes the issue where, in org source blocks, < matches )."
 ;;                        ("https://mcclim.common-lisp.dev/rss.xml" programming lisp gui)
 ;;                        ("https://bitbashing.io/feed.xml" blog programming)
 ;;                        ("https://world-playground-deceit.net/blog/new-posts.xml" blog programming lisp emacs)
+;;                        ("https://karl-voit.at/feeds/lazyblorg-all.atom_1.0.links-only.xml" blog emacs)
+;;                        ("https://learnyousomeerlang.com/rss" book erlang programming)
 ;;                        )))
 
 ;; `elfeed-score' https://github.com/sp1ff/elfeed-score

@@ -88,7 +88,49 @@
            :mode-line-inactive-height 1.0
            :header-line-family "Iosevka Comfy Motion Duo"
            :header-line-height 1.0)
-          (prose
+          (Adelle
+           :default-family "Iosevka Duncan"
+           :fixed-pitch-family "Iosevka Duncan"
+           :fixed-pitch-height 1.0
+           :org-level-1-family "Symbola" ;; <-- Requires `fontaine-org'.
+           :org-level-2-family "Symbola"
+           :org-level-3-family "Symbola"
+           :org-level-4-family "Symbola"
+           :org-level-5-family "Symbola"
+           :org-level-6-family "Symbola"
+           :org-level-7-family "Symbola"
+           :org-level-8-family "Symbola"
+           :variable-pitch-family  "Adelle" ;"Symbola" ;"Antykwa Poltawskiego"
+           :variable-pitch-weight nil
+           :variable-pitch-height 1.0
+           :mode-line-active-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
+           :mode-line-active-height 1.0
+           :mode-line-inactive-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
+           :mode-line-inactive-height 1.0
+           :header-line-family "Iosevka Comfy Motion Duo"
+           :header-line-height 1.0)
+          (Adelle-Condensed
+           :default-family "Iosevka Duncan"
+           :fixed-pitch-family "Iosevka Duncan"
+           :fixed-pitch-height 1.0           
+           :org-level-1-family "Symbola" ;; <-- Requires `fontaine-org'.
+           :org-level-2-family "Symbola"
+           :org-level-3-family "Symbola"
+           :org-level-4-family "Symbola"
+           :org-level-5-family "Symbola"
+           :org-level-6-family "Symbola"
+           :org-level-7-family "Symbola"
+           :org-level-8-family "Symbola"
+           :variable-pitch-family  "Adelle Condensed" ;"Symbola" ;"Antykwa Poltawskiego"
+           :variable-pitch-weight thin
+           :variable-pitch-height 1.0
+           :mode-line-active-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
+           :mode-line-active-height 1.0
+           :mode-line-inactive-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
+           :mode-line-inactive-height 1.0
+           :header-line-family "Iosevka Comfy Motion Duo"
+           :header-line-height 1.0)
+          (ETBembo
            :default-family "Iosevka Duncan"
            :fixed-pitch-family "Iosevka Duncan"
            :fixed-pitch-height 1.0
@@ -101,13 +143,33 @@
            :org-level-7-family "Symbola"
            :org-level-8-family "Symbola"
            :variable-pitch-family  "ETBembo" ;"Symbola" ;"Antykwa Poltawskiego"
-           :variable-pitch-height 1.2
+           :variable-pitch-height 1.0
            :mode-line-active-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
-           :mode-line-active-height 0.8
+           :mode-line-active-height 1.0
            :mode-line-inactive-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
-           :mode-line-inactive-height 0.8
+           :mode-line-inactive-height 1.0
            :header-line-family "Iosevka Comfy Motion Duo"
-           :header-line-height 0.8)))
+           :header-line-height 1.0)
+          (Athelas
+           :default-family "Iosevka Duncan"
+           :fixed-pitch-family "Iosevka Duncan"
+           :fixed-pitch-height 1.0
+           :org-level-1-family "Symbola" ;; <-- Requires `fontaine-org'.
+           :org-level-2-family "Symbola"
+           :org-level-3-family "Symbola"
+           :org-level-4-family "Symbola"
+           :org-level-5-family "Symbola"
+           :org-level-6-family "Symbola"
+           :org-level-7-family "Symbola"
+           :org-level-8-family "Symbola"
+           :variable-pitch-family  "Athelas" ;"Symbola" ;"Antykwa Poltawskiego"
+           :variable-pitch-height 1.0
+           :mode-line-active-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
+           :mode-line-active-height 1.0
+           :mode-line-inactive-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
+           :mode-line-inactive-height 1.0
+           :header-line-family "Iosevka Comfy Motion Duo"
+           :header-line-height 1.0)))
   (fontaine-mode 1)
   (fontaine-set-preset 'regular))
 
