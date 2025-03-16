@@ -381,4 +381,47 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 (use-package ob-restclient
   :ensure t)
 
+;; ┌─────────┐
+;; │ Jupyter │
+;; └─────────┘
+(require 'jupyter-ascending)
+(use-package jupyter-ascending
+  :ensure nil
+  ;; Install
+  ;; pip install jupyter_ascending && \
+  ;; python3 -m jupyter nbextension    install jupyter_ascending --sys-prefix --py && \
+  ;; python3 -m jupyter nbextension     enable jupyter_ascending --sys-prefix --py && \
+  ;; python3 -m jupyter serverextension enable jupyter_ascending --sys-prefix --py
+
+  ;; Usage
+  ;; python3 -m jupyter_ascending.scripts.make_pair --base example
+  ;; This makes a pair of synced py and ipynb files, example.sync.py and example.sync.ipynb.
+
+  ;; Start jupyter and open the notebook:
+  ;; python3 -m jupyter notebook example.sync.ipynb
+
+  ;;; example.sync.py:
+  ;;  ---------------
+  ;; # %%
+  ;; print("hello")
+
+  ;; # %%
+  ;; print("this is cool!")
+
+  ;; # %% [markdown]
+  ;; # hello world! $$\sum_i^n \lim_{x\to\infty} \frac{1}{2} = 4 $$
+  ;; # wow, image: ![Example Image](./20230912_075804.jpg)
+  ;; # also image <img src="./20230912_075804.jpg" alt="Alt Text" width="300">
+
+  ;; When starting with an existing jupyter notebook:
+  ;; jupytext --to py:percent <file_name>
+  ;; and then add the .sync suffix to both files
+  :hook (python-mode . (lambda ()
+                         (when (and buffer-file-name 
+                                    (string-match-p "\\.sync\\.py\\'" buffer-file-name))
+                           (jupyter-ascending-mode 1))))
+  :bind (:map jupyter-ascending-mode-map
+              ("C-c C-c" . jupyter-ascending-execute)
+              ("C-c C-a" . jupyter-ascending-sync)))
+
 (provide 'programming)
