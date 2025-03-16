@@ -17,7 +17,7 @@
     (pop-to-buffer buffer)    
     (setq-local word-count-threshold 1350)
     (setq-local morning-pages--saved-font-preset fontaine-current-preset)
-    (fontaine-set-preset 'prose) 
+    (fontaine-set-preset 'Athelas)
     (variable-pitch-mode 1)
     (olivetti-mode 1)
     (delete-other-windows)

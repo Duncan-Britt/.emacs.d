@@ -15,6 +15,11 @@
   (scroll-bar-mode -1)  ; Remove scroll bar
   (blink-cursor-mode)
   (global-hl-line-mode)
+  (easy-menu-add-item global-map '(menu-bar edit)
+                      ["Emoji & Symbols"
+                       ns-do-show-character-palette
+                       :help "Show macOS Character Palette."
+                       :visible (eq window-system 'ns)])
   :hook
   ((prog-mode . display-line-numbers-mode)))
 
@@ -112,7 +117,7 @@
           (Adelle-Condensed
            :default-family "Iosevka Duncan"
            :fixed-pitch-family "Iosevka Duncan"
-           :fixed-pitch-height 1.0           
+           :fixed-pitch-height 1.0
            :org-level-1-family "Symbola" ;; <-- Requires `fontaine-org'.
            :org-level-2-family "Symbola"
            :org-level-3-family "Symbola"
