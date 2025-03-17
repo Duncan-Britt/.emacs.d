@@ -417,11 +417,11 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   ;; jupytext --to py:percent <file_name>
   ;; and then add the .sync suffix to both files
   :hook (python-mode . (lambda ()
-                         (when (and buffer-file-name 
+                         (when (and buffer-file-name
                                     (string-match-p "\\.sync\\.py\\'" buffer-file-name))
                            (jupyter-ascending-mode 1))))
   :bind (:map jupyter-ascending-mode-map
-              ("C-c C-c" . jupyter-ascending-execute)
+              ("C-c C-k" . jupyter-ascending-execute)
               ("C-c C-a" . jupyter-ascending-sync)))
 
 (provide 'programming)
