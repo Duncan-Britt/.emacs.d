@@ -381,4 +381,22 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 (use-package ob-restclient
   :ensure t)
 
+;; ┌─────────┐
+;; │ Jupyter │
+;; └─────────┘
+(require 'jupyter-ascending)
+(use-package jupyter-ascending
+  :ensure nil
+  :hook (python-mode . (lambda ()
+                         (when (and buffer-file-name
+                                    (string-match-p "\\.sync\\.py\\'" buffer-file-name))
+                           (jupyter-ascending-mode 1))))
+  :bind (:map jupyter-ascending-mode-map
+              ("C-c C-k" . ja-execute-line)
+              ("C-c C-a" . ja-execute-all)
+              ("C-c C-n" . ja-next-cell)
+              ("C-c C-p" . ja-previous-cell)
+              ("C-c t" . ja-cycle-cell-type)
+              ("C-c '" . ja-edit-markdown-cell)))
+
 (provide 'programming)

@@ -19,10 +19,7 @@
 This fixes the issue where, in org source blocks, < matches )."
     (modify-syntax-entry ?< "." org-mode-syntax-table)
     (modify-syntax-entry ?> "." org-mode-syntax-table))
-  
-  (add-to-list 'org-entities-user '("yhat" "$\\hat{y}$" nil "&#375;" "yhat" "yhat" "ŷ")) ; TODO Not sure if I'm dealing with latex in a smart way.  
-  ;; Latin-1 Table: https://cs.stanford.edu/people/miles/iso8859.html
-  ;; C-h v org-entities-user RET
+   
   (setq org-agenda-files (list (expand-file-name "~/Dropbox/agenda/agenda.org")))
   ;; (setq org-archive-location "~/Dropbox/agenda/agenda_archive.org::%s_archive") ;; <-- unused? Org Archiver has it's own location.
   ;; (setq org-plantuml-jar-path (expand-file-name "~/plantuml-1.2024.4.jar")) ;; <-- doesn't exist on my new mac
@@ -169,7 +166,8 @@ This fixes the issue where, in org source blocks, < matches )."
   :after org
   :config
   ;; Optional basic configuration
-  (setq org-cite-export-processors '((t citeproc))))
+  ;; (setq org-cite-export-processors '((t citeproc)))
+  )
 
 ;; ┌─────┐
 ;; │ LLM │
@@ -217,7 +215,11 @@ This fixes the issue where, in org source blocks, < matches )."
                        ("https://bitbashing.io/feed.xml" blog programming)
                        ("https://world-playground-deceit.net/blog/new-posts.xml" blog programming lisp emacs)
                        ("https://karl-voit.at/feeds/lazyblorg-all.atom_1.0.links-only.xml" blog emacs)
-                       ("https://learnyousomeerlang.com/rss" book erlang programming))))
+                       ("https://learnyousomeerlang.com/rss" book erlang programming)
+                       ("https://protagon.space/posts/index.xml" blog emacs)
+                       ("https://borretti.me/feed.xml" blog programming)
+                       ("https://malisper.me/category/postgres/feed/" blog programming)
+                       ("https://ianthehenry.com/feed.xml" programming))))
 
 ;; `elfeed-score' https://github.com/sp1ff/elfeed-score
 ;; (use-package elfeed-score

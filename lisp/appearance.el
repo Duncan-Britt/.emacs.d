@@ -114,47 +114,6 @@
            :mode-line-inactive-height 1.0
            :header-line-family "Iosevka Comfy Motion Duo"
            :header-line-height 1.0)
-          (Adelle-Condensed
-           :default-family "Iosevka Duncan"
-           :fixed-pitch-family "Iosevka Duncan"
-           :fixed-pitch-height 1.0
-           :org-level-1-family "Symbola" ;; <-- Requires `fontaine-org'.
-           :org-level-2-family "Symbola"
-           :org-level-3-family "Symbola"
-           :org-level-4-family "Symbola"
-           :org-level-5-family "Symbola"
-           :org-level-6-family "Symbola"
-           :org-level-7-family "Symbola"
-           :org-level-8-family "Symbola"
-           :variable-pitch-family  "Adelle Condensed" ;"Symbola" ;"Antykwa Poltawskiego"
-           :variable-pitch-weight thin
-           :variable-pitch-height 1.0
-           :mode-line-active-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
-           :mode-line-active-height 1.0
-           :mode-line-inactive-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
-           :mode-line-inactive-height 1.0
-           :header-line-family "Iosevka Comfy Motion Duo"
-           :header-line-height 1.0)
-          (ETBembo
-           :default-family "Iosevka Duncan"
-           :fixed-pitch-family "Iosevka Duncan"
-           :fixed-pitch-height 1.0
-           :org-level-1-family "Symbola" ;; <-- Requires `fontaine-org'.
-           :org-level-2-family "Symbola"
-           :org-level-3-family "Symbola"
-           :org-level-4-family "Symbola"
-           :org-level-5-family "Symbola"
-           :org-level-6-family "Symbola"
-           :org-level-7-family "Symbola"
-           :org-level-8-family "Symbola"
-           :variable-pitch-family  "ETBembo" ;"Symbola" ;"Antykwa Poltawskiego"
-           :variable-pitch-height 1.0
-           :mode-line-active-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
-           :mode-line-active-height 1.0
-           :mode-line-inactive-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
-           :mode-line-inactive-height 1.0
-           :header-line-family "Iosevka Comfy Motion Duo"
-           :header-line-height 1.0)
           (Athelas
            :default-family "Iosevka Duncan"
            :fixed-pitch-family "Iosevka Duncan"
@@ -167,7 +126,7 @@
            :org-level-6-family "Symbola"
            :org-level-7-family "Symbola"
            :org-level-8-family "Symbola"
-           :variable-pitch-family  "Athelas" ;"Symbola" ;"Antykwa Poltawskiego"
+           :variable-pitch-family  "Athelas" ;"ETBembo"
            :variable-pitch-height 1.0
            :mode-line-active-family "Iosevka Comfy Motion Duo" ; falls back to :default-family
            :mode-line-active-height 1.0
@@ -175,16 +134,36 @@
            :mode-line-inactive-height 1.0
            :header-line-family "Iosevka Comfy Motion Duo"
            :header-line-height 1.0)))
-  (fontaine-mode 1)
-  (fontaine-set-preset 'regular))
+  (fontaine-mode 1))
 
 (use-package-local-or-remote
  fontaine-org
  "~/code/my-emacs-packages/fontaine-org/"
  "Duncan-Britt/fontaine-org"
  :after fontaine
- :init
- (fontaine-org-mode 1))
+ :config
+ (defvar font-state-file (expand-file-name "last-font" user-emacs-directory)
+   "File to save the last used theme.")
+
+ (defun load-last-font ()
+   "Load the last used theme from file."
+   (if (file-exists-p font-state-file)
+       (progn
+         (let ((last-font (with-temp-buffer
+                            (insert-file-contents font-state-file)
+                            (intern (buffer-string)))))
+           (fontaine-set-preset last-font)))
+     (fontaine-set-preset 'regular)))
+
+ (defun save-current-font (&rest _)
+   "Save the current theme to a file."
+   (when-let ((current-font-preset (car fontaine-preset-history)))
+     (with-temp-file font-state-file
+       (insert current-font-preset))))
+
+ (fontaine-org-mode 1)
+ (load-last-font)
+ (advice-add 'fontaine-set-preset :after #'save-current-font))
 
 (use-package ef-themes
   ;; Make customisations that affect Emacs faces BEFORE loading a theme
@@ -375,6 +354,12 @@ Done in accordance with the currently loaded ef-theme."
 				        text-scale-mode-amount))))
   (plist-put org-format-latex-options :foreground nil) ; latex previews match theme when switching themes.
   (plist-put org-format-latex-options :background nil)
+
+  (add-to-list 'org-entities-user '("yhat" "$\\hat{y}$" nil "&#375;" "yhat" "yhat" "ŷ")) ; FIXME Not sure if I'm dealing with latex in a smart way.
+  (add-to-list 'org-entities-user '("vdash" "$\\vdash$" nil "&vdash;" "vdash" "vdash" "⊢"))
+  ;; Latin-1 Table: https://cs.stanford.edu/people/miles/iso8859.html
+  ;; C-h v org-entities-user RET
+
   :hook ((org-mode . variable-pitch-mode)
          (org-mode . visual-line-mode)
          (org-mode . pixel-scroll-precision-mode)
