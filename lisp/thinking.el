@@ -219,7 +219,8 @@ This fixes the issue where, in org source blocks, < matches )."
                        ("https://protagon.space/posts/index.xml" blog emacs)
                        ("https://borretti.me/feed.xml" blog programming)
                        ("https://malisper.me/category/postgres/feed/" blog programming)
-                       ("https://ianthehenry.com/feed.xml" programming))))
+                       ("https://ianthehenry.com/feed.xml" programming)
+                       ("https://www.teamten.com/lawrence/writings/rss.xml" blog programming))))
 
 ;; `elfeed-score' https://github.com/sp1ff/elfeed-score
 ;; (use-package elfeed-score

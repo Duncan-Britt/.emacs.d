@@ -28,18 +28,25 @@ Display the number of replacements made."
 ;; MAKE C-s search case-insensitive:
 ;; (setq case-fold-search t)
 
-(use-package undo-tree
+(use-package undo-fu
+  :ensure t
+  :custom
+  (undo-fu-ignore-keyboard-quit t)
+  (undo-fu-allow-undo-in-region t)
+  :bind
+  (("s-z" . undo-fu-only-undo)
+   ("s-Z" . undo-fu-only-redo)))
+
+(use-package undo-fu-session
   :ensure t
   :init
-  (global-undo-tree-mode 1)
+  (undo-fu-session-global-mode))
+
+(use-package vundo
+  :ensure t
   :config
-  (setq undo-tree-history-directory-alist
-        `(("." . ,(expand-file-name "undo-tree-history" user-emacs-directory))))
-  :bind (:map undo-tree-visualizer-mode-map
-              ;; go to selected undo state
-              ("<return>" . undo-tree-visualizer-quit)
-              ;; cancel (return to state before calling undo-tree-visualizer)
-              ("q" . undo-tree-visualizer-abort)))
+  (setq vundo-glyph-alist vundo-ascii-symbols)
+  :bind (("C-x u" . vundo)))
 
 (use-package yasnippet
   :ensure t
@@ -124,5 +131,14 @@ Display the number of replacements made."
   (("C-x o" . ace-window))
   :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+
+(use-package outline-indent
+  :ensure t
+  :custom
+  (outline-indent-ellipsis " ▼ ")
+  :hook ((python-mode . outline-indent-minor-mode))
+  :bind (:map python-mode-map
+              ("C-<tab>" . outline-cycle)
+              ("C-S-<tab>" . outline-cycle-buffer)))
 
 (provide 'editing)
