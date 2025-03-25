@@ -168,7 +168,7 @@
 (use-package ef-themes
   ;; Make customisations that affect Emacs faces BEFORE loading a theme
   ;; (any change needs a theme re-load to take effect).
-  :after (fontaine org-bullets)
+  :after (fontaine org-modern) ;; If I ever switch back to org bullets (from org modern, load this after org-bullets)
   :ensure t
   :config
   (setq ef-themes-headings
@@ -359,35 +359,39 @@ Done in accordance with the currently loaded ef-theme."
   (add-to-list 'org-entities-user '("vdash" "$\\vdash$" nil "&vdash;" "vdash" "vdash" "⊢"))
   ;; Latin-1 Table: https://cs.stanford.edu/people/miles/iso8859.html
   ;; C-h v org-entities-user RET
-
-  :hook ((org-mode . variable-pitch-mode)
-         (org-mode . visual-line-mode)
-         (org-mode . pixel-scroll-precision-mode)
-         (org-mode . (lambda () (display-line-numbers-mode 0)))
-         (org-mode . (lambda () (add-hook 'text-scale-mode-hook #'my/resize-org-latex-overlays nil t)))))
+  :custom
+  (org-hide-emphasis-markers t) ; Hide /emphasis/ markers in org mode
+  (org-pretty-entities t)
+  (org-pretty-entities-include-sub-superscripts nil)
+  :hook
+  ((org-mode . org-indent-mode)
+   (org-mode . variable-pitch-mode)
+   (org-mode . visual-line-mode)
+   (org-mode . pixel-scroll-precision-mode)
+   (org-mode . (lambda () (display-line-numbers-mode 0)))
+   (org-mode . (lambda () (add-hook 'text-scale-mode-hook #'my/resize-org-latex-overlays nil t)))))
 
 (use-package olivetti
   :ensure (:host github :repo "rnkn/olivetti")
   :custom (olivetti-body-width 140)
   :hook (org-mode . olivetti-mode))
 
-(use-package org-bullets
+;; (use-package org-bullets
+;;   :after org
+;;   :ensure t
+;;   :hook (org-mode . org-bullets-mode))
+
+(use-package org-modern
   :after org
   :ensure t
-  :config
-  (add-hook 'org-mode-hook (lambda ()
-                             (org-bullets-mode 1)
-                             (org-indent-mode 1))))
+  :hook (org-mode . org-modern-mode))
 
 (use-package org-appear
   :ensure t
   :after org
   :hook (org-mode . org-appear-mode)
   :custom
-  (org-hide-emphasis-markers t) ; Hide /emphasis/ markers in org mode
   (org-appear-autolinks t) ; <-- This doesn't work when hyperbole package is loaded.
-  (org-pretty-entities t)
-  (org-pretty-entities-include-sub-superscripts nil)
   (org-appear-autoentities t)
   (org-appear-autosubmarkers t))
 

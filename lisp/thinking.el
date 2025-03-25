@@ -19,7 +19,7 @@
 This fixes the issue where, in org source blocks, < matches )."
     (modify-syntax-entry ?< "." org-mode-syntax-table)
     (modify-syntax-entry ?> "." org-mode-syntax-table))
-   
+
   (setq org-agenda-files (list (expand-file-name "~/Dropbox/agenda/agenda.org")))
   ;; (setq org-archive-location "~/Dropbox/agenda/agenda_archive.org::%s_archive") ;; <-- unused? Org Archiver has it's own location.
   ;; (setq org-plantuml-jar-path (expand-file-name "~/plantuml-1.2024.4.jar")) ;; <-- doesn't exist on my new mac
@@ -44,20 +44,27 @@ This fixes the issue where, in org source blocks, < matches )."
   ;; Needed to run mysql in org babel
   (add-to-list 'exec-path "/usr/local/mysql-8.3.0-macos14-x86_64/bin") ;; <-- doesn't exist on new mac
   (setq org-babel-python-command "python3")
-  (setq org-log-note-clock-out t)  
+  (setq org-log-note-clock-out t)
   (setq org-list-allow-alphabetical t)
   (setq org-latex-listings 'minted ;; Export to LateX PDF using minted package
         org-latex-packages-alist '(("" "minted"))
         org-latex-pdf-process
-        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-  (setq org-export-backends '(ascii html icalendar latex md))   
+        '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+  (setq org-export-backends '(ascii html icalendar latex md))
 
   (require 'ox-gfm nil t) ;; <-- For github flavored markdown export
   (require 'blog-publishing)
   (require 'ut-table-manager)
 
   :hook ((org-mode . my/org-syntax-table-modify)))
+
+(use-package org-contrib
+  :ensure t
+  :config
+  ;; Export org subtree without heading using :ignore: tag
+  (require 'ox-extra)
+  (ox-extras-activate '(ignore-headlines)))
 
 (use-package ox-gfm
   :ensure t
@@ -181,7 +188,7 @@ This fixes the issue where, in org source blocks, < matches )."
   (require 'safe)
 
   (setq gptel--known-backends (assoc-delete-all "ChatGPT" gptel--known-backends))
-  
+
   (setq gptel-model 'claude-3-7-sonnet-20250219
         gptel-backend
         (gptel-make-anthropic "Claude"
@@ -220,7 +227,16 @@ This fixes the issue where, in org source blocks, < matches )."
                        ("https://borretti.me/feed.xml" blog programming)
                        ("https://malisper.me/category/postgres/feed/" blog programming)
                        ("https://ianthehenry.com/feed.xml" programming)
-                       ("https://www.teamten.com/lawrence/writings/rss.xml" blog programming))))
+                       ("https://www.teamten.com/lawrence/writings/rss.xml" blog programming)
+                       ("https://aartaka.me/rss.xml" blog programming lisp)
+                       ("https://map.simonsarris.com/feed" blog)
+                       ("https://spakhm.substack.com/feed" blog)
+                       ("https://wrathofgnon.substack.com/feed" blog lowtech)
+                       ("https://solar.lowtechmagazine.com/posts/index.xml" lowtech)
+                       ("https://solar.lowtechmagazine.com/vn/posts/index.xml" lang-vn lowtech)
+                       ("https://nntaleb.medium.com/feed" blog)
+                       ("https://fukamachi.hashnode.dev/rss.xml" blog lisp)
+                       ("https://protesilaos.com/master.xml" blog emacs))))
 
 ;; `elfeed-score' https://github.com/sp1ff/elfeed-score
 ;; (use-package elfeed-score
