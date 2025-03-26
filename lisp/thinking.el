@@ -51,6 +51,22 @@ This fixes the issue where, in org source blocks, < matches )."
         org-latex-pdf-process
         '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+  (add-to-list 'org-preview-latex-process-alist
+               '(my-header
+                 :programs ("latex" "dvisvgm")
+                 :description "Custom process ignoring document headers"
+                 :message "you need to install the programs: latex and dvisvgm"
+                 :image-input-type "dvi"
+                 :image-output-type "svg"
+                 :image-size-adjust (1.7 . 1.5)
+                 :latex-compiler ("latex -interaction nonstopmode -output-directory %o %f")
+                 :image-converter ("dvisvgm %f --no-fonts --exact-bbox --scale=%S --output=%O")
+                 :latex-header "\\documentclass{article}
+  \\usepackage[usenames]{color}
+  \\pagestyle{empty}
+  \\begin{document}"))
+  (setq org-preview-latex-default-process 'my-header)
+
   (setq org-export-backends '(ascii html icalendar latex md))
 
   (require 'ox-gfm nil t) ;; <-- For github flavored markdown export
@@ -212,7 +228,7 @@ This fixes the issue where, in org source blocks, < matches )."
 ;; │ RSS │
 ;; └─────┘
 
-(use-package elfeed ;; TODO debug elfeed. Not working.
+(use-package elfeed
   :ensure t
   :config
   (setq elfeed-feeds '(("https://sachachua.com/blog/feed/index.xml" blog emacs)
