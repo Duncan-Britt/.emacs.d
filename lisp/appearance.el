@@ -223,16 +223,8 @@
  :after (org ef-themes)
  :demand t
  :init
- (setq *theme-switcher-themes-dark*
-       '("ef-trio-dark" "ef-rosa" "ef-winter"
-         "ef-autumn" "ef-cherie" "ef-tritanopia-dark"
-         "ef-elea-dark" "ef-dream" "ef-melissa-dark"
-         "ef-maris-dark" "ef-owl"))
- (setq *theme-switcher-themes-light*
-       '("ef-day" "ef-light" "ef-kassio" "ef-frost"
-         "ef-arbutus" "ef-melissa-light" "ef-maris-light"
-         "ef-elea-light" "ef-summer" "ef-cyprus"
-         "ef-reverie"))
+ (setq *theme-switcher-themes-dark* (mapcar #'symbol-name ef-themes-dark-themes))
+ (setq *theme-switcher-themes-light* (mapcar #'symbol-name ef-themes-light-themes))
  :bind
  (:map org-mode-map
        ("C-c C-x C-v" . ts-toggle-inline-images)))
