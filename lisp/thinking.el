@@ -254,7 +254,13 @@ This fixes the issue where, in org source blocks, < matches )."
                        ("https://fukamachi.hashnode.dev/rss.xml" blog lisp)
                        ("https://protesilaos.com/master.xml" blog emacs)
                        ("http://www.aaronsw.com/2002/feeds/pgessays.rss" blog lisp business)
-                       ("https://www.joelonsoftware.com/feed/" blog software business))))
+                       ("https://www.joelonsoftware.com/feed/" blog software business)
+                       ("http://xahlee.info/comp/blog.xml" blog programming)
+                       ("http://xahlee.info/js/blog.xml" blog webdev)
+                       ("http://xahlee.info/emacs/emacs/blog.xml" blog emacs)
+                       ("https://entropicthoughts.com/feed" blog)
+                       ("https://steve-yegge.blogspot.com/atom.xml" blog emacs programming)
+                       ("https://irreal.org/blog/?feed=rss2" blog emacs programming))))
 
 ;; `elfeed-score' https://github.com/sp1ff/elfeed-score
 ;; (use-package elfeed-score
