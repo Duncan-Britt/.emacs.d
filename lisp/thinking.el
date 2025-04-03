@@ -50,22 +50,7 @@ This fixes the issue where, in org source blocks, < matches )."
         org-latex-packages-alist '(("" "minted"))
         org-latex-pdf-process
         '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-          "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-  (add-to-list 'org-preview-latex-process-alist
-               '(my-header
-                 :programs ("latex" "dvisvgm")
-                 :description "Custom process ignoring document headers"
-                 :message "you need to install the programs: latex and dvisvgm"
-                 :image-input-type "dvi"
-                 :image-output-type "svg"
-                 :image-size-adjust (1.7 . 1.5)
-                 :latex-compiler ("latex -interaction nonstopmode -output-directory %o %f")
-                 :image-converter ("dvisvgm %f --no-fonts --exact-bbox --scale=%S --output=%O")
-                 :latex-header "\\documentclass{article}
-  \\usepackage[usenames]{color}
-  \\pagestyle{empty}
-  \\begin{document}"))
-  (setq org-preview-latex-default-process 'my-header)
+          "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f")) 
 
   (setq org-export-backends '(ascii html icalendar latex md))
 
@@ -260,7 +245,8 @@ This fixes the issue where, in org source blocks, < matches )."
                        ("http://xahlee.info/emacs/emacs/blog.xml" blog emacs)
                        ("https://entropicthoughts.com/feed" blog)
                        ("https://steve-yegge.blogspot.com/atom.xml" blog emacs programming)
-                       ("https://irreal.org/blog/?feed=rss2" blog emacs programming))))
+                       ("https://irreal.org/blog/?feed=rss2" blog emacs programming)
+                       ("https://esrh.me/feed" blog emacs lisp programming))))
 
 ;; `elfeed-score' https://github.com/sp1ff/elfeed-score
 ;; (use-package elfeed-score

@@ -347,6 +347,30 @@ Done in accordance with the currently loaded ef-theme."
   (plist-put org-format-latex-options :foreground nil) ; latex previews match theme when switching themes.
   (plist-put org-format-latex-options :background nil)
 
+  ;; The following was added because using certain latex packages
+  ;; caused problems for latex previews, even when export was fine.
+  ;; As I recall, this was a problem:
+  ;;     #+latex_header: \hypersetup{linktoc = all, colorlinks = true, linkcolor = blue, citecolor = blue}
+  ;; Perhaps also this, I can't remember
+  ;;    #+latex_header: \usepackage{fontspec}
+  ;;    #+latex_header: \setmainfont{Athelas}
+  (add-to-list 'org-preview-latex-process-alist
+               '(my-header
+                 :programs ("latex" "dvisvgm")
+                 :description "Custom process ignoring document headers"
+                 :message "you need to install the programs: latex and dvisvgm"
+                 :image-input-type "dvi"
+                 :image-output-type "svg"
+                 :image-size-adjust (1.7 . 1.5)
+                 :latex-compiler ("latex -interaction nonstopmode -output-directory %o %f")
+                 :image-converter ("dvisvgm %f --no-fonts --exact-bbox --scale=%S --output=%O")
+                 :latex-header "\\documentclass{article}
+  \\usepackage[usenames]{color}
+  \\usepackage{amsmath,amssymb,amsthm}
+  \\pagestyle{empty}
+  \\begin{document}"))
+  (setq org-preview-latex-default-process 'my-header)
+
   (add-to-list 'org-entities-user '("yhat" "$\\hat{y}$" nil "&#375;" "yhat" "yhat" "ŷ")) ; FIXME Not sure if I'm dealing with latex in a smart way.
   (add-to-list 'org-entities-user '("vdash" "$\\vdash$" nil "&vdash;" "vdash" "vdash" "⊢"))
   ;; Latin-1 Table: https://cs.stanford.edu/people/miles/iso8859.html
