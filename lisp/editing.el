@@ -155,8 +155,7 @@ Display the number of replacements made."
      '("'" . repeat)
      '("<escape>" . ignore)))
   (meow-setup)
-  ;; (meow-global-mode 1)
-  )
+  (meow-global-mode 1))
 
 ;; ┌───────────────────┐
 ;; │ Window Management │
