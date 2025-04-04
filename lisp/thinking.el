@@ -246,7 +246,8 @@ This fixes the issue where, in org source blocks, < matches )."
                        ("https://entropicthoughts.com/feed" blog)
                        ("https://steve-yegge.blogspot.com/atom.xml" blog emacs programming)
                        ("https://irreal.org/blog/?feed=rss2" blog emacs programming)
-                       ("https://esrh.me/feed" blog emacs lisp programming))))
+                       ("https://esrh.me/feed" blog emacs lisp programming)
+                       ("https://worldspiritsockpuppet.com/feed.xml" blog ai philosophy))))
 
 ;; `elfeed-score' https://github.com/sp1ff/elfeed-score
 ;; (use-package elfeed-score
