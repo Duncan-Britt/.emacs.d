@@ -377,7 +377,7 @@ Specific to the current window's mode line.")
 (use-package ef-themes
   ;; Make customisations that affect Emacs faces BEFORE loading a theme
   ;; (any change needs a theme re-load to take effect).
-  :after (fontaine org-modern) ;; If I ever switch back to org bullets (from org modern, load this after org-bullets)
+  :after (fontaine org-bullets) ;; If I ever switch back to org bullets (from org modern, load this after org-bullets)
   :ensure t
   :config
   (setq ef-themes-headings
@@ -561,7 +561,8 @@ Done in accordance with the currently loaded ef-theme."
   (org-pretty-entities t)
   (org-pretty-entities-include-sub-superscripts nil)
   :hook
-  ((org-mode . variable-pitch-mode)
+  ((org-mode . org-indent-mode)
+   (org-mode . variable-pitch-mode)
    (org-mode . visual-line-mode)
    (org-mode . pixel-scroll-precision-mode)
    (org-mode . (lambda () (display-line-numbers-mode 0)))
@@ -572,16 +573,21 @@ Done in accordance with the currently loaded ef-theme."
   :custom (olivetti-body-width 140)
   :hook (org-mode . olivetti-mode))
 
-;; (use-package org-bullets
-;;   :after org
-;;   :ensure t
-;;   :hook (org-mode . org-bullets-mode))
-
-(use-package org-modern
+(use-package org-bullets
   :after org
   :ensure t
-  :hook ((org-mode . org-indent-mode)
-         (org-mode . org-modern-mode)))
+  :hook (org-mode . org-bullets-mode))
+
+;; (use-package org-ibullets ; <- last time I tried this (4/2025), seemed to chop off the left side of the bullets
+;;   :after org
+;;   :ensure (:host github :repo "jamescherti/org-ibullets.el")
+;;   :commands org-ibullets-mode
+;;   :hook (org-mode . org-ibullets-mode))
+
+;; (use-package org-modern ; <- source blocks don't play nicely with org-indent-mode
+;;   :after org
+;;   :ensure t
+;;   :hook ((org-mode . org-modern-mode)))
 
 (use-package org-appear
   :ensure t
