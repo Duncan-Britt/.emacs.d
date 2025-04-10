@@ -561,8 +561,7 @@ Done in accordance with the currently loaded ef-theme."
   (org-pretty-entities t)
   (org-pretty-entities-include-sub-superscripts nil)
   :hook
-  ((org-mode . org-indent-mode)
-   (org-mode . variable-pitch-mode)
+  ((org-mode . variable-pitch-mode)
    (org-mode . visual-line-mode)
    (org-mode . pixel-scroll-precision-mode)
    (org-mode . (lambda () (display-line-numbers-mode 0)))
@@ -581,7 +580,8 @@ Done in accordance with the currently loaded ef-theme."
 (use-package org-modern
   :after org
   :ensure t
-  :hook (org-mode . org-modern-mode))
+  :hook ((org-mode . org-indent-mode)
+         (org-mode . org-modern-mode)))
 
 (use-package org-appear
   :ensure t

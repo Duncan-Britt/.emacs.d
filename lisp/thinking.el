@@ -50,7 +50,7 @@ This fixes the issue where, in org source blocks, < matches )."
         org-latex-packages-alist '(("" "minted"))
         org-latex-pdf-process
         '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-          "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f")) 
+          "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 
   (setq org-export-backends '(ascii html icalendar latex md))
 
@@ -248,7 +248,19 @@ This fixes the issue where, in org source blocks, < matches )."
                        ("https://irreal.org/blog/?feed=rss2" blog emacs programming)
                        ("https://esrh.me/feed" blog emacs lisp programming)
                        ("https://worldspiritsockpuppet.com/feed.xml" blog ai philosophy)
-                       ("https://eshelyaron.com/rss.xml" blog emacs prolog))))
+                       ("https://eshelyaron.com/rss.xml" blog emacs prolog)
+                       ("https://codelearn.me/feed.xml" blog emacs programming)
+                       ("https://joarvarndt.se/rss.xml" blog emacs)
+                       ("https://p.bauherren.ovh/rss" blog emacs)
+                       ("https://funcall.blogspot.com/feeds/posts/default" blog lisp programming)
+                       ("https://mcmansionhell.com/rss" blog architecture)
+                       ("https://rvirding.blogspot.com/feeds/posts/default" blog programming erlang)
+                       ;; Can look for more blogs here: https://actionlab.strongtowns.org/hc/en-us/articles/360059026332-Member-Blog-Roll
+                       ("https://www.strongtowns.org/journal?format=rss" urban-planning)
+                       ("https://nyxt.atlas.engineer/feed" lisp tools)
+                       ("https://tomscii.sig7.se/feed.xml" blog programming)
+                       ("https://thanosapollo.org/index.xml" blog emacs))))
+
 
 ;; `elfeed-score' https://github.com/sp1ff/elfeed-score
 ;; (use-package elfeed-score

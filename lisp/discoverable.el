@@ -38,7 +38,7 @@
         ("M-n" . org-cmenu)))
 
 (use-package which-key
-  :ensure t
+  :ensure t ;; TODO when I upgrade to Emacs 30, :ensure nil because it is built in
   :init
   (which-key-mode 1))
 
