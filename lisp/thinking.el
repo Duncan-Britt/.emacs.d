@@ -87,16 +87,17 @@ This fixes the issue where, in org source blocks, < matches )."
  (:map org-mode-map
        ("C-c C-x C-a" . archiver-archive-heading)))
 
-(use-package org-download
-  :ensure t
-  :custom
-  (org-download-image-attr-list '("#+attr_org: :width 600")))
-
 (use-package ob-async
   :ensure t
   :after org
   :config
   (setq ob-async-no-async-languages-alist '("ipython")))
+
+(use-package org-download
+  :ensure t
+  :custom
+  (org-download-image-attr-list '("#+attr_org: :width 600"))
+  (org-download-image-dir ".images/"))
 
 (use-package-local-or-remote
  paste-img

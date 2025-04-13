@@ -27,12 +27,12 @@
       '(:eval
         (when (mode-line-window-selected-p)
           (propertize (format " %s " (capitalize (symbol-name major-mode)))
-                              'face 'normal
-                              'mouse-face 'mode-line-highlight
-                              'help-echo "Describe mode"
-                              'local-map (let ((map (make-sparse-keymap)))
-                                           (define-key map [mode-line mouse-1] 'describe-mode)
-                                           map))))
+                      'face 'mode-line-active
+                      'mouse-face 'mode-line-highlight
+                      'help-echo "Describe mode"
+                      'local-map (let ((map (make-sparse-keymap)))
+                                   (define-key map [mode-line mouse-1] 'describe-mode)
+                                   map))))
     "Mode line construct to display the major mode.")
 
   (defvar prot-modeline-vc-map
@@ -108,7 +108,7 @@ Specific to the current window's mode line.")
 
   (defvar-local my/modeline-meow-indicator
       '(:eval
-        (when (mode-line-window-selected-p)
+        (when (and (bound-and-true-p meow-mode) (mode-line-window-selected-p))
           (let* ((indicator (meow-indicator))
                  (mode-name (substring-no-properties indicator))
                  (padded-name (format " %-7s" (string-trim mode-name))))
@@ -135,7 +135,7 @@ Specific to the current window's mode line.")
       '(:eval
         (when (mode-line-window-selected-p)
           (propertize (format-time-string " %I:%M %p ")
-                      'face 'normal
+                      'face 'mode-line-active
                       'mouse-face 'mode-line-highlight
                       'help-echo "Show world clock"
                       'local-map (let ((map (make-sparse-keymap)))
@@ -148,7 +148,7 @@ Specific to the current window's mode line.")
       '(:eval
         (when (mode-line-window-selected-p)
           (propertize (format-time-string " %a, %b %-d  ")
-                      'face 'normal
+                      'face 'mode-line-active
                       'mouse-face 'mode-line-highlight
                       'help-echo (format-time-string "%A, %B %-d. Show calendar")
                       'local-map (let ((map (make-sparse-keymap)))
@@ -169,7 +169,7 @@ Specific to the current window's mode line.")
                                      (cdr (assq ?p (funcall battery-status-function))))))))
           (when (and (numberp percentage)
                      (>= percentage battery-load-low))
-            (add-face-text-property 0 len 'normal t battery-mode-line-string))))
+            (add-face-text-property 0 len 'mode-line-active t battery-mode-line-string))))
       result))
   (advice-add 'battery-update :around #'my-battery-update-advice)
   (setq battery-mode-line-format "【%b%p%%】")
