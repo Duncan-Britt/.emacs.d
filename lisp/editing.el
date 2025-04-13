@@ -11,22 +11,15 @@
 (use-package emacs
   :ensure nil
   :config ;; c-n adds newlines
-  (setq next-line-add-newlines t)
-  (defun entire-buffer-replace (from to)
-    "Do search and replace on entire buffer without moving point.
-Display the number of replacements made."
-    (interactive "MReplace: \nMWith: ")
-    (save-excursion
-      (goto-char (point-min))
-      (let ((case-fold-search nil)
-            (count 0))
-        (while (search-forward from nil t)
-          (replace-match to t t)
-          (setq count (1+ count)))
-        (message "Replaced %d occurrences of '%s'." count from)))))
+  (setq next-line-add-newlines t))
 
 ;; MAKE C-s search case-insensitive:
 ;; (setq case-fold-search t)
+
+(use-package stripspace
+  :ensure t
+  :commands stripsace-local-mode
+  :hook ((prog-mode . stripspace-local-mode)))
 
 (use-package undo-fu
   :ensure t
@@ -154,8 +147,9 @@ Display the number of replacements made."
      '("z" . meow-pop-selection)
      '("'" . repeat)
      '("<escape>" . ignore)))
-  (meow-setup)
-  (meow-global-mode 1))
+  ;; (meow-setup)
+  ;; (meow-global-mode 1)
+  )
 
 ;; ┌───────────────────┐
 ;; │ Window Management │

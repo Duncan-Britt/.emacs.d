@@ -259,7 +259,12 @@ This fixes the issue where, in org source blocks, < matches )."
                        ("https://www.strongtowns.org/journal?format=rss" urban-planning)
                        ("https://nyxt.atlas.engineer/feed" lisp tools)
                        ("https://tomscii.sig7.se/feed.xml" blog programming)
-                       ("https://thanosapollo.org/index.xml" blog emacs))))
+                       ("https://thanosapollo.org/index.xml" blog emacs)
+                       ("https://rakhim.exotext.com/rss.xml" blog webdev programming)
+                       ("https://stevana.github.io/rss.xml" blog programming)
+                       ("https://pvk.ca/atom.xml" blog programming algorithms lisp)
+                       ("https://100r.co/links/rss.xml" blog sailing lowtech programming)
+                       ("https://bernsteinbear.com/feed.xml" blog programming))))
 
 
 ;; `elfeed-score' https://github.com/sp1ff/elfeed-score

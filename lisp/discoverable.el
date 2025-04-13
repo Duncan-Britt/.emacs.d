@@ -11,6 +11,20 @@
   (context-menu-mode)
   (savehist-mode))
 
+(use-package dired
+  :ensure nil
+  :hook
+  (dired-mode . dired-hide-details-mode))
+
+(use-package dired-subtree
+  :ensure t
+  :after dired
+  :bind
+  (:map dired-mode-map
+        ("<tab>" . dired-subtree-toggle)
+        ("C-<tab>" . dired-subtree-cycle)
+        ("<backtab>" . dired-subtree-remove)))
+
 (use-package projectile
   ;; TODO upgrade to Emacs 30 and remove this in favor of `project.el'
   :ensure t

@@ -578,12 +578,12 @@ Done in accordance with the currently loaded ef-theme."
   :ensure t
   :hook (org-mode . org-bullets-mode))
 
+;; ALTERNATIVES TO ORG BULLETS - org-ibullets and org-modern
 ;; (use-package org-ibullets ; <- last time I tried this (4/2025), seemed to chop off the left side of the bullets
 ;;   :after org
 ;;   :ensure (:host github :repo "jamescherti/org-ibullets.el")
 ;;   :commands org-ibullets-mode
 ;;   :hook (org-mode . org-ibullets-mode))
-
 ;; (use-package org-modern ; <- source blocks don't play nicely with org-indent-mode
 ;;   :after org
 ;;   :ensure t
