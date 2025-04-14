@@ -47,6 +47,40 @@
   (setq yas-snippet-dirs '("~/code/yasnippets"))
   (yas-global-mode 1))
 
+(use-package tex-mode
+  :ensure nil
+  :config
+  (defun toggle-word-mathrm ()
+    "Toggle wrapping the word at point in \\mathrm{...}"
+    (interactive)
+    (let ((bounds (bounds-of-thing-at-point 'word)))
+      (when bounds
+        (let* ((start (car bounds))
+               (end (cdr bounds))
+               (word (buffer-substring-no-properties start end))
+               (mathrm-prefix "\\mathrm{")
+               (mathrm-suffix "}")
+               (prefix-len (length mathrm-prefix))
+               (suffix-len (length mathrm-suffix)))
+          ;; Check if previous chars are \mathrm{ and next chars are }
+          (if (and (>= start prefix-len)
+                   (>= (point-max) (+ end suffix-len))
+                   (string= (buffer-substring-no-properties
+                             (- start prefix-len) start)
+                            mathrm-prefix)
+                   (string= (buffer-substring-no-properties
+                             end (+ end suffix-len))
+                            mathrm-suffix))
+              ;; Remove \mathrm{...}
+              (progn
+                (delete-region (- start prefix-len) (+ end suffix-len))
+                (insert word))
+            ;; Add \mathrm{...}
+            (delete-region start end)
+            (insert mathrm-prefix word mathrm-suffix))))))
+  :bind (:map tex-mode-map
+              ("C-c m" . toggle-word-mathrm)))
+
 (use-package avy
   :ensure t
   :bind

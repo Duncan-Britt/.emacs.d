@@ -142,6 +142,13 @@ This fixes the issue where, in org source blocks, < matches )."
   (setq denote-directory (expand-file-name "~/Dropbox/notes/"))
   :hook (dired-mode . denote-dired-mode))
 
+(use-package-local-or-remote
+ denote-dired-bookmarks
+ "~/code/my-emacs-packages/denote-dired-bookmarks/"
+ "Duncan-Britt/denote-dired-bookmarks"
+ :hook (dired-mode . denote-dired-bookmarks-mode)
+ :bind (("s-b" . ddb-create-bookmark)))
+
 (use-package pdf-tools
   :ensure t
   :config
@@ -265,7 +272,8 @@ This fixes the issue where, in org source blocks, < matches )."
                        ("https://stevana.github.io/rss.xml" blog programming)
                        ("https://pvk.ca/atom.xml" blog programming algorithms lisp)
                        ("https://100r.co/links/rss.xml" blog sailing lowtech programming)
-                       ("https://bernsteinbear.com/feed.xml" blog programming))))
+                       ("https://bernsteinbear.com/feed.xml" blog programming)
+                       ("https://samzdat.com/feed/" blog philosophy))))
 
 
 ;; `elfeed-score' https://github.com/sp1ff/elfeed-score
