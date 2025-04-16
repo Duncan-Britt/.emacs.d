@@ -273,7 +273,8 @@ This fixes the issue where, in org source blocks, < matches )."
                        ("https://pvk.ca/atom.xml" blog programming algorithms lisp)
                        ("https://100r.co/links/rss.xml" blog sailing lowtech programming)
                        ("https://bernsteinbear.com/feed.xml" blog programming)
-                       ("https://samzdat.com/feed/" blog philosophy))))
+                       ("https://samzdat.com/feed/" blog philosophy)
+                       ("https://duncanbritt.com/feed.xml" test))))
 
 
 ;; `elfeed-score' https://github.com/sp1ff/elfeed-score
