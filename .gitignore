@@ -24,3 +24,5 @@ last-theme
 last-font
 undo-fu-session/*
 places
+*.DS_Store
+.org-id-locations
