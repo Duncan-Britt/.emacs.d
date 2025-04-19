@@ -227,6 +227,8 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
   (setq prolog-program-name "scryer-prolog"))
 
 (use-package ciao
+  ;; NOTE Installing Ciao Prolog will install ciao_emacs in .ciaoroot
+  ;; and append elisp to load ciao mode to init.el.
   :ensure nil
   :hook ((ciao-mode . display-line-numbers-mode)
          (ciao-mode . my-ciao-remap-faces)
