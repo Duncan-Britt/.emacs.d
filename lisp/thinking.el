@@ -147,7 +147,7 @@ This fixes the issue where, in org source blocks, < matches )."
  "~/code/my-emacs-packages/denote-dired-bookmarks/"
  "Duncan-Britt/denote-dired-bookmarks"
  :hook (dired-mode . denote-dired-bookmarks-mode)
- :bind (("s-b" . ddb-create-bookmark)))
+ :bind (("s-b" . denote-dired-bookmarks-create-bookmark)))
 
 (use-package pdf-tools
   :ensure t
@@ -245,7 +245,7 @@ This fixes the issue where, in org source blocks, < matches )."
                        ("https://solar.lowtechmagazine.com/vn/posts/index.xml" lang-vn lowtech)
                        ("https://nntaleb.medium.com/feed" blog)
                        ("https://fukamachi.hashnode.dev/rss.xml" blog lisp)
-                       ("https://protesilaos.com/master.xml" blog emacs)
+                       ("https://protesilaos.com/master.xml" blog emacs philosophy)
                        ("http://www.aaronsw.com/2002/feeds/pgessays.rss" blog lisp business)
                        ("https://www.joelonsoftware.com/feed/" blog software business)
                        ("http://xahlee.info/comp/blog.xml" blog programming)
@@ -274,7 +274,16 @@ This fixes the issue where, in org source blocks, < matches )."
                        ("https://100r.co/links/rss.xml" blog sailing lowtech programming)
                        ("https://bernsteinbear.com/feed.xml" blog programming)
                        ("https://samzdat.com/feed/" blog philosophy)
-                       ("https://duncanbritt.com/feed.xml" test))))
+                       ("https://duncanbritt.com/feed.xml" test)
+                       ("https://lisperator.net/atom" blog lisp programming webdev emacs)
+                       ("https://lispblog.xach.com/rss" blog lisp)
+                       ("https://feeds.feedburner.com/PlacesJournal" urbanism architecture environment)
+                       ("https://www.blogger.com/feeds/5411139659011156551/posts/default" blog programming erlang)
+                       ("https://tracks.ranea.org/rss" blog)
+                       ("https://nullprogram.com/feed/" blog programming emacs)
+                       ("https://p-snow.org/feed.xml" blog emacs)
+                       ("https://stardiviner.github.io/Blog/index.xml" blog emacs)
+                       ("https://misohena.jp/blog/feed" blog emacs))))
 
 
 ;; `elfeed-score' https://github.com/sp1ff/elfeed-score

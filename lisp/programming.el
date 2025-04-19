@@ -384,19 +384,21 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 ;; ┌─────────┐
 ;; │ Jupyter │
 ;; └─────────┘
-(require 'jupyter-ascending)
-(use-package jupyter-ascending
+(use-package-local-or-remote
+ jupyter-ascending
+ "~/code/my-emacs-packages/jupyter-ascending/"
+ "Duncan-Britt/jupyter-ascending"
   :ensure nil
   :hook (python-mode . (lambda ()
                          (when (and buffer-file-name
                                     (string-match-p "\\.sync\\.py\\'" buffer-file-name))
                            (jupyter-ascending-mode 1))))
   :bind (:map jupyter-ascending-mode-map
-              ("C-c C-k" . ja-execute-line)
-              ("C-c C-a" . ja-execute-all)
-              ("C-c C-n" . ja-next-cell)
-              ("C-c C-p" . ja-previous-cell)
-              ("C-c t" . ja-cycle-cell-type)
-              ("C-c '" . ja-edit-markdown-cell)))
+              ("C-c C-k" . jupyter-ascending-execute-line)
+              ("C-c C-a" . jupyter-ascending-execute-all)
+              ("C-c C-n" . jupyter-ascending-next-cell)
+              ("C-c C-p" . jupyter-ascending-previous-cell)
+              ("C-c t" . jupyter-ascending-cycle-cell-type)
+              ("C-c '" . jupyter-ascending-edit-markdown-cell)))
 
 (provide 'programming)
