@@ -172,7 +172,3 @@
 (require 'programming)
 (require 'misc)
 ;;; init.el ends here
-; @begin(36059606)@ - Do not edit these lines - added automatically!
-;; (if (file-exists-p "/home/duncan/.ciaoroot/v1.24.0-m1/ciao_emacs/elisp/ciao-site-file.el")
-;;   (load-file "/home/duncan/.ciaoroot/v1.24.0-m1/ciao_emacs/elisp/ciao-site-file.el"))
-; @end(36059606)@ - End of automatically added lines.
