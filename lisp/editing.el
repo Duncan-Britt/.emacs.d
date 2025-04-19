@@ -128,7 +128,8 @@
 	  "\\Backtrace\\*"
 	  "\\*ruby\\*"
           ;; help-mode
-          compilation-mode))
+          ;; compilation-mode
+          ))
   (setq popper-group-function #'popper-group-by-projectile)
 
   (defun my/popper-display-popup (buffer &optional alist)

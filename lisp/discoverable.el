@@ -9,7 +9,26 @@
   :ensure nil
   :config
   (context-menu-mode)
-  (savehist-mode))
+  (savehist-mode)
+
+  ;; Minibuffer completions for compile commands based on history.
+  (add-to-list 'savehist-additional-variables 'compile-history)
+  (defun my/compile (cmd)
+    (interactive
+     (list (completing-read "Command: " compile-history)))
+    (compile cmd)
+    (push cmd compile-history))
+
+  (defun my/project-compile ()
+    "Run `compile' in the project root."
+    (declare (interactive-only compile))
+    (interactive)
+    (let ((default-directory (project-root (project-current t)))
+          (compilation-buffer-name-function
+           (or project-compilation-buffer-name-function
+               compilation-buffer-name-function)))
+      (call-interactively #'my/compile)))
+  (define-key project-prefix-map "c" #'my/project-compile))
 
 (use-package dired
   :ensure nil
@@ -24,17 +43,6 @@
         ("<tab>" . dired-subtree-toggle)
         ("C-<tab>" . dired-subtree-cycle)
         ("<backtab>" . dired-subtree-remove)))
-
-(use-package projectile
-  ;; TODO upgrade to Emacs 30 and remove this in favor of `project.el'
-  :ensure t
-  :init
-  (when (eq system-type 'darwin)
-    (setq projectile-use-git-grep t)) ; macOS-specific setting
-  :config
-  (projectile-mode +1)
-  ;; Recommended keymap prefix on macOS
-  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map))
 
 (use-package casual
   :after (calc transient)
