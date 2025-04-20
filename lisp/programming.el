@@ -188,6 +188,12 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 ;;           (lambda ()
 ;;             (define-key c++-mode-map (kbd "C-c c") 'recompile)))
 
+;; ┌──────┐
+;; │ Rust │
+;; └──────┘
+(use-package rust-mode
+  :ensure t)
+
 ;; ┌────────────┐
 ;; │ Emacs Lisp │
 ;; └────────────┘
