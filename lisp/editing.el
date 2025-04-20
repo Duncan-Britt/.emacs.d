@@ -102,7 +102,6 @@
 ;; └───────────────────┘
 
 (use-package popper
-  :after projectile
   :ensure t
   :bind (("C-c C-;"   . popper-toggle)
          ("s-;"   . popper-cycle))
@@ -130,7 +129,7 @@
           ;; help-mode
           ;; compilation-mode
           ))
-  (setq popper-group-function #'popper-group-by-projectile)
+  (setq popper-group-function #'popper-group-by-project)
 
   (defun my/popper-display-popup (buffer &optional alist)
     "Display popup-buffer BUFFER based on the number of windows in the frame."

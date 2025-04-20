@@ -386,6 +386,16 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 
 (use-package ob-restclient
   :ensure t)
+;; EXAMPLE:
+;; #+begin_src restclient :async
+;;   POST http://localhost:8000/users/login/
+;;   Content-Type: application/json
+
+;;   {
+;;           "email": "bobo@baggins.com",
+;;           "password": "123456"
+;;   }
+;; #+end_src
 
 ;; ┌─────────┐
 ;; │ Jupyter │
