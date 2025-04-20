@@ -52,4 +52,11 @@
 (use-package djvu
   :ensure t)
 
+(use-package comint
+  :ensure nil
+  :bind (("s-r" . (lambda ()
+                    (interactive)
+                    (let ((current-prefix-arg '(4)))
+                      (call-interactively 'comint-run))))))
+
 (provide 'misc)

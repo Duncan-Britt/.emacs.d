@@ -33,3 +33,15 @@
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
+;; ┌──────────────────────────────┐
+;; │ Black and White (Tao) Themes │
+;; └──────────────────────────────┘
+;; (add-to-list 'load-path "~/.emacs.d/lisp/my-tao-themes/")
+;; (add-to-list 'custom-theme-load-path "~/.emacs.d/lisp/my-tao-themes/")
+;; (setq tao-theme-use-height t)
+;; (require 'tao-theme)
+;; (setq *theme-switcher-themes-dark* (cons "tao-yin" (mapcar #'symbol-name ef-themes-dark-themes)))
+;; (setq *theme-switcher-themes-light* (cons "tao-yang" (mapcar #'symbol-name ef-themes-light-themes)))
+;; I vendored the toa themes package and edited font-lock-comment face
+;; on line 223, setting it to
+;; `(font-lock-comment-face ((t (:foreground ,color-9 :weight normal :italic nil :variable-pitch nil :height ,(tao-theme-height 1.1) :inherit fixed-pitch ))))

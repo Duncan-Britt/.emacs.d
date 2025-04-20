@@ -26,3 +26,4 @@ undo-fu-session/*
 places
 *.DS_Store
 .org-id-locations
+custom.el

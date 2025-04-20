@@ -30,6 +30,10 @@
       (call-interactively #'my/compile)))
   (define-key project-prefix-map "c" #'my/project-compile))
 
+(use-package grep
+  :ensure nil
+  :bind (("s-s" . rgrep)))
+
 (use-package dired
   :ensure nil
   :hook
@@ -64,6 +68,7 @@
   :init
   (which-key-mode 1))
 
+;; TODO: On move to Emacs 30, replace with built-ins: https://www.youtube.com/watch?v=-ZeoGVtMLaU
 (use-package vertico
   :ensure t
   :init
@@ -82,6 +87,7 @@
   ;; (setq vertico-cycle t)
   )
 
+;; TODO: On move to Emacs 30, replace with built-ins: https://www.youtube.com/watch?v=-ZeoGVtMLaU
 (use-package orderless
   :ensure t
   :custom
@@ -104,7 +110,9 @@
   :ensure t)
 
 (use-package consult
-  :ensure t)
+  :ensure t
+  :bind
+  (("C-x b" . consult-buffer)))
 
 ;; corfu + orderless + cape + eglot = in buffer completion framework
 ;; corfu is like vertico
@@ -129,6 +137,7 @@
         ("S-TAB" . corfu-previous)
         ([backtab] . corfu-previous)))
 
+;; TODO: On move to Emacs 30, replace with built-ins: https://www.youtube.com/watch?v=-ZeoGVtMLaU
 (use-package cape
   :ensure t
   :init
@@ -151,7 +160,8 @@
 	 (ruby-mode . eglot-ensure)
 	 (ruby-ts-mode . eglot-ensure)
          (js-mode . eglot-ensure)
-         (asm-mode . eglot-ensure))
+         (asm-mode . eglot-ensure)
+         (rust-mode . eglot-ensure))
   :config
   (setq eglot-autoshutdown t)
   (setq eglot-confirm-server-initiated-edits nil)

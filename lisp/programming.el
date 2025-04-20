@@ -327,8 +327,6 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
              (string= (system-name) "duncans-macbookpro"))
     (setq python-shell-interpreter "python3.10")))
 
-(use-package lark-mode
-  :ensure t)
 
 ;; ┌──────────┐
 ;; │ Assembly │

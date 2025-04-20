@@ -284,7 +284,9 @@ This fixes the issue where, in org source blocks, < matches )."
                        ("https://p-snow.org/feed.xml" blog emacs)
                        ("https://stardiviner.github.io/Blog/index.xml" blog emacs)
                        ("https://misohena.jp/blog/feed" blog emacs)
-                       ("https://alhassy.com/rss.xml" blog emacs))))
+                       ("https://alhassy.com/rss.xml" blog emacs)
+                       ("https://martibosch.github.io/feed.xml" blog emacs urbanism environment)
+                       ("https://jan.wildeboer.net/feed.xml" blog programming software webdev))))
 
 
 ;; `elfeed-score' https://github.com/sp1ff/elfeed-score
