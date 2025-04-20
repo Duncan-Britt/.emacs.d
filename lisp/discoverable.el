@@ -30,6 +30,12 @@
       (call-interactively #'my/compile)))
   (define-key project-prefix-map "c" #'my/project-compile))
 
+(use-package project
+  :ensure nil
+  :config
+  ;; (global-unset-key (kbd "C-x p"))
+  (global-set-key (kbd "s-p") project-prefix-map))
+
 (use-package grep
   :ensure nil
   :bind (("s-s" . rgrep)))
