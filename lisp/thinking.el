@@ -58,7 +58,8 @@ This fixes the issue where, in org source blocks, < matches )."
   (require 'blog-publishing)
   (require 'ut-table-manager)
 
-  :hook ((org-mode . my/org-syntax-table-modify)))
+  :hook ((org-mode . my/org-syntax-table-modify))
+  :bind (("s-a" . org-agenda)))
 
 (use-package org-contrib
   :ensure t
@@ -286,7 +287,9 @@ This fixes the issue where, in org source blocks, < matches )."
                        ("https://misohena.jp/blog/feed" blog emacs)
                        ("https://alhassy.com/rss.xml" blog emacs)
                        ("https://martibosch.github.io/feed.xml" blog emacs urbanism environment)
-                       ("https://jan.wildeboer.net/feed.xml" blog programming software webdev))))
+                       ("https://jan.wildeboer.net/feed.xml" blog programming software webdev)
+                       ("https://feeds.feedburner.com/norswap" blog programming)
+                       ("https://kevingal.com/feed.xml" blog programming commonlisp))))
 
 
 ;; `elfeed-score' https://github.com/sp1ff/elfeed-score

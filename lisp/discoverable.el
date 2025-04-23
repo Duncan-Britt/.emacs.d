@@ -14,11 +14,11 @@
   ;; Minibuffer completions for compile commands based on history.
   (add-to-list 'savehist-additional-variables 'compile-history)
   (defun my/compile (cmd)
+    "Compile with completing read based on `compile-history'."
     (interactive
      (list (completing-read "Command: " compile-history)))
     (compile cmd)
     (push cmd compile-history))
-
   (defun my/project-compile ()
     "Run `compile' in the project root."
     (declare (interactive-only compile))
@@ -28,17 +28,26 @@
            (or project-compilation-buffer-name-function
                compilation-buffer-name-function)))
       (call-interactively #'my/compile)))
-  (define-key project-prefix-map "c" #'my/project-compile))
+  (define-key project-prefix-map "c" #'my/project-compile)
+  (global-set-key (kbd "s-c") #'my/compile))
 
 (use-package project
   :ensure nil
   :config
   ;; (global-unset-key (kbd "C-x p"))
-  (global-set-key (kbd "s-p") project-prefix-map))
+  (global-set-key (kbd "s-p") project-prefix-map)
+  ;; TODO currently there is s-p ! for project-shell-command but this
+  ;; is not powerful like C-u M-x `comint-run'. For instance I cannot
+  ;; run a repl this way, or start the rebar3 shell this way.  So I
+  ;; want to create a command `my/project-comint-run' and bind it to
+  ;; something like s-p r (which currently is project-replace regex ->
+  ;; need to move that first).
+  ;; NOTE: this todo would be obviated by my upcomoing `shellx' package.
+  )
 
 (use-package grep
   :ensure nil
-  :bind (("s-s" . rgrep)))
+  :bind (("s-f" . rgrep)))
 
 (use-package dired
   :ensure nil

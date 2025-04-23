@@ -192,6 +192,23 @@ Specific to the current window's mode line.")
           (propertize "●  " 'face 'warning)))
     "mode line construct to indicate unsaved changes.")
 
+  (defvar-local my/modeline-remote-indicator
+      '(:eval
+        (when (and (mode-line-window-selected-p)
+                   (or (and buffer-file-name
+                            (file-remote-p buffer-file-name))
+                       (and default-directory
+                            (file-remote-p default-directory))))
+          (let* ((remote-file (or buffer-file-name default-directory))
+                 (method (file-remote-p remote-file 'method))
+                 (host (file-remote-p remote-file 'host)))
+            (list
+             (propertize (format " %s " (upcase method))
+                         'face 'ansi-color-inverse
+                         'help-echo (format "Remote file via %s to %s" method host))
+             " "))))
+    "Mode line construct to indicate remote files with the method used.")
+
   (dolist (construct '(my/modeline-major-mode
                        prot-modeline-vc-branch
                        my/modeline-kbd-macro
@@ -201,6 +218,7 @@ Specific to the current window's mode line.")
                        my/modeline-date
                        my/modeline-battery
                        my/modeline-modified
+                       my/modeline-remote-indicator
                        prot-modeline-eglot))
     (put construct 'risky-local-variable t))
 
@@ -209,6 +227,7 @@ Specific to the current window's mode line.")
                   "  "
                   my/modeline-meow-indicator
                   my/modeline-kbd-macro
+                  my/modeline-remote-indicator
                   mode-line-buffer-identification
                   "  "
                   prot-modeline-vc-branch

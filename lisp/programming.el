@@ -417,4 +417,26 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
               ("C-c t" . jupyter-ascending-cycle-cell-type)
               ("C-c '" . jupyter-ascending-edit-markdown-cell)))
 
+;; ┌───────────┐
+;; │ "Dev Ops" │
+;; └───────────┘
+(use-package terraform-mode
+  :ensure t)
+
+(use-package tramp
+  :ensure nil
+  :config
+  (add-to-list
+   'tramp-methods
+   '("gcssh"
+     (tramp-login-program "gcloud compute ssh --zone us-central1-c")
+     (tramp-login-args (("%h")))
+     (tramp-async-args (("-q")))
+     (tramp-remote-shell "/bin/sh")
+     (tramp-remote-shell-args ("-c"))
+     (tramp-gw-args (("-o" "GlobalKnownHostsFile=/dev/null")
+                     ("-o" "UserKnownHostsFile=/dev/null")
+                     ("-o" "StrictHostKeyChecking=no")))
+     (tramp-default-port 22))))
+
 (provide 'programming)

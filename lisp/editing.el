@@ -12,7 +12,12 @@
   :ensure nil
   :config ;; c-n adds newlines
   (setq next-line-add-newlines t)
-  (global-set-key [remap dabbrev-expand] 'hippie-expand))
+  (global-set-key [remap dabbrev-expand] 'hippie-expand)
+  ;; Swap C-a and M-m
+  (global-unset-key (kbd "C-a"))
+  (global-unset-key (kbd "M-m"))
+  (global-set-key (kbd "C-a") 'back-to-indentation)
+  (global-set-key (kbd "M-m") 'move-beginning-of-line))
 
 ;; MAKE C-s search case-insensitive:
 ;; (setq case-fold-search t)
