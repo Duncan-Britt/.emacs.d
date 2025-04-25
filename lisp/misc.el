@@ -62,6 +62,8 @@
 (use-package dired
   :ensure nil
   :config
+  (global-unset-key (kbd "C-x C-d")) ;; default is `list-directory'.
+
   (defun xah-open-in-external-app (&optional Fname)
     "Open the current file or dired marked files in external app.
 When called in emacs lisp, if Fname is given, open that.
