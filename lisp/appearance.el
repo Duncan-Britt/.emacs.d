@@ -292,22 +292,9 @@ Specific to the current window's mode line.")
   :ensure t
   :config
   (setq fontaine-presets
-        '((regular
-           :default-family "Iosevka Duncan"
+        '((Iosevka-regular
            :default-height 130
-           :fixed-pitch-family "Iosevka Duncan"
-           :fixed-pitch-height 1.0
-           :variable-pitch-family "Iosevka Comfy Motion Duo"
-           :variable-pitch-height 1.0
-           :mode-line-active-family "Iosevka Comfy Motion" ; falls back to :default-family
-           :mode-line-active-height 1.0
-           :mode-line-inactive-family "Iosevka Comfy Motion" ; falls back to :default-family
-           :mode-line-inactive-height 1.0
-           :header-line-family "Iosevka Comfy Motion"
-           :header-line-height 1.0)
-          (present
            :default-family "Iosevka Duncan"
-           :default-height 150
            :fixed-pitch-family "Iosevka Duncan"
            :fixed-pitch-height 1.0
            :variable-pitch-family "Iosevka Comfy Motion Duo"
@@ -318,7 +305,21 @@ Specific to the current window's mode line.")
            :mode-line-inactive-height 1.0
            :header-line-family "Iosevka Comfy Motion"
            :header-line-height 1.0)
-          (Adelle
+          (Iosevka-share-screen
+           :default-height 150
+           :default-family "Iosevka Duncan"
+           :fixed-pitch-family "Iosevka Duncan"
+           :fixed-pitch-height 1.0
+           :variable-pitch-family "Iosevka Comfy Motion Duo"
+           :variable-pitch-height 1.0
+           :mode-line-active-family "Iosevka Comfy Motion" ; falls back to :default-family
+           :mode-line-active-height 1.0
+           :mode-line-inactive-family "Iosevka Comfy Motion" ; falls back to :default-family
+           :mode-line-inactive-height 1.0
+           :header-line-family "Iosevka Comfy Motion"
+           :header-line-height 1.0)
+          (Adelle-regular
+           :default-height 130
            :default-family "Iosevka Duncan"
            :fixed-pitch-family "Iosevka Duncan"
            :fixed-pitch-height 1.0
@@ -339,7 +340,51 @@ Specific to the current window's mode line.")
            :mode-line-inactive-height 1.0
            :header-line-family "Iosevka Comfy Motion"
            :header-line-height 1.0)
-          (Athelas
+          (Adelle-share-screen
+           :default-height 150
+           :default-family "Iosevka Duncan"
+           :fixed-pitch-family "Iosevka Duncan"
+           :fixed-pitch-height 1.0
+           :org-level-1-family "Symbola" ;; <-- Requires `fontaine-org'.
+           :org-level-2-family "Symbola"
+           :org-level-3-family "Symbola"
+           :org-level-4-family "Symbola"
+           :org-level-5-family "Symbola"
+           :org-level-6-family "Symbola"
+           :org-level-7-family "Symbola"
+           :org-level-8-family "Symbola"
+           :variable-pitch-family  "Adelle" ;"Symbola" ;"Antykwa Poltawskiego"
+           :variable-pitch-weight nil
+           :variable-pitch-height 1.0
+           :mode-line-active-family "Iosevka Comfy Motion" ; falls back to :default-family
+           :mode-line-active-height 1.0
+           :mode-line-inactive-family "Iosevka Comfy Motion" ; falls back to :default-family
+           :mode-line-inactive-height 1.0
+           :header-line-family "Iosevka Comfy Motion"
+           :header-line-height 1.0)
+          (Athelas-regular
+           :default-height 130
+           :default-family "Iosevka Duncan"
+           :fixed-pitch-family "Iosevka Duncan"
+           :fixed-pitch-height 1.0
+           :org-level-1-family "Symbola" ;; <-- Requires `fontaine-org'.
+           :org-level-2-family "Symbola"
+           :org-level-3-family "Symbola"
+           :org-level-4-family "Symbola"
+           :org-level-5-family "Symbola"
+           :org-level-6-family "Symbola"
+           :org-level-7-family "Symbola"
+           :org-level-8-family "Symbola"
+           :variable-pitch-family  "Athelas" ;"ETBembo"
+           :variable-pitch-height 1.0
+           :mode-line-active-family "Iosevka Comfy Motion" ; falls back to :default-family
+           :mode-line-active-height 1.0
+           :mode-line-inactive-family "Iosevka Comfy Motion" ; falls back to :default-family
+           :mode-line-inactive-height 1.0
+           :header-line-family "Iosevka Comfy Motion"
+           :header-line-height 1.0)
+          (Athelas-share-screen
+           :default-height 150
            :default-family "Iosevka Duncan"
            :fixed-pitch-family "Iosevka Duncan"
            :fixed-pitch-height 1.0
@@ -378,7 +423,7 @@ Specific to the current window's mode line.")
                             (insert-file-contents font-state-file)
                             (intern (buffer-string)))))
            (fontaine-set-preset last-font)))
-     (fontaine-set-preset 'regular)))
+     (fontaine-set-preset 'Iosevka-regular)))
 
  (defun save-current-font (&rest _)
    "Save the current theme to a file."

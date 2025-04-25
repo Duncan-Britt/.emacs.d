@@ -12,6 +12,7 @@
 ;; └──────────┘
 
 (use-package org
+  :ensure nil
   :after (ob-prolog ob-elixir ob-restclient)
   :config
   (defun my/org-syntax-table-modify ()
