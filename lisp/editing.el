@@ -14,10 +14,11 @@
   (setq next-line-add-newlines t)
   (global-set-key [remap dabbrev-expand] 'hippie-expand)
   ;; Swap C-a and M-m
-  (global-unset-key (kbd "C-a"))
-  (global-unset-key (kbd "M-m"))
-  (global-set-key (kbd "C-a") 'back-to-indentation)
-  (global-set-key (kbd "M-m") 'move-beginning-of-line))
+  ;; (global-unset-key (kbd "C-a"))
+  ;; (global-unset-key (kbd "M-m"))
+  ;; (global-set-key (kbd "C-a") 'back-to-indentation)
+  ;; (global-set-key (kbd "M-m") 'move-beginning-of-line)
+  )
 
 ;; MAKE C-s search case-insensitive:
 ;; (setq case-fold-search t)
@@ -136,22 +137,34 @@
           ))
   (setq popper-group-function #'popper-group-by-project)
 
+  (defun my/popper-group-function ()
+    ""
+    )
+  (setq popper-group-function #'my/popper-group-function)
+
   (defun my/popper-display-popup (buffer &optional alist)
     "Display popup-buffer BUFFER based on the number of windows in the frame."
-    (let ((window-count (length (window-list))))
-      (if (= window-count 1)
-          ;; If there's only one window, display on the right
-          (display-buffer-in-side-window
-           buffer
-           (append alist
-                   `((side . right)
-                     (window-width . 0.5))))
-        ;; If there are multiple windows, display at the bottom
-        (display-buffer-in-side-window
-         buffer
-         (append alist
-                 `((side . bottom)
-                   (window-height . 0.5)))))))
+    (display-buffer-in-side-window
+     buffer
+     (append alist
+             `((side . right)
+               (window-width . 0.5)))))
+  ;; (defun my/popper-display-popup (buffer &optional alist)
+  ;;   "Display popup-buffer BUFFER based on the number of windows in the frame."
+  ;;   (let ((window-count (length (window-list))))
+  ;;     (if (= window-count 1)
+  ;;         ;; If there's only one window, display on the right
+  ;;         (display-buffer-in-side-window
+  ;;          buffer
+  ;;          (append alist
+  ;;                  `((side . right)
+  ;;                    (window-width . 0.5))))
+  ;;       ;; If there are multiple windows, display at the bottom
+  ;;       (display-buffer-in-side-window
+  ;;        buffer
+  ;;        (append alist
+  ;;                `((side . bottom)
+  ;;                  (window-height . 0.5)))))))
 
   (setq popper-display-function #'my/popper-display-popup)
 

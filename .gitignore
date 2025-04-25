@@ -27,3 +27,4 @@ places
 *.DS_Store
 .org-id-locations
 custom.el
+notes
