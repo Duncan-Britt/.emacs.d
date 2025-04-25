@@ -172,11 +172,6 @@
 (require 'programming)
 (require 'misc)
 
-;; (defun my/denote-emacs-config ()
-;;   "Make personal emacs config file using denote."
-;;   (interactive)
-;;   (denote nil nil nil (expand-file-name (concat user-emacs-directory "lisp")) nil nil nil))
-
 (add-to-list 'load-path "~/Dropbox/private/")
 (when (file-exists-p "~/Dropbox/private/private.el")
   (require 'private))
