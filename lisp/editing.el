@@ -148,23 +148,12 @@
      buffer
      (append alist
              `((side . right)
-               (window-width . 0.5)))))
-  ;; (defun my/popper-display-popup (buffer &optional alist)
-  ;;   "Display popup-buffer BUFFER based on the number of windows in the frame."
-  ;;   (let ((window-count (length (window-list))))
-  ;;     (if (= window-count 1)
-  ;;         ;; If there's only one window, display on the right
-  ;;         (display-buffer-in-side-window
-  ;;          buffer
-  ;;          (append alist
-  ;;                  `((side . right)
-  ;;                    (window-width . 0.5))))
-  ;;       ;; If there are multiple windows, display at the bottom
-  ;;       (display-buffer-in-side-window
-  ;;        buffer
-  ;;        (append alist
-  ;;                `((side . bottom)
-  ;;                  (window-height . 0.5)))))))
+               (window-width . ,(cond ((>= (frame-width) 180)
+                                       'fit-to-width)
+                                      ((>= (frame-width) 80)
+                                       80)
+                                      (t
+                                       (frame-width))))))))
 
   (setq popper-display-function #'my/popper-display-popup)
 
