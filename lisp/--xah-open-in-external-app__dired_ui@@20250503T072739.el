@@ -1,69 +1,15 @@
-;;; misc.el --- Don't know where else to put these. -*- lexical-binding: t; -*-
+;;; --xah-open-in-external-app__dired_ui@@20250503T072739.el --- dired -*- lexical-binding: t -*-
 
 ;;; Commentary:
-;; ┌───────────────┐
-;; │ Miscellaneous │
-;; └───────────────┘
+;; title: xah-open-in-external-app
+;; keywords: :dired:ui:
+;; date: [2025-05-03 Sat 07:27]
+;; identifier: 20250503T072739
 
 ;;; Code:
-
-(use-package emacs
-  :ensure nil
-  :config
-  (fset 'yes-or-no-p 'y-or-n-p)
-  (setq large-file-warning-threshold 30000000)
-  (save-place-mode 1))
-
-(use-package transient
-  :ensure t)
-
-(use-package time
-  :ensure nil
-  :config
-  (setq world-clock-list
-        '(("America/Denver" "Denver")
-          ("Asia/Saigon" "Saigon")
-          ("America/New_York" "Princeton")))
-  (setq world-clock-time-format "%t%A %B %_d%n%l:%M %p%n===============================")
-  ;; C-h f format-time-string
-  ;; %d <- day of month, e.g. `03'
-  ;; %A <- week day, e.g. `Monday'
-  ;; %B <- month, e.g. `March'
-  ;; %R <- military time, e.g. `22:35'
-  ;; %Z <- time zone, e.g. `+07' or `EST'
-  ;; %I <- 12 hour clock hour, %l is blank padded version
-  )
-
-(use-package calendar
-  :ensure nil
-  :config
-  (defun calendar-insert-date ()
-    "Capture the date at point, exit the Calendar, insert the date."
-    (interactive)
-    (seq-let (month day year) (save-match-data (calendar-cursor-to-date))
-      (calendar-exit)
-      (insert (format "<%d-%02d-%02d>" year month day))))
-  (define-key calendar-mode-map (kbd "RET") 'calendar-insert-date))
-
-(use-package-when-local
- directory-slideshow
- "~/code/my-emacs-packages/directory-slideshow/")
-
-(use-package djvu
-  :ensure t)
-
-(use-package comint
-  :ensure nil
-  :bind (("s-r" . (lambda ()
-                    (interactive)
-                    (let ((current-prefix-arg '(4)))
-                      (call-interactively 'comint-run))))))
-
 (use-package dired
   :ensure nil
   :config
-  (global-unset-key (kbd "C-x C-d")) ;; default is `list-directory'.
-
   (defun xah-open-in-external-app (&optional Fname)
     "Open the current file or dired marked files in external app.
 When called in emacs lisp, if Fname is given, open that.
@@ -129,7 +75,7 @@ Version: 2025-04-18"
                          (<= x filename-x-end))
                 filename)))))))
 
-  (defun my-dired-context-menu-item (menu click)
+  (defun my-context-menu-item-for-xah-open-in-external-app (menu click)
     "Add a top-level 'Open in external app' item to Dired's context MENU at CLICK position.
 The Open in external app context menue button comes up when
 either some file is clicked on, some file(s) are marked in dired,
@@ -150,26 +96,7 @@ was clicked on, or the marked file(s) otherwise."
           menu)
       menu))
 
-  (add-hook 'context-menu-functions #'my-dired-context-menu-item)
+  (add-hook 'context-menu-functions #'my-context-menu-item-for-xah-open-in-external-app))
 
-  (defun my/dired-toggle-marked (event)
-    "Toggle marked in dired on click EVENT."
-    (interactive "e")
-    (let ((marked-files (dired-get-marked-files))
-          (file-name (get-filename-at-mouse-click event))
-          (window (posn-window (event-end event)))
-          (pos (posn-point (event-end event))))
-      ;; (print marked-files)
-      ;; (print file-name)
-      (with-current-buffer (window-buffer window)
-        (when (eq major-mode 'dired-mode)
-          (save-excursion
-            (goto-char pos)
-            (if (member file-name marked-files)
-                (dired-unmark nil)
-              (dired-mark nil)))))))
-
-  :bind ((:map dired-mode-map
-               ("s-<mouse-1>" . my/dired-toggle-marked))))
-
-(provide 'misc)
+(provide '--xah-open-in-external-app__dired_ui@@20250503T072739)
+;;; --xah-open-in-external-app__dired_ui@@20250503T072739.el ends here

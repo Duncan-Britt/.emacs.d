@@ -5,79 +5,6 @@
 ;; │ Discoverability │
 ;; └─────────────────┘
 ;;; Code:
-(use-package emacs
-  :ensure nil
-  :config
-  (context-menu-mode)
-  (savehist-mode)
-
-  ;; Minibuffer completions for compile commands based on history.
-  (add-to-list 'savehist-additional-variables 'compile-history)
-  (defun my/compile (cmd)
-    "Compile with completing read based on `compile-history'."
-    (interactive
-     (list (completing-read "Command: " compile-history)))
-    (compile cmd)
-    (push cmd compile-history))
-  (defun my/project-compile ()
-    "Run `compile' in the project root."
-    (declare (interactive-only compile))
-    (interactive)
-    (let ((default-directory (project-root (project-current t)))
-          (compilation-buffer-name-function
-           (or project-compilation-buffer-name-function
-               compilation-buffer-name-function)))
-      (call-interactively #'my/compile)))
-  (define-key project-prefix-map "c" #'my/project-compile)
-  (global-set-key (kbd "s-c") #'my/compile))
-
-(use-package project
-  :ensure nil
-  :config
-  ;; (global-unset-key (kbd "C-x p"))
-  (global-set-key (kbd "s-p") project-prefix-map)
-  ;; TODO currently there is s-p ! for project-shell-command but this
-  ;; is not powerful like C-u M-x `comint-run'. For instance I cannot
-  ;; run a repl this way, or start the rebar3 shell this way.  So I
-  ;; want to create a command `my/project-comint-run' and bind it to
-  ;; something like s-p r (which currently is project-replace regex ->
-  ;; need to move that first).
-  ;; NOTE: this todo would be obviated by my upcomoing `shellx' package.
-  )
-
-(use-package grep
-  :ensure nil
-  :bind (("s-f" . rgrep)))
-
-(use-package dired
-  :ensure nil
-  :hook
-  (dired-mode . dired-hide-details-mode))
-
-(use-package dired-subtree
-  :ensure t
-  :after dired
-  :bind
-  (:map dired-mode-map
-        ("<tab>" . dired-subtree-toggle)
-        ("C-<tab>" . dired-subtree-cycle)
-        ("<backtab>" . dired-subtree-remove)))
-
-(use-package casual
-  :after (calc transient)
-  :ensure t
-  :bind
-  (:map calc-mode-map
-        ("C-o" . casual-calc-tmenu)))
-
-(use-package org-cmenu
-  :ensure (:host github :repo "misohena/org-cmenu")
-  :after org
-  :config (require 'org-cmenu-setup)
-  :bind
-  (:map org-mode-map
-        ("M-n" . org-cmenu)))
-
 (use-package which-key
   :ensure t ;; TODO when I upgrade to Emacs 30, :ensure nil because it is built in
   :init
@@ -109,17 +36,6 @@
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion))
                                    (eglot (styles orderless)))))
-
-(use-package marginalia
-  :ensure t
-  :init
-  (marginalia-mode))
-
-(use-package embark
-  :ensure t
-  :bind
-  (("C-." . embark-act)
-   ("C-h B" . embark-bindings)))
 
 (use-package embark-consult
   :ensure t)
@@ -181,7 +97,7 @@
   (setq eglot-autoshutdown t)
   (setq eglot-confirm-server-initiated-edits nil)
   (add-to-list 'eglot-server-programs
-               '(asm-mode . ("asm-lsp")))
+               '(asm-mode . ("armls")))
   (add-to-list 'eglot-server-programs
                '(web-mode . ("vscode-html-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs

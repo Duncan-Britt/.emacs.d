@@ -338,35 +338,10 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
 ;; │ Assembly │
 ;; └──────────┘
 
-(add-hook 'asm-mode-hook
-          (lambda ()
-            (setq comment-start "#")
-            (setq comment-end "")))
-
-;; ┌──────┐
-;; │ TLA+ │
-;; └──────┘
-
-;; See lisp/tla+-mode.el
-(require 'tla+-mode)
-
-(use-package tla+-mode
-  :ensure nil
-  :mode ("\\.tla\\'" . tla+-mode)
-  :hook (tla+-mode . (lambda ()
-                       (tla+/load-symbols)
-                       (prettify-symbols-mode 1))))
-
-;; ┌──────────┐
-;; │ PlantUML │
-;; └──────────┘
-
-(use-package plantuml-mode
-  :ensure t
-  :config
-  (setq org-plantuml-jar-path (expand-file-name "~/Downloads/installers/plantuml-mit-1.2025.1.jar"))
-  (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
-  (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t))))
+;; (add-hook 'asm-mode-hook
+;;           (lambda ()
+;;             (setq comment-start "#")
+;;             (setq comment-end "")))
 
 ;; ┌─────────────┐
 ;; │ Environment │
@@ -404,7 +379,6 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
  jupyter-ascending
  "~/code/my-emacs-packages/jupyter-ascending/"
  "Duncan-Britt/jupyter-ascending"
-  :ensure nil
   :hook (python-mode . (lambda ()
                          (when (and buffer-file-name
                                     (string-match-p "\\.sync\\.py\\'" buffer-file-name))
@@ -416,6 +390,12 @@ Note that it may show that C++ is not installed even when it is. Check with `M-x
               ("C-c C-p" . jupyter-ascending-previous-cell)
               ("C-c t" . jupyter-ascending-cycle-cell-type)
               ("C-c '" . jupyter-ascending-edit-markdown-cell)))
+
+;; ┌──────┐
+;; │ JSON │
+;; └──────┘
+(use-package json-mode
+  :ensure t)
 
 ;; ┌───────────┐
 ;; │ "Dev Ops" │

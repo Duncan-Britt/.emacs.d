@@ -6,7 +6,6 @@
 ;; └──────────┘
 ;;; Code:
 (require 'portable)
-(require 'morning-pages)
 ;; ┌──────────┐
 ;; │ Org Mode │
 ;; └──────────┘
@@ -23,8 +22,6 @@ This fixes the issue where, in org source blocks, < matches )."
 
   (setq org-agenda-files (list (expand-file-name "~/Dropbox/agenda/agenda.org")))
   ;; (setq org-archive-location "~/Dropbox/agenda/agenda_archive.org::%s_archive") ;; <-- unused? Org Archiver has it's own location.
-  ;; (setq org-plantuml-jar-path (expand-file-name "~/plantuml-1.2024.4.jar")) ;; <-- doesn't exist on my new mac
-  (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
   (org-babel-do-load-languages ;; Org source block execution
    'org-babel-load-languages
    '((emacs-lisp . t)
@@ -37,7 +34,6 @@ This fixes the issue where, in org source blocks, < matches )."
      (dot . t)
      (matlab . t)
      (sql . t)
-     (plantuml . t)
      (shell . t)
      (prolog . t)
      (elixir . t)
@@ -94,129 +90,5 @@ This fixes the issue where, in org source blocks, < matches )."
   :after org
   :config
   (setq ob-async-no-async-languages-alist '("ipython")))
-
-(use-package org-download
-  :ensure t
-  :custom
-  (org-download-image-attr-list '("#+attr_org: :width 600"))
-  (org-download-image-dir ".images/"))
-
-(use-package-local-or-remote
- paste-img
- "~/code/my-emacs-packages/paste-img/"
- "Duncan-Britt/paste-img"
- :after (org org-download)
- :hook
- (org-mode . paste-img-mode))
-
-;; ┌─────────┐
-;; │ Writing │
-;; └─────────┘
-
-;; Spell checker
-(use-package jinx ;; NOTE Custom variable `jinx-include-faces' can be used to add spell checking to comments and string in programming modes. Also see `jinx-exclude-faces'.
-  :ensure t
-  :hook
-  ((org-mode . jinx-mode)
-   (text-mode . jinx-mode))
-  :bind (("M-$" . jinx-correct))) ;; M-x jinx-languages for other languages.
-
-(use-package mw-thesaurus
-  :ensure t
-  :after org
-  :bind
-  (:map org-mode-map
-        ("C-c t" . mw-thesaurus-lookup-dwim)))
-
-(use-package reverso ;; Translation, Thesaurus, Grammar Checking (Online only)
-  :ensure t)
-
-(use-package markdown-mode
-  :ensure t)
-
-;; ┌──────────────────────┐
-;; │ Knowledge Management │
-;; └──────────────────────┘
-
-(use-package denote
-  :ensure t
-  :config
-  (setq denote-directory (expand-file-name "~/Dropbox/notes/"))
-  :hook (dired-mode . denote-dired-mode))
-
-(use-package-local-or-remote
- denote-dired-bookmarks
- "~/code/my-emacs-packages/denote-dired-bookmarks/"
- "Duncan-Britt/denote-dired-bookmarks"
- :hook (dired-mode . denote-dired-bookmarks-mode)
- :bind (("s-b" . denote-dired-bookmarks-create-bookmark)))
-
-(use-package pdf-tools
-  :ensure t
-  :config
-  (pdf-tools-install))
-
-(use-package-local-or-remote
- org-pdftools
- "~/code/my-emacs-packages/org-pdftools/"
- "Duncan-Britt/org-pdftools"
- :hook (org-mode . org-pdftools-setup-link))
-
-(use-package nov
-  :ensure t
-  :mode ("\\.epub\\'" . nov-mode))
-
-(use-package anki-editor
-  :ensure t)
-
-;; ┌───────────┐
-;; │ Citations │
-;; └───────────┘
-
-(use-package org
-  :ensure nil
-  :config
-  ;; for Bibtex Bibliography styles on latex export
-  (setq org-cite-csl-styles-dir "~/code/citation-styles/"))
-
-(use-package citeproc
-  :ensure t
-  :after org
-  :config
-  ;; Optional basic configuration
-  ;; (setq org-cite-export-processors '((t citeproc)))
-  )
-
-;; ┌─────┐
-;; │ LLM │
-;; └─────┘
-
-(use-package gptel
-  :after transient
-  :ensure t
-  :bind (("C-c RET" . gptel-send))
-  :config
-  (require 'safe)
-
-  (setq gptel--known-backends (assoc-delete-all "ChatGPT" gptel--known-backends))
-
-  (setq gptel-model 'claude-3-7-sonnet-20250219
-        gptel-backend
-        (gptel-make-anthropic "Claude"
-          :stream t :key *a-gptel-token*))
-
-  (gptel-make-openai "DeepSeek" ; Any name you want
-    :host "api.deepseek.com"
-    :endpoint "/chat/completions"
-    :stream t
-    :key *deep-token* ; can be a function that returns the key
-    :models '(deepseek-chat deepseek-coder))
-
-  (gptel-make-ollama "Ollama"
-    :host "localhost:11434"
-    :stream t
-    :models '(qwen2.5-coder:14b qwen2.5-coder:32b aya:latest))
-
-  (setq gptel-default-mode 'org-mode))
 
 (provide 'thinking)

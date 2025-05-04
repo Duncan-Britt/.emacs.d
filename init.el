@@ -150,9 +150,9 @@
               (org-agenda-list) ;; <-- calendar
               (elpaca-log nil t))))
 
-;; ┌───────────┐
-;; │ Load Path │
-;; └───────────┘
+;; ┌────────────────────┐
+;; │ Load Elisp Modules │
+;; └────────────────────┘
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
@@ -164,13 +164,28 @@
   (with-eval-after-load 'safe
     (load "~/code/my-emacs-packages/rotor/rotor.el")))
 
-(require 'portable)
-(require 'appearance)
-(require 'discoverable)
-(require 'editing)
-(require 'thinking)
-(require 'programming)
-(require 'misc)
+;; (require 'portable)
+;; (require 'appearance)
+;; (require 'discoverable)
+;; (require 'editing)
+;; (require 'thinking)
+;; (require 'programming)
+;; (require 'misc)
+
+(defun require-directory (dir)
+  "Load all elisp files in directory DIR."
+  (interactive "DDirectory: ")
+  (let ((files (directory-files dir t "\\.el$")))
+    (dolist (file files)
+      (let* ((filename (file-name-nondirectory file))
+             (module (file-name-sans-extension filename)))
+        ;; Skip backup files and custom.el
+        (unless (or (string-prefix-p "." filename)
+                    (string= filename "custom.el"))
+          (message "Loading %s..." module)
+          (require (intern module)))))))
+
+(require-directory "~/.emacs.d/lisp/")
 
 (add-to-list 'load-path "~/Dropbox/private/")
 (when (file-exists-p "~/Dropbox/private/private.el")

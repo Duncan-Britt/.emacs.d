@@ -13,12 +13,17 @@
   :config ;; c-n adds newlines
   (setq next-line-add-newlines t)
   (global-set-key [remap dabbrev-expand] 'hippie-expand)
-  ;; Swap C-a and M-m
-  ;; (global-unset-key (kbd "C-a"))
-  ;; (global-unset-key (kbd "M-m"))
-  ;; (global-set-key (kbd "C-a") 'back-to-indentation)
-  ;; (global-set-key (kbd "M-m") 'move-beginning-of-line)
-  )
+  ;; Swap M-x and M-SPC
+  (global-set-key (kbd "M-SPC") 'execute-extended-command)
+  (global-set-key (kbd "M-x") 'cycle-spacing)
+
+  (defun my/delete-dwim ()
+    "Custom delete function to do what I mean based on context."
+    (interactive)
+    (cond ((region-active-p) (call-interactively 'delete-region))
+          ((derived-mode-p 'org-mode) (call-interactively 'org-delete-char))
+          (t (call-interactively 'delete-char))))
+  (global-set-key (kbd "C-d") 'my/delete-dwim))
 
 ;; MAKE C-s search case-insensitive:
 ;; (setq case-fold-search t)
@@ -148,9 +153,7 @@
      buffer
      (append alist
              `((side . right)
-               (window-width . ,(cond ((>= (frame-width) 180)
-                                       'fit-to-width)
-                                      ((>= (frame-width) 80)
+               (window-width . ,(cond ((>= (frame-width) 80)
                                        80)
                                       (t
                                        (frame-width))))))))
