@@ -7,6 +7,8 @@
 ;; identifier: 20250503T074912
 
 ;;; Code:
+(require 'portable)
+
 (use-package-local-or-remote
  org-pdftools
  "~/code/my-emacs-packages/org-pdftools/"

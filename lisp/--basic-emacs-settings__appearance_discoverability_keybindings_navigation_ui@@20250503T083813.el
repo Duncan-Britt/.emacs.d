@@ -7,7 +7,6 @@
 ;; identifier: 20250503T083813
 
 ;;; Code:
-
 (use-package emacs
   :ensure nil
   :config
@@ -24,14 +23,27 @@
                        :visible (eq window-system 'ns)])
   (context-menu-mode)
   (savehist-mode)
+  ;; MAKE C-s search case-insensitive:
+  ;; (setq case-fold-search t)
+
   ;; ┌────────────┐
   ;; │ Appearance │
   ;; └────────────┘
   (setq-default truncate-lines t)
-  (tool-bar-mode -1)    ; Remove toolbar
-  (scroll-bar-mode -1)  ; Remove scroll bar
+
+  ;; TODO theme switcher needs to accomodate this. Need to know how to affect the current frame.
+  ;; (when (eq 'ns window-system) ;; macos
+  ;;   (setq default-frame-alist '((ns-appearance . dark)
+  ;;                               (ns-transparent-titlebar . t)
+  ;;                               )))
+
+  (tool-bar-mode 1)
+  (scroll-bar-mode -1)
   (blink-cursor-mode)
   (global-hl-line-mode)
+  (when (eq 'ns window-system) ;;=> t MacOS
+    (setq default-frame-alist '((ns-transparent-titlebar . t))))
+
   :hook ((prog-mode . display-line-numbers-mode)
          (dired-mode . dired-hide-details-mode))
   ;; ┌─────────────┐
@@ -39,7 +51,16 @@
   ;; └─────────────┘
   :config
   (global-unset-key (kbd "C-x C-d")) ;; default is `list-directory'.
-  :bind (("s-f" . rgrep)))
+  :bind (("s-f" . rgrep)
+         ("M-SPC" . execute-extended-command) ;; Swap M-x and M-SPC
+         ("M-x" . cycle-spacing))
+  ;; ┌─────────────────────────┐
+  ;; │ Text Editing & Movement │
+  ;; └─────────────────────────┘
+  :config
+  (setq-default indent-tabs-mode nil)
+  (setq next-line-add-newlines t) ;; c-n adds newlines
+  (global-set-key [remap dabbrev-expand] 'hippie-expand))
 
 (provide '--basic-emacs-settings__appearance_discoverability_keybindings_navigation_ui@@20250503T083813)
 

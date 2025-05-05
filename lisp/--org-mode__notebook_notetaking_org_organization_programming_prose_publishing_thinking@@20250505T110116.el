@@ -1,15 +1,12 @@
-;;; thinking.el --- planning, writing, note taking, etc... -*- lexical-binding: t; -*-
+;;; --org-mode__notebook_notetaking_org_organization_programming_prose_publishing_thinking@@20250505T110116.el --- org-mode -*- lexical-binding: t -*-
 
 ;;; Commentary:
-;; ┌──────────┐
-;; │ Thinking │
-;; └──────────┘
-;;; Code:
-(require 'portable)
-;; ┌──────────┐
-;; │ Org Mode │
-;; └──────────┘
+;; title: org-mode
+;; keywords: :notebook:notetaking:org:organization:programming:prose:publishing:thinking:
+;; date: [2025-05-05 Mon 11:01]
+;; identifier: 20250505T110116
 
+;;; Code:
 (use-package org
   :ensure nil
   :after (ob-prolog ob-elixir ob-restclient)
@@ -73,22 +70,11 @@ This fixes the issue where, in org source blocks, < matches )."
   :ensure t
   :after org)
 
-(use-package-local-or-remote
- archiver
- "~/code/my-emacs-packages/archiver/"
- "Duncan-Britt/emacs-archiver"
- :after org
- :init
- (setq *archiver-agenda-archive-location*
-       (expand-file-name "~/Dropbox/agenda/agenda_archive.org"))
- :bind
- (:map org-mode-map
-       ("C-c C-x C-a" . archiver-archive-heading)))
-
 (use-package ob-async
   :ensure t
   :after org
   :config
   (setq ob-async-no-async-languages-alist '("ipython")))
 
-(provide 'thinking)
+(provide '--org-mode__notebook_notetaking_org_organization_programming_prose_publishing_thinking@@20250505T110116)
+;;; --org-mode__notebook_notetaking_org_organization_programming_prose_publishing_thinking@@20250505T110116.el ends here
