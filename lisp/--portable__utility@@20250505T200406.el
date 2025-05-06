@@ -1,3 +1,12 @@
+;;; --portable__utility@@20250505T200406.el --- portable -*- lexical-binding: t -*-
+
+;;; Commentary:
+;; title: portable
+;; keywords: :utility:
+;; date: [2025-05-05 Mon 20:04]
+;; identifier: 20250505T200406
+
+;;; Code:
 ;;; portable.el --- Make config portable between my machines. -*- lexical-binding: t; -*-
 
 ;;; Commentary:
@@ -23,4 +32,6 @@
 
 (global-auto-revert-mode 1)
 
-(provide 'portable)
+(provide '--portable__utility@@20250505T200406)
+
+;;; --portable__utility@@20250505T200406.el ends here

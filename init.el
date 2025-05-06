@@ -106,10 +106,10 @@
 
 ;; ┌──────────────────────────────┐
 ;; │ Autosave, Backups, Lockfiles │
-;; └──────────────────────────────┘
+;; └──────────────────────────────┘ ;; TODO use-package this with rest of basics
 
 ;; Set up a directory for storing backup files
-(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+(setq backup-directory-alist `(("." . ,(expand-file-name "backups" user-emacs-directory))))
 
 ;; Set up a directory for storing auto-save files
 (setq auto-save-file-name-transforms
@@ -157,20 +157,12 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
   (load custom-file))
-(add-to-list 'load-path "~/.emacs.d/lisp/") ;; NOTE: Use (require 'package) to use the code in the lisp directory
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory)) ;; NOTE: Probably redundant, see below.
 (when (and (file-exists-p "~/.safe/safe.el")
            (file-exists-p "~/code/my-emacs-packages/rotor/rotor.el"))
   (load "~/.safe/safe.el")
   (with-eval-after-load 'safe
     (load "~/code/my-emacs-packages/rotor/rotor.el")))
-
-;; (require 'portable)
-;; (require 'appearance)
-;; (require 'discoverable)
-;; (require 'editing)
-;; (require 'thinking)
-;; (require 'programming)
-;; (require 'misc)
 
 (defun require-directory (dir)
   "Load all elisp files in directory DIR."
@@ -185,7 +177,7 @@
           (message "Loading %s..." module)
           (require (intern module)))))))
 
-(require-directory "~/.emacs.d/lisp/")
+(require-directory (expand-file-name "lisp" user-emacs-directory))
 
 (add-to-list 'load-path "~/Dropbox/private/")
 (when (file-exists-p "~/Dropbox/private/private.el")

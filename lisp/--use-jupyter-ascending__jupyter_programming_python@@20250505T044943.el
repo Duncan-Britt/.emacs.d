@@ -7,7 +7,7 @@
 ;; identifier: 20250505T044943
 
 ;;; Code:
-(require 'portable)
+(require '--portable__utility@@20250505T200406)
 
 (use-package-local-or-remote
  jupyter-ascending

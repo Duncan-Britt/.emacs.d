@@ -7,7 +7,7 @@
 ;; identifier: 20250505T105621
 
 ;;; Code:
-(require 'portable)
+(require '--portable__utility@@20250505T200406)
 
 (use-package-local-or-remote
  archiver

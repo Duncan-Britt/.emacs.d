@@ -7,7 +7,7 @@
 ;; identifier: 20250503T075916
 
 ;;; Code:
-(require 'portable)
+(require '--portable__utility@@20250505T200406)
 
 (use-package-local-or-remote
  paste-img
