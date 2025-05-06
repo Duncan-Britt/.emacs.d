@@ -9,11 +9,10 @@
 ;;; Code:
 (use-package corfu
   :ensure t
-  ;; :hook
-  ;; ((prog-mode . corfu-mode)
-  ;;  ;; (shell-mode . corfu-mode)
-  ;;  ;; (eshell-mode . corfu-mode)
-  ;;  )
+  :hook
+  ((prog-mode . corfu-mode)
+   (shell-mode . corfu-mode)
+   (eshell-mode . corfu-mode))
   :config
   (setq corfu-auto nil)
   (setq corfu-auto-prefix 2) ;; NOTE These only apply if corfu-auto is t
