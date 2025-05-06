@@ -9,16 +9,17 @@
 ;;; Code:
 (use-package corfu
   :ensure t
-  :hook
-  ((prog-mode . corfu-mode)
-   ;; (shell-mode . corfu-mode)
-   ;; (eshell-mode . corfu-mode)
-   )
+  ;; :hook
+  ;; ((prog-mode . corfu-mode)
+  ;;  ;; (shell-mode . corfu-mode)
+  ;;  ;; (eshell-mode . corfu-mode)
+  ;;  )
   :config
   (setq corfu-auto nil)
   (setq corfu-auto-prefix 2) ;; NOTE These only apply if corfu-auto is t
   (setq corfu-auto-delay 0.1)
   (setq corfu-echo-documentation 0.25)
+  (global-corfu-mode 1)
   :bind
   (:map corfu-map
         ("TAB" . corfu-next)
