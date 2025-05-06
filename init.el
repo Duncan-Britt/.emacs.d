@@ -172,13 +172,6 @@
   ;; │ Appearance │
   ;; └────────────┘
   (setq-default truncate-lines t)
-
-  ;; TODO theme switcher needs to accomodate this. Need to know how to affect the current frame.
-  ;; (when (eq 'ns window-system) ;; macos
-  ;;   (setq default-frame-alist '((ns-appearance . dark)
-  ;;                               (ns-transparent-titlebar . t)
-  ;;                               )))
-
   (tool-bar-mode 1)
   (scroll-bar-mode -1)
   (blink-cursor-mode)
