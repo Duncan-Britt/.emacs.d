@@ -8,7 +8,9 @@
 
 ;;; Code:
 (use-package calle24
-  :ensure (:host github :repo "Duncan-Britt/calle24" :branch "elpaca-support"))
+  :ensure (:host github :repo "Duncan-Britt/calle24" :branch "elpaca-support")
+  :config
+  (calle24-refresh-appearance))
 
 (provide '--use-calle24__appearance@@20250504T114135)
 ;;; --use-calle24__appearance@@20250504T114135.el ends here

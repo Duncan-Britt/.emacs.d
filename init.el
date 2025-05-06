@@ -104,35 +104,37 @@
 ;;Useful for configuring built-in emacs features.
 ;; (use-package emacs :ensure nil :config (setq ring-bell-function #'ignore))
 
-;; ┌──────────────────────────────┐
-;; │ Autosave, Backups, Lockfiles │
-;; └──────────────────────────────┘ ;; TODO use-package this with rest of basics
-
-;; Set up a directory for storing backup files
-(setq backup-directory-alist `(("." . ,(expand-file-name "backups" user-emacs-directory))))
-
-;; Set up a directory for storing auto-save files
-(setq auto-save-file-name-transforms
-      `((".*" ,(concat user-emacs-directory "auto-save/") t)))
-
-;; Create the auto-save directory if it doesn't exist
-(make-directory (concat user-emacs-directory "auto-save/") t)
-
-;; Configure auto-save behavior
-(setq auto-save-default t
-      auto-save-timeout 20
-      auto-save-interval 200)
-
-;; Don't create lock files
-(setq create-lockfiles nil)
-
-;; ┌─────────┐
-;; │ Startup │
-;; └─────────┘
-
+;; ┌──────────────────────┐
+;; │ Basic Emacs Settings │
+;; └──────────────────────┘
 (use-package emacs
   :ensure nil
   :config
+  ;; ┌──────────────────────────────┐
+  ;; │ Autosave, Backups, Lockfiles │
+  ;; └──────────────────────────────┘
+
+  ;; Set up a directory for storing backup files
+  (setq backup-directory-alist `(("." . ,(expand-file-name "backups" user-emacs-directory))))
+
+  ;; Set up a directory for storing auto-save files
+  (setq auto-save-file-name-transforms
+        `((".*" ,(concat user-emacs-directory "auto-save/") t)))
+
+  ;; Create the auto-save directory if it doesn't exist
+  (make-directory (concat user-emacs-directory "auto-save/") t)
+
+  ;; Configure auto-save behavior
+  (setq auto-save-default t
+        auto-save-timeout 20
+        auto-save-interval 200)
+
+  ;; Don't create lock files
+  (setq create-lockfiles nil)
+
+  ;; ┌─────────┐
+  ;; │ Startup │
+  ;; └─────────┘
   ;; Initial Frame Size
   (add-hook 'window-setup-hook 'toggle-frame-maximized t)
   ;; (setq initial-frame-alist
@@ -148,12 +150,63 @@
             (lambda ()
               (find-file "~/Dropbox/agenda/agenda.org") ;; <-- org file
               (org-agenda-list) ;; <-- calendar
-              (elpaca-log nil t))))
+              (elpaca-log nil t)))
+
+  ;; ┌────┐
+  ;; │ UI │
+  ;; └────┘
+  (fset 'yes-or-no-p 'y-or-n-p)
+  (setq large-file-warning-threshold 30000000)
+  (save-place-mode 1)
+  (easy-menu-add-item global-map '(menu-bar edit)
+                      ["Emoji & Symbols"
+                       ns-do-show-character-palette
+                       :help "Show macOS Character Palette."
+                       :visible (eq window-system 'ns)])
+  (context-menu-mode)
+  (savehist-mode)
+  ;; MAKE C-s search case-insensitive:
+  ;; (setq case-fold-search t)
+
+  ;; ┌────────────┐
+  ;; │ Appearance │
+  ;; └────────────┘
+  (setq-default truncate-lines t)
+
+  ;; TODO theme switcher needs to accomodate this. Need to know how to affect the current frame.
+  ;; (when (eq 'ns window-system) ;; macos
+  ;;   (setq default-frame-alist '((ns-appearance . dark)
+  ;;                               (ns-transparent-titlebar . t)
+  ;;                               )))
+
+  (tool-bar-mode 1)
+  (scroll-bar-mode -1)
+  (blink-cursor-mode)
+  (global-hl-line-mode)
+  (when (eq 'ns window-system) ;;=> t MacOS
+    (setq default-frame-alist '((ns-transparent-titlebar . t))))
+
+  :hook ((prog-mode . display-line-numbers-mode)
+         (dired-mode . dired-hide-details-mode))
+  ;; ┌─────────────┐
+  ;; │ Keybindings │
+  ;; └─────────────┘
+  :config
+  (global-unset-key (kbd "C-x C-d")) ;; default is `list-directory'.
+  :bind (("s-f" . rgrep)
+         ("M-SPC" . execute-extended-command) ;; Swap M-x and M-SPC
+         ("M-x" . cycle-spacing))
+  ;; ┌─────────────────────────┐
+  ;; │ Text Editing & Movement │
+  ;; └─────────────────────────┘
+  :config
+  (setq-default indent-tabs-mode nil)
+  (setq next-line-add-newlines t) ;; c-n adds newlines
+  (global-set-key [remap dabbrev-expand] 'hippie-expand))
 
 ;; ┌────────────────────┐
 ;; │ Load Elisp Modules │
 ;; └────────────────────┘
-
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
   (load custom-file))
