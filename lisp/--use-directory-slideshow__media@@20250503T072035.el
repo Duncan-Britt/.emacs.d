@@ -7,11 +7,12 @@
 ;; identifier: 20250503T072035
 
 ;;; Code:
-(require '--portable__utility@@20250505T200406)
+;; (require '--portable__utility@@20250505T200406)
 
-(use-package-when-local
+(use-package-local-or-remote
  directory-slideshow
- "~/code/my-emacs-packages/directory-slideshow/")
+ "~/code/my-emacs-packages/directory-slideshow/"
+ "Duncan-Britt/directory-slideshow")
 
 (provide '--use-directory-slideshow__media@@20250503T072035)
 ;;; --use-directory-slideshow__media@@20250503T072035.el ends here

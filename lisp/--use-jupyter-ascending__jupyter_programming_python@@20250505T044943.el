@@ -19,9 +19,7 @@
               ("C-c C-n" . jupyter-ascending-next-cell)
               ("C-c C-p" . jupyter-ascending-previous-cell)
               ("C-c t" . jupyter-ascending-cycle-cell-type)
-              ("C-c '" . jupyter-ascending-edit-markdown-cell))
-  :custom
-  ((jupyter-ascending-find-file-dwim? t)))
+              ("C-c '" . jupyter-ascending-edit-markdown-cell)))
 
 (provide '--use-jupyter-ascending__jupyter_programming_python@@20250505T044943)
 ;;; --use-jupyter-ascending__jupyter_programming_python@@20250505T044943.el ends here
