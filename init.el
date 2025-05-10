@@ -187,14 +187,18 @@
   :config
   (global-unset-key (kbd "C-x C-d")) ;; default is `list-directory'.
   :bind (("M-SPC" . execute-extended-command) ;; Swap M-x and M-SPC
-         ("M-x" . cycle-spacing))
+         ("M-x" . cycle-spacing)
+         ("s-o" . other-frame))
   ;; ┌─────────────────────────┐
   ;; │ Text Editing & Movement │
   ;; └─────────────────────────┘
   :config
   (setq-default indent-tabs-mode nil)
   (setq next-line-add-newlines t) ;; c-n adds newlines
-  (global-set-key [remap dabbrev-expand] 'hippie-expand))
+  (global-set-key [remap dabbrev-expand] 'hippie-expand)
+  :bind (("M-u" . upcase-dwim)
+         ("M-l" . downcase-dwim)
+         ("M-c" . capitalize-dwim)))
 
 ;; ┌────────────────────┐
 ;; │ Load Elisp Modules │

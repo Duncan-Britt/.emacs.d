@@ -167,34 +167,5 @@
            :header-line-height 1.0)))
   (fontaine-mode 1))
 
-(use-package-local-or-remote
- fontaine-org
- "~/code/my-emacs-packages/fontaine-org/"
- "Duncan-Britt/fontaine-org"
- :after fontaine
- :config
- (defvar font-state-file (expand-file-name "last-font" user-emacs-directory)
-   "File to save the last used theme.")
-
- (defun load-last-font ()
-   "Load the last used theme from file."
-   (if (file-exists-p font-state-file)
-       (progn
-         (let ((last-font (with-temp-buffer
-                            (insert-file-contents font-state-file)
-                            (intern (buffer-string)))))
-           (fontaine-set-preset last-font)))
-     (fontaine-set-preset 'Iosevka-regular)))
-
- (defun save-current-font (&rest _)
-   "Save the current theme to a file."
-   (when-let ((current-font-preset (car fontaine-preset-history)))
-     (with-temp-file font-state-file
-       (insert current-font-preset))))
-
- (fontaine-org-mode 1)
- (load-last-font)
- (advice-add 'fontaine-set-preset :after #'save-current-font))
-
 (provide '--font__appearance@@20250503T133858)
 ;;; --font__appearance@@20250503T133858.el ends here

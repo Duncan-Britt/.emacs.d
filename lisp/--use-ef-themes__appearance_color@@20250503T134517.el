@@ -29,7 +29,7 @@
 (use-package ef-themes
   ;; Make customisations that affect Emacs faces BEFORE loading a theme
   ;; (any change needs a theme re-load to take effect).
-  :after (fontaine org-bullets) ;; If I ever switch back to org bullets (from org modern, load this after org-bullets)
+  :after (fontaine org-modern org-bullets)
   :ensure t
   :config
   (setq ef-themes-headings

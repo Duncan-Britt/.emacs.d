@@ -1,8 +1,8 @@
-;;; --choose-theme__appearance_color_ui@@20250505T151834.el --- choose-theme -*- lexical-binding: t -*-
+;;; --choose-theme__appearance_color_org_ui@@20250505T151834.el --- choose-theme -*- lexical-binding: t -*-
 
 ;;; Commentary:
 ;; title: choose-theme
-;; keywords: :appearance:color:ui:
+;; keywords: :appearance:color:org:ui:
 ;; date: [2025-05-05 Mon 15:18]
 ;; identifier: 20250505T151834
 
@@ -39,6 +39,11 @@ but use dark versions for dark mode."
 		       (format "%d images displayed inline"
 			       (length new))
 		     "No images to display inline"))))))
+
+  (use-package org
+    :ensure nil
+    :bind (:map org-mode-map
+                ("C-c C-x C-v" . my/toggle-inline-images)))
 
   (defun my/display-inline-images (&optional include-linked refresh beg end)
     "Display inline images.
@@ -125,7 +130,7 @@ buffer boundaries with possible narrowing."
 			       (progn
                                  (setq linktype (match-string 1))
                                  (match-string 2))))))))
-                (when (and path (eq *theme-switcher-themes-category* 'Dark)) ;; <-- Modifications to original: check if in dark mode and update path
+                (when (and path (member (car custom-enabled-themes) ef-themes-dark-themes)) ;; <-- Modifications to original: check if in dark mode and update path
                   (let ((new-path (insert-dark-before-extension path)))
                     (when (file-exists-p new-path)
                       (setq path new-path)))) ;; <-- end modifications
@@ -274,5 +279,5 @@ Based on choice of light or dark mode, also set frame property 'ns-appearance"
   (run-at-time 0.2 nil #'my/load-last-theme)
   (global-set-key (kbd "C-t") #'my/choose-theme))
 
-(provide '--choose-theme__appearance_color_ui@@20250505T151834)
-;;; --choose-theme__appearance_color_ui@@20250505T151834.el ends here
+(provide '--choose-theme__appearance_color_org_ui@@20250505T151834)
+;;; --choose-theme__appearance_color_org_ui@@20250505T151834.el ends here
