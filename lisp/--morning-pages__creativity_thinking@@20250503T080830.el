@@ -19,13 +19,13 @@
   (let ((buffer (get-buffer-create "*morning-pages*")))
     (pop-to-buffer buffer)
     (setq-local word-count-threshold 1350)
-    (setq-local morning-pages--saved-font-preset fontaine-current-preset)
-    (fontaine-set-preset 'Athelas-share-screen)
     (variable-pitch-mode 1)
-    (olivetti-mode 1)
+    (text-scale-set 2)
+    (when (boundp 'olivetti-mode)
+      (olivetti-mode 1)
+      (olivetti-set-width 80))
     (delete-other-windows)
-    (add-hook 'after-change-functions #'morning-pages--check-word-count nil t)
-    (add-hook 'kill-buffer-hook #'morning-pages--restore-font-preset nil t)))
+    (add-hook 'after-change-functions #'morning-pages--check-word-count nil t)))
 
 (defun morning-pages--check-word-count (&optional _beg _end _len)
   "Check word count and change background color if threshold is reached."
@@ -38,11 +38,6 @@
                  (palette (symbol-value palette-var))
                  (bg (cadr (assoc 'bg-inactive palette))))
             (face-remap-add-relative 'default :background bg)))))))
-
-(defun morning-pages--restore-font-preset ()
-  "Restore the saved font preset when the buffer is killed."
-  (when morning-pages--saved-font-preset
-    (fontaine-set-preset morning-pages--saved-font-preset)))
 
 (provide '--morning-pages__creativity_thinking@@20250503T080830)
 ;;; --morning-pages__creativity_thinking@@20250503T080830.el ends here

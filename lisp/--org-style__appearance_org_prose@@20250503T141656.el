@@ -7,33 +7,6 @@
 ;; identifier: 20250503T141656
 
 ;;; Code:
-(defun my/org-remap-faces-hook (&rest args)
-  "When using Athelas font, setq-local `face-remapping-alist'
-s.t. variable and fixed pitch font sizes are proportional"
-  (if (and (member (bound-and-true-p fontaine-current-preset)
-                     '(Athelas-regular Athelas-share-screen))
-             (eq major-mode 'org-mode))
-    (setq-local face-remapping-alist `((default (:height 1.3) variable-pitch)
-                                       (header-line (:height 1.0) fixed-pitch)
-                                       (org-document-title (:height 1.0) org-document-title)
-                                       (org-code (:height 0.9) org-code)
-                                       (org-verbatim (:height 0.9) org-verbatim)
-                                       (org-block (:height 0.9) org-block)
-                                       (org-block-begin-line (:height 0.9) org-block-begin-line)
-                                       (org-table (:height 0.9) org-table)
-                                       (org-checkbox (:height 0.9) org-checkbox)
-                                       (org-date (:height 0.9) org-date)
-                                       (org-drawer (:height 0.9) org-drawer)
-                                       (org-meta-line (:height 0.9) org-meta-line)))
-    (setq-local face-remapping-alist '((default variable-pitch)))))
-
-(defun my/apply-org-face-remapping-to-all-buffers (&rest _)
-  "Apply org face remapping to all org-mode buffers."
-  (dolist (buffer (buffer-list))
-    (with-current-buffer buffer
-      (when (eq major-mode 'org-mode)
-        (my/org-remap-faces-hook)))))
-
 (use-package org
   :ensure nil
   :config
@@ -64,8 +37,7 @@ s.t. variable and fixed pitch font sizes are proportional"
    (org-mode . visual-line-mode)
    (org-mode . pixel-scroll-precision-mode)
    (org-mode . (lambda () (display-line-numbers-mode 0)))
-   (org-mode . (lambda () (add-hook 'text-scale-mode-hook #'my/resize-org-latex-overlays nil t)))
-   (org-mode . my/org-remap-faces-hook)))
+   (org-mode . (lambda () (add-hook 'text-scale-mode-hook #'my/resize-org-latex-overlays nil t)))))
 
 (use-package org-bullets
   :after org
@@ -129,8 +101,8 @@ s.t. variable and fixed pitch font sizes are proportional"
 
  (fontaine-org-mode 1)
  (load-last-font)
- (advice-add 'fontaine-set-preset :after #'save-current-font)
- (advice-add 'fontaine-set-preset :after #'my/apply-org-face-remapping-to-all-buffers))
+
+ (advice-add 'fontaine-set-preset :after #'save-current-font))
 
 (provide '--org-style__appearance_org_prose@@20250503T141656)
 ;;; --org-style__appearance_org_prose@@20250503T141656.el ends here

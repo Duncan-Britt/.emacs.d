@@ -46,7 +46,7 @@ This fixes the issue where, in org source blocks, < matches )."
         '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 
-  (setq org-export-backends '(ascii html icalendar latex md))
+  (setq org-export-backends '(ascii html icalendar latex md texinfo))
 
   (require 'ox-gfm nil t) ;; <-- For github flavored markdown export
   (require 'blog-publishing)

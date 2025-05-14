@@ -141,7 +141,7 @@
     ))
 
 ;; ┌────────────┐
-;; │ GDB & LLDB │
+;; │ GDB & LLDB │ NOTE: I think LLDB is built in for Emacs 30
 ;; └────────────┘
 ;; (use-package realgud
 ;;   :ensure t)
@@ -158,3 +158,34 @@
 ;;   (("C-x o" . ace-window))
 ;;   :config
 ;;   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+
+
+;; The following 2 funs causes an issue where (text-scale-set 2),
+;; which should only apply to the current buffer, applies to all the
+;; buffers.
+(defun my/org-remap-faces-hook (&rest args)
+  "When using Athelas font, setq-local `face-remapping-alist'
+s.t. variable and fixed pitch font sizes are proportional"
+  (if (and (member (bound-and-true-p fontaine-current-preset)
+                     '(Athelas-regular Athelas-share-screen))
+             (eq major-mode 'org-mode))
+    (setq-local face-remapping-alist `((default (:height 1.3) variable-pitch)
+                                       (header-line (:height 1.0) fixed-pitch)
+                                       (org-document-title (:height 1.0) org-document-title)
+                                       (org-code (:height 0.9) org-code)
+                                       (org-verbatim (:height 0.9) org-verbatim)
+                                       (org-block (:height 0.9) org-block)
+                                       (org-block-begin-line (:height 0.9) org-block-begin-line)
+                                       (org-table (:height 0.9) org-table)
+                                       (org-checkbox (:height 0.9) org-checkbox)
+                                       (org-date (:height 0.9) org-date)
+                                       (org-drawer (:height 0.9) org-drawer)
+                                       (org-meta-line (:height 0.9) org-meta-line)))
+    (setq-local face-remapping-alist '((default variable-pitch)))))
+
+(defun my/apply-org-face-remapping-to-all-buffers (&rest _)
+  "Apply org face remapping to all org-mode buffers."
+  (dolist (buffer (buffer-list))
+    (with-current-buffer buffer
+      (when (eq major-mode 'org-mode)
+        (my/org-remap-faces-hook)))))
