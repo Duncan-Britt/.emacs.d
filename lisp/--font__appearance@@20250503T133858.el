@@ -84,14 +84,14 @@
            :default-family "Iosevka Duncan"
            :fixed-pitch-family "Iosevka Duncan"
            :fixed-pitch-height 1.0
-           :org-level-1-family "Symbola" ;; <-- Requires `fontaine-org'.
-           :org-level-2-family "Symbola"
-           :org-level-3-family "Symbola"
-           :org-level-4-family "Symbola"
-           :org-level-5-family "Symbola"
-           :org-level-6-family "Symbola"
-           :org-level-7-family "Symbola"
-           :org-level-8-family "Symbola"
+           :org-level-1-family "Iosevka Comfy Motion Duo" ;; <-- Requires `fontaine-org'.
+           :org-level-2-family "Iosevka Comfy Motion Duo"
+           :org-level-3-family "Iosevka Comfy Motion Duo"
+           :org-level-4-family "Iosevka Comfy Motion Duo"
+           :org-level-5-family "Iosevka Comfy Motion Duo"
+           :org-level-6-family "Iosevka Comfy Motion Duo"
+           :org-level-7-family "Iosevka Comfy Motion Duo"
+           :org-level-8-family "Iosevka Comfy Motion Duo"
            :variable-pitch-family  "Adelle" ;"Symbola" ;"Antykwa Poltawskiego"
            :variable-pitch-weight nil
            :variable-pitch-height 1.0
@@ -106,14 +106,14 @@
            :default-family "Iosevka Duncan"
            :fixed-pitch-family "Iosevka Duncan"
            :fixed-pitch-height 1.0
-           :org-level-1-family "Symbola" ;; <-- Requires `fontaine-org'.
-           :org-level-2-family "Symbola"
-           :org-level-3-family "Symbola"
-           :org-level-4-family "Symbola"
-           :org-level-5-family "Symbola"
-           :org-level-6-family "Symbola"
-           :org-level-7-family "Symbola"
-           :org-level-8-family "Symbola"
+           :org-level-1-family "Iosevka Comfy Motion Duo" ;; <-- Requires `fontaine-org'.
+           :org-level-2-family "Iosevka Comfy Motion Duo"
+           :org-level-3-family "Iosevka Comfy Motion Duo"
+           :org-level-4-family "Iosevka Comfy Motion Duo"
+           :org-level-5-family "Iosevka Comfy Motion Duo"
+           :org-level-6-family "Iosevka Comfy Motion Duo"
+           :org-level-7-family "Iosevka Comfy Motion Duo"
+           :org-level-8-family "Iosevka Comfy Motion Duo"
            :variable-pitch-family  "Adelle" ;"Symbola" ;"Antykwa Poltawskiego"
            :variable-pitch-weight nil
            :variable-pitch-height 1.0
