@@ -2,7 +2,7 @@
 
 ;;; Commentary:
 ;; title: org-style
-;; keywords: :appearance:org:prose:
+;; keywords: :appearance:font:org:prose:
 ;; date: [2025-05-03 Sat 14:16]
 ;; identifier: 20250503T141656
 
