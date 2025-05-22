@@ -217,13 +217,19 @@ Uses MacOS ns frame parameters and calle24 symbols"
 
   (defun my/apply-theme (theme)
     "Apply THEME with proper handling of default theme and refreshing."
+    (message "theme chosen: %s" theme)
     (let ((theme-sym (if (stringp theme) (intern theme) theme)))
       (when (eq theme-sym 'default)
         (setq theme-sym nil))
       (unless (eq theme-sym (car custom-enabled-themes))
         (mapc #'disable-theme custom-enabled-themes)
         (when theme-sym
-          (ef-themes-select theme-sym)))))
+          (cond ((string-prefix-p "ef" (symbol-name theme-sym))
+                 (ef-themes-select theme-sym))
+                ((string-prefix-p "doric" (symbol-name theme-sym))
+                 (doric-themes-select theme-sym))
+                (t
+                 (user-error "Expected ef or doric theme, found %s" theme)))))))
 
   (setq ef-themes-post-load-hook (lambda ()
                                    (my/save-current-theme)
@@ -245,15 +251,17 @@ Based on choice of light or dark mode, also set frame property 'ns-appearance"
       (condition-case nil
           (consult--read
            (mapcar #'symbol-name (if (eq light-or-dark 'light)
-                                     ef-themes-light-themes
-                                   ef-themes-dark-themes))
+                                     (append ef-themes-light-themes
+                                             doric-themes-light-themes)
+                                   (append ef-themes-dark-themes
+                                           doric-themes-dark-themes)))
            :prompt "Choose theme: "
            :require-match t
            :category 'theme
            :history 'consult--theme-history
            :lookup (lambda (selected &rest _)
                      (setq selected (and selected (intern-soft selected)))
-                     (or (and selected (car (memq selected ef-themes-collection)))
+                     (or (and selected (car (memq selected (append ef-themes-collection doric-themes-collection))))
                          saved-theme))
            :state (lambda (action theme)
                     (pcase action
