@@ -209,6 +209,21 @@ Specific to the current window's mode line.")
                        prot-modeline-eglot))
     (put construct 'risky-local-variable t))
 
+  (setq which-func-format
+        '("〘"
+          (:propertize which-func-current local-map
+                       (keymap
+                        (mode-line keymap
+                                   (mouse-3 . end-of-defun)
+                                   (mouse-2 . (lambda () (interactive) (which-func-mode -1) (which-func-mode 1)))
+                                   (mouse-1 . beginning-of-defun)))
+                       face which-func mouse-face mode-line-highlight help-echo "Current function
+mouse-1: go to beginning
+mouse-2: toggle rest visibility
+mouse-3: go to end")
+          "〙"))
+  (which-function-mode -1)
+
   (setq-default mode-line-format
                 '("%e"
                   "  "
@@ -221,6 +236,7 @@ Specific to the current window's mode line.")
                   my/modeline-input-method
                   prot-modeline-eglot
                   my/modeline-major-mode
+                  (which-function-mode which-func-format)
                                         ; mode-line-format-right-align TODO uncomment when I move to Emacs 30:
                   my/modeline-battery
                   "  "

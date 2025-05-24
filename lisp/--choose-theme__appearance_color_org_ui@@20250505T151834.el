@@ -215,6 +215,23 @@ Uses MacOS ns frame parameters and calle24 symbols"
       (dolist (frame (frame-list))
         (set-frame-parameter frame 'ns-appearance light-or-dark))))
 
+  (defun my/load-theme (theme)
+    "Load 'doric' or 'ef' THEME.
+THEME should be a symbol."
+    (cond ((string-prefix-p "ef" (symbol-name theme))
+           (ef-themes-select theme))
+          ((string-prefix-p "doric" (symbol-name theme))
+           (doric-themes-select theme)
+           ;; NOTE: Doric themes doesn't (yet) have a post load hook
+           ;; like ef-themes, so that is why these are here but not in
+           ;; the ef-themes case.
+           (my/save-current-theme)
+           (my/refresh-inline-images)
+           (my/set-hl-todo-faces-according-to-ef-theme)
+           (global-hl-todo-mode))
+          (t
+           (user-error "Expected ef or doric theme, found %s" theme))))
+
   (defun my/apply-theme (theme)
     "Apply THEME with proper handling of default theme and refreshing."
     (message "theme chosen: %s" theme)
@@ -224,12 +241,7 @@ Uses MacOS ns frame parameters and calle24 symbols"
       (unless (eq theme-sym (car custom-enabled-themes))
         (mapc #'disable-theme custom-enabled-themes)
         (when theme-sym
-          (cond ((string-prefix-p "ef" (symbol-name theme-sym))
-                 (ef-themes-select theme-sym))
-                ((string-prefix-p "doric" (symbol-name theme-sym))
-                 (doric-themes-select theme-sym))
-                (t
-                 (user-error "Expected ef or doric theme, found %s" theme)))))))
+          (my/load-theme theme-sym)))))
 
   (setq ef-themes-post-load-hook (lambda ()
                                    (my/save-current-theme)
@@ -281,7 +293,7 @@ Based on choice of light or dark mode, also set frame property 'ns-appearance"
           (let ((last-theme (with-temp-buffer
                               (insert-file-contents my/theme-state-file)
                               (intern (buffer-string)))))
-            (ef-themes-select last-theme)))
+            (my/load-theme last-theme)))
       (ef-themes-select 'ef-dream)))
 
   (run-at-time 0.2 nil #'my/load-last-theme)

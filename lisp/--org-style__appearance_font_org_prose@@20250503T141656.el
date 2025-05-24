@@ -1,4 +1,4 @@
-;;; --org-style__appearance_org_prose@@20250503T141656.el --- org-style -*- lexical-binding: t -*-
+;;; --org-style__appearance_font_org_prose@@20250503T141656.el --- org-style -*- lexical-binding: t -*-
 
 ;;; Commentary:
 ;; title: org-style
@@ -104,5 +104,5 @@
 
  (advice-add 'fontaine-set-preset :after #'save-current-font))
 
-(provide '--org-style__appearance_org_prose@@20250503T141656)
-;;; --org-style__appearance_org_prose@@20250503T141656.el ends here
+(provide '--org-style__appearance_font_org_prose@@20250503T141656)
+;;; --org-style__appearance_font_org_prose@@20250503T141656.el ends here
