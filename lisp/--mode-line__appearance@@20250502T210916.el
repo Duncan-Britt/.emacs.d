@@ -196,7 +196,30 @@ Specific to the current window's mode line.")
              " "))))
     "Mode line construct to indicate remote files with the method used.")
 
-  (dolist (construct '(my/modeline-major-mode
+  (defvar my/modeline-max-filename-length 40
+    "Maximum length of filename to display in mode line before truncation.")
+
+  (defvar-local my/modeline-buffer-identification
+      '(:eval
+        (let* ((name (if (buffer-file-name)
+                         (file-name-nondirectory (buffer-file-name))
+                       (buffer-name)))
+               (truncated (if (and (buffer-file-name)
+                                   (> (length name) my/modeline-max-filename-length))
+                              (concat (substring name 0 (- my/modeline-max-filename-length 3)) "...")
+                            name)))
+          (propertize (format " %s " truncated)
+                      'face 'mode-line-buffer-id
+                      'mouse-face 'mode-line-highlight
+                      'help-echo (buffer-file-name)
+                      'local-map (let ((map (make-sparse-keymap)))
+                                   (define-key map [mode-line mouse-1] 'dired-jump)
+                                   (define-key map [header-line mouse-1] 'dired-jump)
+                                   map))))
+    "Mode line construct for buffer identification with truncated filenames.")
+
+  (dolist (construct '(my/modeline-buffer-identification
+                       my/modeline-major-mode
                        prot-modeline-vc-branch
                        my/modeline-kbd-macro
                        my/modeline-meow-indicator
@@ -230,7 +253,8 @@ mouse-3: go to end")
                   my/modeline-meow-indicator
                   my/modeline-kbd-macro
                   my/modeline-remote-indicator
-                  mode-line-buffer-identification
+                  my/modeline-buffer-identification
+                  ;; mode-line-buffer-identification
                   "  "
                   prot-modeline-vc-branch
                   my/modeline-input-method
