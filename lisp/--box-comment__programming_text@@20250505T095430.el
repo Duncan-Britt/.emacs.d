@@ -52,7 +52,8 @@
                                       lines
                                       :initial-value 0))
            (box-width (+ max-line-width 2))
-           (comment-marker (my/comment-marker))
+           (raw-comment (if comment-start comment-start "// "))
+           (comment-marker (my/comment-marker raw-comment))
            (top-line (concat comment-marker "┌" (make-string box-width ?─) "┐"))
            (mid-lines (mapcar (lambda (text)
                                 (concat comment-marker "│ " text " │"))

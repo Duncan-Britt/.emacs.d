@@ -52,6 +52,12 @@ This fixes the issue where, in org source blocks, < matches )."
   (require 'blog-publishing)
   (require 'ut-table-manager)
 
+  (add-hook 'org-insert-heading-hook
+            (lambda ()
+              (save-excursion
+                (org-back-to-heading)
+                (org-set-property "CREATED" (format-time-string "[%Y-%m-%d %a %T]")))))
+
   :hook ((org-mode . my/org-syntax-table-modify))
   :bind (("s-a" . org-agenda)))
 
