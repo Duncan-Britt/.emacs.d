@@ -59,7 +59,9 @@ This fixes the issue where, in org source blocks, < matches )."
                 (org-set-property "CREATED" (format-time-string "[%Y-%m-%d %a %T]")))))
 
   :hook ((org-mode . my/org-syntax-table-modify))
-  :bind (("s-a" . org-agenda)))
+  :bind (("s-a" . org-agenda)
+         (:map org-mode-map
+               ("C-'" . completion-at-point))))
 
 (use-package org-contrib
   :ensure t

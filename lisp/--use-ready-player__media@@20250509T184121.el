@@ -10,7 +10,9 @@
 (use-package ready-player
   :ensure t
   :config
-  (ready-player-mode +1))
+  (ready-player-mode +1)
+  :custom
+  (ready-player-ask-for-project-sustainability nil))
 
 (provide '--use-ready-player__media@@20250509T184121)
 ;;; --use-ready-player__media@@20250509T184121.el ends here

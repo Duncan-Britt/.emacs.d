@@ -10,7 +10,8 @@
 ;;; Code:
 (use-package rg
   :ensure t
-  :bind (("s-f" . rg-dwim)))
+  :bind (("s-f" . rg-dwim)
+         ("s-p s" . rg-project)))
 
 (provide '--use-rg__navigation_search@@20250506T090537)
 ;;; --use-rg__navigation_search@@20250506T090537.el ends here

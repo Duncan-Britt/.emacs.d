@@ -30,7 +30,12 @@
   (add-to-list 'eglot-server-programs
                '(elixir-mode . ("~/.elixir-ls/language_server.sh")))
   (add-to-list 'eglot-server-programs
-               '(erlang-mode . ("elp" "server"))))
+               '(erlang-mode . ("elp" "server")))
+
+  ;; (with-eval-after-load 'eglot
+  ;;   (add-to-list 'eglot-server-programs
+  ;;                '(text-mode . ("harper-ls" "--stdio"))))
+  )
 
 (provide '--eglot__completion_discoverability_linting_lsp_programming@@20250505T110932)
 ;;; --eglot__completion_discoverability_linting_lsp_programming@@20250505T110932.el ends here

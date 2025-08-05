@@ -9,6 +9,8 @@
 ;;; Code:
 (use-package embark
   :ensure t
+  :config
+  (setq prefix-help-command #'embark-prefix-help-command)
   :bind
   (("C-." . embark-act)
    ("C-h B" . embark-bindings)))

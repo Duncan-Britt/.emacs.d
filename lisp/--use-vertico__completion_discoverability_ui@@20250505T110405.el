@@ -12,7 +12,6 @@
   :ensure t
   :init
   (vertico-mode)
-
   ;; Different scroll margin
   ;; (setq vertico-scroll-margin 0)
 
@@ -24,7 +23,9 @@
 
   ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
   ;; (setq vertico-cycle t)
-  )
+  :config
+  (vertico-multiform-mode 1)
+  (add-to-list 'vertico-multiform-categories '(embark-keybinding grid)))
 
 (provide '--use-vertico__completion_discoverability_ui@@20250505T110405)
 ;;; --use-vertico__completion_discoverability_ui@@20250505T110405.el ends here
