@@ -10,7 +10,7 @@
 (use-package denote
   :ensure t
   :config
-  (setq denote-directory (expand-file-name "~/Dropbox/notes/"))
+  (setq denote-directory (expand-file-name "~/notes/"))
   (setq denote-file-type 'org)
 
   (defun my/denote-rename-file ()

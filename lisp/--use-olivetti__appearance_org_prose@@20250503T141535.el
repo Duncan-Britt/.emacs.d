@@ -9,7 +9,7 @@
 ;;; Code:
 (use-package olivetti
   :ensure (:host github :repo "rnkn/olivetti")
-  :custom (olivetti-body-width 140)
+  :custom (olivetti-body-width 160)
   :hook (org-mode . olivetti-mode))
 
 (provide '--use-olivetti__appearance_org_prose@@20250503T141535)

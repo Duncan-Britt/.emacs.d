@@ -179,7 +179,8 @@
   (when (eq 'ns window-system) ;;=> t MacOS
     (setq default-frame-alist '((ns-transparent-titlebar . t))))
 
-  :hook ((prog-mode . display-line-numbers-mode)
+  :hook (
+         ;; (prog-mode . display-line-numbers-mode)
          (dired-mode . dired-hide-details-mode))
   ;; ┌─────────────┐
   ;; │ Keybindings │
