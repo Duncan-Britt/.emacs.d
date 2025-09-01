@@ -17,8 +17,6 @@ This fixes the issue where, in org source blocks, < matches )."
     (modify-syntax-entry ?< "." org-mode-syntax-table)
     (modify-syntax-entry ?> "." org-mode-syntax-table))
 
-  (setq org-agenda-files (list (expand-file-name "~/Dropbox/agenda/agenda.org")))
-  ;; (setq org-archive-location "~/Dropbox/agenda/agenda_archive.org::%s_archive") ;; <-- unused? Org Archiver has it's own location.
   (org-babel-do-load-languages ;; Org source block execution
    'org-babel-load-languages
    '((emacs-lisp . t)
@@ -59,8 +57,7 @@ This fixes the issue where, in org source blocks, < matches )."
                 (org-set-property "CREATED" (format-time-string "[%Y-%m-%d %a %T]")))))
 
   :hook ((org-mode . my/org-syntax-table-modify))
-  :bind (("s-a" . org-agenda)
-         (:map org-mode-map
+  :bind ((:map org-mode-map
                ("C-'" . completion-at-point))))
 
 (use-package org-contrib
