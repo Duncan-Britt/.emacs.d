@@ -49,13 +49,14 @@ This fixes the issue where, in org source blocks, < matches )."
   (require 'ox-gfm nil t) ;; <-- For github flavored markdown export
   (require 'blog-publishing)
   (require 'ut-table-manager)
-
-  (add-hook 'org-insert-heading-hook
-            (lambda ()
-              (save-excursion
-                (org-back-to-heading)
-                (org-set-property "CREATED" (format-time-string "[%Y-%m-%d %a %T]")))))
-
+  ;; ┌────────────────────────────────────────────────────────────────────────────────────────────┐
+  ;; │ This is in .dir-locals.el for select folders:                                              │
+  ;; │ (add-hook 'org-insert-heading-hook                                                         │
+  ;; │           (lambda ()                                                                       │
+  ;; │             (save-excursion                                                                │
+  ;; │               (org-back-to-heading)                                                        │
+  ;; │               (org-set-property "CREATED" (format-time-string "[%Y-%m-%d %a %T]")))))      │
+  ;; └────────────────────────────────────────────────────────────────────────────────────────────┘
   :hook ((org-mode . my/org-syntax-table-modify))
   :bind ((:map org-mode-map
                ("C-'" . completion-at-point))))
