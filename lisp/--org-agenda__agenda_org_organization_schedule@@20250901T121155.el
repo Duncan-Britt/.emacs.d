@@ -60,13 +60,7 @@ specification like [h]h:mm."
                                 (let ((sched-date
                                        (calendar-absolute-from-gregorian (list (org-element-property :month-start scheduled)
                                                                                (org-element-property :day-start scheduled)
-                                                                               (org-element-property :year-start scheduled)))
-                                       ;; (encode-time (list 0 0 0
-                                       ;;                               (org-element-property :day-start scheduled)
-                                       ;;                               (org-element-property :month-start scheduled)
-                                       ;;                               (org-element-property :year-start scheduled)))
-                                       ))
-                                  (message "current: %s, date: %s, sched-date: %s, sched-date < current: %s" current date sched-date (time-less-p sched-date current))
+                                                                               (org-element-property :year-start scheduled)))))
                                   (<= sched-date current)))))
                  ;; END lines added by me ==========================
                  (goto-char (org-element-property :contents-begin el))
