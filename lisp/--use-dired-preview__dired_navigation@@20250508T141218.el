@@ -8,7 +8,7 @@
 
 ;;; Code:
 (use-package dired-preview
-  :ensure t
+  :ensure (:host github :repo "protesilaos/dired-preview")
   :custom
   ((dired-preview-delay 0.0)))
 
