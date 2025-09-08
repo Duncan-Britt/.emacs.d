@@ -3,7 +3,12 @@ auto-save-list
 backups
 eln-cache
 elpa
-elpaca
+elpaca/repos
+elpaca/cache
+elpaca/builds/zmq/src/libzmq
+elpaca/builds/**/*.elc
+elpaca/builds/**/*.png
+elpaca/builds/**/*.gif
 eshell
 tree-sitter
 flycheck_init.el

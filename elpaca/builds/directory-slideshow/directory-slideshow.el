@@ -1,0 +1,1 @@
+/Users/duncan/.emacs.d/elpaca/repos/directory-slideshow/directory-slideshow.el

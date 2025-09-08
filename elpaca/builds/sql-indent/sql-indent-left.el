@@ -1,0 +1,1 @@
+/Users/duncan/.emacs.d/elpaca/repos/sql-indent/sql-indent-left.el

@@ -1,0 +1,302 @@
+This is hyperbole.info, produced by makeinfo version 7.2 from
+hyperbole.texi.
+
+This manual is for GNU Hyperbole (Edition 9.0.2pre, Published May,
+2025).
+
+   Copyright © 1989-2025 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.3 or any later version published by the Free Software
+     Foundation.
+
+
+     GNU Hyperbole software is distributed under the terms of the GNU
+     General Public License version 3 or later, as published by the Free
+     Software Foundation, Inc.
+
+     GNU Hyperbole is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY, without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+     See the GNU General Public License for more details in the file,
+     "COPYING", within the Hyperbole package directory.
+INFO-DIR-SECTION Emacs
+START-INFO-DIR-ENTRY
+* Hyperbole: (hyperbole).      The Everyday Hypertextual Information Manager.
+     Use {C-h h d d} for a demonstration.  GNU Hyperbole offers
+     context-sensitive mouse and keyboard keys that do the right
+     thing, an Org-based Wiki generator with auto-wikiword
+     highlighting, a powerful contact manager, an advanced, auto-
+     numbered outliner with hyperlink anchors for each outline cell,
+     and easily editable and extensible hyperlink buttons, even
+     embeddable within mail and news messages.
+END-INFO-DIR-ENTRY
+
+
+Indirect:
+hyperbole.info-1: 1509
+hyperbole.info-2: 301978
+
+Tag Table:
+(Indirect)
+Node: Top1509
+Ref: image:Sample2514
+Node: Introduction9591
+Node: Manual Overview11763
+Node: Motivation16386
+Node: Hyperbole Overview18467
+Ref: image:Demo26244
+Node: Mail Lists29511
+Node: Usage29914
+Node: Invocation30316
+Node: Documentation31970
+Node: Hyperbole Hooks32950
+Node: Smart Keys33783
+Node: Smart Key Bindings34621
+Node: Smart Key Operations36692
+Node: Smart Key Argument Selection47903
+Node: Smart Key Debugging50781
+Node: Smart Key Thing Selection52161
+Node: Smart Mouse Key Modeline Clicks55855
+Node: Smart Mouse Key Drags61314
+Node: Creating and Deleting Windows61850
+Node: Saving and Restoring Window Configurations62821
+Node: Resizing Windows63881
+Node: Moving Frames64561
+Node: Dragging Buffers65421
+Node: Swapping Buffers65966
+Node: Displaying Buffers66729
+Node: Cloning Windows67411
+Node: Displaying Items67945
+Node: Keyboard Drags69215
+Node: Buttons73969
+Node: Explicit Buttons76735
+Node: Global Buttons79643
+Node: Implicit Buttons82848
+Node: Implicit Button Types87274
+Ref: doc-id92063
+Ref: smerge92517
+Ref: completion92947
+Ref: hywiki-existing-word93075
+Ref: action93197
+Ref: hyp-source93446
+Ref: hyp-address93880
+Ref: Info-node94357
+Ref: gnus-push-button94612
+Ref: texinfo-ref94753
+Ref: patch-msg95297
+Ref: elisp-compiler-msg95438
+Ref: debugger-source95648
+Ref: grep-msg95981
+Ref: hyrolo-stuck-msg96117
+Ref: ripgrep-msg96270
+Ref: ipython-stack-frame96537
+Ref: pathname-line-and-column96822
+Ref: ilink97264
+Ref: glink97688
+Ref: elink97955
+Ref: klink98366
+Ref: man-apropos98526
+Ref: rfc98644
+Ref: kbd-key98935
+Ref: debbugs-gnu-mode99536
+Ref: debbugs-gnu-query100084
+Ref: dir-summary100860
+Ref: text-toc101144
+Ref: cscope101906
+Ref: etags102234
+Ref: ctags102481
+Ref: id-cflow102702
+Ref: rfc-toc102870
+Ref: markdown-internal-link103051
+Ref: org-link-outside-org-mode103178
+Ref: git-commit-reference103263
+Ref: annot-bib103693
+Ref: hyp-html-manual103988
+Ref: www-url104529
+Ref: pathname104830
+Ref: mail-address106457
+Ref: org-id106975
+Ref: hyperbole-run-test-definition107175
+Ref: social-reference107405
+Ref: hyperbole-run-tests108117
+Ref: hyperbole-run-test108386
+Ref: python-tb-previous-line108618
+Ref: hywiki-word108895
+Ref: hynote-file109058
+Ref: ert-should109346
+Node: Action Buttons109746
+Node: Button Files112697
+Node: Action Types114770
+Node: Button Type Precedence129240
+Node: Utilizing Explicit Buttons130777
+Node: Creation131290
+Node: By Menu132254
+Node: By Link133737
+Node: By Dragging134789
+Node: Renaming137689
+Node: Deletion138930
+Node: Editing139650
+Node: Searching and Summarizing140246
+Node: Buttons in Mail141682
+Node: Buttons in News145565
+Node: Menus147397
+Ref: image:Hyperbole Menu147972
+Ref: image:Find Menu148069
+Node: HyWiki156731
+Node: HyWikiWords157297
+Node: Publish HyWiki162065
+Node: HyWiki Menu163383
+Node: HyNote165813
+Node: HyControl166719
+Ref: image:2x3-Windows-Grid170087
+Node: Koutliner179815
+Ref: image:Koutliner181174
+Node: Menu Commands181446
+Ref: image:Koutline Menu183160
+Node: Creating Outlines183246
+Node: Autonumbering184406
+Node: Idstamps187159
+Node: Editing Outlines188065
+Node: Adding and Killing189317
+Node: Promoting and Demoting190274
+Node: Relocating and Copying193520
+Node: Moving Around196291
+Node: Filling197382
+Node: Transposing198464
+Node: Splitting and Appending199291
+Node: Inserting and Importing200329
+Node: Exporting203459
+Node: Viewing Outlines204735
+Node: Hiding and Showing205055
+Node: View Specs206947
+Node: Klinks209429
+Node: Cell Attributes214365
+Node: Koutliner History216277
+Node: HyRolo217177
+Node: HyRolo Concepts217962
+Node: HyRolo Menu221193
+Ref: image:Rolo Menu221474
+Node: HyRolo Searching224714
+Node: HyRolo Keys227712
+Node: HyRolo Settings232461
+Node: Window Configurations239546
+Node: Developing with Hyperbole243579
+Node: Hook Variables244181
+Node: Creating Types248258
+Node: Creating Action Types249200
+Node: Creating Implicit Button Types253182
+Node: Action Button Link Types254873
+Node: Implicit Button Link Types257210
+Node: Programmatic Implicit Button Types260455
+Node: Explicit Button Technicalities265507
+Node: Button Label Normalization265838
+Node: Operational and Storage Formats267317
+Node: Programmatic Button Creation268547
+Node: Encapsulating Systems270273
+Node: Embedding Hyperbole271067
+Node: Glossary272595
+Node: Setup295598
+Node: Installation296085
+Node: Elpa Stable Package Installation296603
+Node: Elpa In-Development Package Installation298398
+Node: Git In-Development Package Installation301978
+Node: Manual Tarball Archive Installation304470
+Node: Customization306010
+Ref: image:Customize Menu306242
+Node: Referent Display307937
+Node: Internal Viewers308924
+Ref: image:Menu-Display-Referents311215
+Node: External Viewers311447
+Node: Link Variable Substitution313132
+Node: Web Search Engines314433
+Ref: image:Web-Search-Browser-Menu316001
+Node: Using URLs with Find-File316117
+Ref: image:URL-Browser-Menu317656
+Node: Invisible Text Searches317751
+Node: Highlight Menu Key Toggle318563
+Node: Button Colors318957
+Node: Hyperbole Key Bindings320560
+Node: Binding Minibuffer Menu Items321059
+Node: Default Hyperbole Bindings321810
+Ref: image:Change-Key-Bindings322173
+Node: Testing328122
+Node: Koutliner Keys329233
+Node: Smart Key Reference349908
+Node: Smart Mouse Keys350919
+Node: Minibuffer Menu Activation351865
+Node: Thing Selection352773
+Node: Side-by-Side Window Resizing354400
+Node: Modeline Clicks and Drags354806
+Node: Smart Mouse Drags between Windows358714
+Node: Smart Mouse Drags within a Window360122
+Node: Smart Mouse Drags outside a Window361793
+Node: Smart Keyboard Keys362768
+Node: Smart Key - Company Mode364561
+Node: Smart Key - Org Mode365036
+Node: Smart Key - Ivy367544
+Node: Smart Key - Treemacs367858
+Node: Smart Key - Dired Sidebar Mode369148
+Node: Smart Key - Emacs Pushbuttons370438
+Node: Smart Key - Argument Completion370820
+Node: Smart Key - ID Edit Mode371744
+Node: Smart Key - Emacs Cross-references (Xrefs)372214
+Node: Smart Key - Smart Scrolling372724
+Node: Smart Key - Smart Menus374299
+Node: Smart Key - Dired Mode375253
+Node: Smart Key - Hyperbole Buttons376828
+Node: Smart Key - View Mode377221
+Node: Smart Key - Helm Mode377712
+Node: Smart Key - ERT Results Mode379516
+Node: Smart Key - Delimited Things380494
+Node: Smart Key - Occurrence Matches381506
+Node: Smart Key - The Koutliner381910
+Node: Smart Key - Flymake Mode383276
+Node: Smart Key - RDB Mode385764
+Node: Smart Key - Help Buffers387045
+Node: Smart Key - Custom Mode387390
+Node: Smart Key - Bookmark Mode388286
+Node: Smart Key - Pages Directory Mode388805
+Node: Smart Key - Python Source Code389441
+Node: Smart Key - C Source Code390528
+Node: Smart Key - C++ Source Code391597
+Node: Smart Key - Assembly Source Code393642
+Node: Smart Key - Lisp Source Code394482
+Node: Smart Key - Java Source Code395428
+Node: Smart Key - JavaScript Source Code397013
+Node: Smart Key - Objective-C Source Code397629
+Node: Smart Key - Fortran Source Code399581
+Node: Smart Key - Identifier Menu Mode400174
+Node: Smart Key - Calendar Mode401049
+Node: Smart Key - Man Page Apropos401926
+Node: Smart Key - Emacs Outline Mode402668
+Node: Smart Key - Info Manuals404255
+Node: Smart Key - Email Readers405839
+Node: Smart Key - GNUS Newsreader407378
+Node: Smart Key - Buffer Menus409657
+Node: Smart Key - Tar File Mode411688
+Node: Smart Key - Man Pages412437
+Node: Smart Key - WWW URLs413028
+Node: Smart Key - HyRolo Match Buffers413569
+Node: Smart Key - Image Thumbnails414029
+Node: Smart Key - Gomoku Game414546
+Node: Smart Key - Magit Mode414924
+Node: Smart Key - The OO-Browser416208
+Node: Smart Key - Todotxt Mode418567
+Node: Smart Key - Default Context419209
+Node: Suggestion or Bug Reporting419984
+Node: Questions and Answers423053
+Node: Future Work428567
+Node: References433161
+Node: Key Index437496
+Node: Function Index470250
+Node: Concept Index527641
+
+End Tag Table
+
+
+Local Variables:
+coding: utf-8
+End:

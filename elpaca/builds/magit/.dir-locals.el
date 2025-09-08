@@ -1,0 +1,1 @@
+/Users/duncan/.emacs.d/elpaca/repos/magit/.dir-locals.el
