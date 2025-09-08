@@ -218,6 +218,30 @@ Specific to the current window's mode line.")
                                    map))))
     "Mode line construct for buffer identification with truncated filenames.")
 
+  (defun toggle-display-line-numbers ()
+    (interactive)
+    (if display-line-numbers-mode
+        (display-line-numbers-mode -1)
+      (display-line-numbers-mode 1)))
+
+  (defvar-local my/modeline-current-line-number
+      '(:eval
+        (when (mode-line-window-selected-p)
+          (propertize (format "%s" (current-line))
+                      'face 'mode-line-active
+                      'mouse-face 'mode-line-highlight
+                      'help-echo "Toggle line numbers"
+                      'local-map (let ((map (make-sparse-keymap)))
+                                   (define-key map [mode-line mouse-1] 'toggle-display-line-numbers)
+                                   (define-key map [header-line mouse-1] 'toggle-display-line-numbers)
+                                   map))))
+    "Mode line construct to display the line number at point.")
+  ;; NOTE: The following is necessary for my/modelin-current-line-number
+  ;; because, with a single window only (not split window), the
+  ;; current line number was not being updated when I moved the cursor
+  ;; up and down lines.
+  (add-hook 'post-command-hook #'force-mode-line-update)
+
   (dolist (construct '(my/modeline-buffer-identification
                        my/modeline-major-mode
                        prot-modeline-vc-branch
@@ -229,7 +253,8 @@ Specific to the current window's mode line.")
                        my/modeline-battery
                        my/modeline-modified
                        my/modeline-remote-indicator
-                       prot-modeline-eglot))
+                       prot-modeline-eglot
+                       my/modeline-current-line-number))
     (put construct 'risky-local-variable t))
 
   (setq which-func-format
@@ -254,8 +279,8 @@ mouse-3: go to end")
                   my/modeline-kbd-macro
                   my/modeline-remote-indicator
                   my/modeline-buffer-identification
-                  ;; mode-line-buffer-identification
-                  "  "
+                  my/modeline-current-line-number
+                  " "
                   prot-modeline-vc-branch
                   my/modeline-input-method
                   prot-modeline-eglot
@@ -263,9 +288,9 @@ mouse-3: go to end")
                   (which-function-mode which-func-format)
                                         ; mode-line-format-right-align TODO uncomment when I move to Emacs 30:
                   my/modeline-battery
-                  "  "
+                  " "
                   my/modeline-time
-                  "  "
+                  " "
                   my/modeline-date
                   my/modeline-modified
                   )))

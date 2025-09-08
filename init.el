@@ -176,6 +176,7 @@
   (scroll-bar-mode -1)
   (blink-cursor-mode)
   (global-hl-line-mode)
+  (setq display-line-numbers-type 'relative)
   (when (eq 'ns window-system) ;;=> t MacOS
     (setq default-frame-alist '((ns-transparent-titlebar . t))))
 
