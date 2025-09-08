@@ -121,7 +121,7 @@ Specific to the current window's mode line.")
   (defvar-local my/modeline-time
       '(:eval
         (when (mode-line-window-selected-p)
-          (propertize (format-time-string " %I:%M %p ")
+          (propertize (format-time-string "%I:%M %p ")
                       'face 'mode-line-active
                       'mouse-face 'mode-line-highlight
                       'help-echo "Show world clock"
@@ -134,7 +134,7 @@ Specific to the current window's mode line.")
   (defvar-local my/modeline-date
       '(:eval
         (when (mode-line-window-selected-p)
-          (propertize (format-time-string " %a, %b %-d  ")
+          (propertize (format-time-string "%a, %b %-d ")
                       'face 'mode-line-active
                       'mouse-face 'mode-line-highlight
                       'help-echo (format-time-string "%A, %B %-d. Show calendar")
@@ -227,7 +227,7 @@ Specific to the current window's mode line.")
   (defvar-local my/modeline-current-line-number
       '(:eval
         (when (mode-line-window-selected-p)
-          (propertize (format "%s" (current-line))
+          (propertize (format "%s" (line-number-at-pos))
                       'face 'mode-line-active
                       'mouse-face 'mode-line-highlight
                       'help-echo "Toggle line numbers"
@@ -288,9 +288,7 @@ mouse-3: go to end")
                   (which-function-mode which-func-format)
                                         ; mode-line-format-right-align TODO uncomment when I move to Emacs 30:
                   my/modeline-battery
-                  " "
                   my/modeline-time
-                  " "
                   my/modeline-date
                   my/modeline-modified
                   )))
