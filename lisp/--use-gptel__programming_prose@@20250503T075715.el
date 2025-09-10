@@ -45,6 +45,7 @@
     :stream t
     :models '(qwen2.5-coder:14b qwen2.5-coder:32b aya:latest))
 
+  (setq gptel-use-tools nil)
   (setq gptel-default-mode 'org-mode))
 (provide '--use-gptel__programming_prose@@20250503T075715)
 ;;; --use-gptel__programming_prose@@20250503T075715.el ends here
