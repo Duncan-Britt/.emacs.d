@@ -1,0 +1,1 @@
+/Users/duncan/.emacs.d/elpaca/repos/casual/lisp/casual-man-settings.el

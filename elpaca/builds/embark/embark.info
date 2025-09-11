@@ -482,6 +482,10 @@ configuration:
        ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
        ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
 
+       ;; Add Embark to the mouse context menu. Also enable `context-menu-mode'.
+       ;; (context-menu 1)
+       ;; (add-hook 'context-menu-functions #'embark-context-menu 100)
+
        :config
 
        ;; Hide the mode line of the Embark live/completions buffers
@@ -1492,28 +1496,28 @@ Node: Selecting some targets to make an ad hoc candidate set14840
 Node: embark-live a live-updating variant of embark-collect18287
 Node: Switching to a different command without losing what you've typed19974
 Node: Quick start22536
-Node: Advanced configuration27438
-Node: Showing information about available targets and actions28020
-Node: Selecting commands via completions instead of key bindings30839
-Node: Selecting commands via completion outside of Embark33920
-Node: Quitting the minibuffer after an action35450
-Node: Running some setup after injecting the target37899
-Node: Running hooks before after or around an action41498
-Node: Creating your own keymaps46360
-Node: Defining actions for new categories of targets47264
-Node: New minibuffer target example - tab-bar tabs48031
-Ref: Telling Embark about commands that prompt for tabs by name48926
-Ref: Defining and configuring a keymap for tab actions51779
-Node: New target example in regular buffers - short Wikipedia links53566
-Node: How does Embark call the actions?55824
-Node: Non-interactive functions as actions60134
-Node: Embark Marginalia and Consult61484
-Node: Marginalia62208
-Node: Consult63708
-Node: Related Packages68463
-Node: Resources69551
-Node: Contributions70674
-Node: Acknowledgments71384
+Node: Advanced configuration27618
+Node: Showing information about available targets and actions28200
+Node: Selecting commands via completions instead of key bindings31019
+Node: Selecting commands via completion outside of Embark34100
+Node: Quitting the minibuffer after an action35630
+Node: Running some setup after injecting the target38079
+Node: Running hooks before after or around an action41678
+Node: Creating your own keymaps46540
+Node: Defining actions for new categories of targets47444
+Node: New minibuffer target example - tab-bar tabs48211
+Ref: Telling Embark about commands that prompt for tabs by name49106
+Ref: Defining and configuring a keymap for tab actions51959
+Node: New target example in regular buffers - short Wikipedia links53746
+Node: How does Embark call the actions?56004
+Node: Non-interactive functions as actions60314
+Node: Embark Marginalia and Consult61664
+Node: Marginalia62388
+Node: Consult63888
+Node: Related Packages68643
+Node: Resources69731
+Node: Contributions70854
+Node: Acknowledgments71564
 
 End Tag Table
 

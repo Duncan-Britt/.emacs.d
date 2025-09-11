@@ -14,7 +14,7 @@
   :ensure t
   :after org
   :bind
-  (:map org-mode-map
+  (:map text-mode-map
         ("C-c t" . mw-thesaurus-lookup-dwim)))
 
 (provide '--use-mw-thesaurus__prose@@20250502T215140)

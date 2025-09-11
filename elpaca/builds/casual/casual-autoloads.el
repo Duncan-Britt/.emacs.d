@@ -103,6 +103,11 @@
 (register-definition-prefixes "casual-calc-stack" '("casual-calc-"))
 
 
+;;; Generated autoloads from casual-calc-time.el
+
+(register-definition-prefixes "casual-calc-time" '("casual-calc-push-timestamp"))
+
+
 ;;; Generated autoloads from casual-calc-utils.el
 
 (register-definition-prefixes "casual-calc-utils" '("casual-calc-"))
@@ -121,12 +126,27 @@
 
 ;;; Generated autoloads from casual-calendar-constants.el
 
-(register-definition-prefixes "casual-calendar-constants" '("casual-calendar-"))
+(register-definition-prefixes "casual-calendar-constants" '("casual-calendar-unicode-"))
 
 
 ;;; Generated autoloads from casual-calendar-settings.el
 
 (register-definition-prefixes "casual-calendar-settings" '("casual-calendar-"))
+
+
+;;; Generated autoloads from casual-compile.el
+
+ (autoload 'casual-compile-tmenu "casual-compile" nil t)
+
+
+;;; Generated autoloads from casual-compile-settings.el
+
+(register-definition-prefixes "casual-compile-settings" '("casual-compile-"))
+
+
+;;; Generated autoloads from casual-compile-utils.el
+
+(register-definition-prefixes "casual-compile-utils" '("casual-compile-"))
 
 
 ;;; Generated autoloads from casual-dired.el
@@ -164,7 +184,7 @@
 
 ;;; Generated autoloads from casual-editkit-constants.el
 
-(register-definition-prefixes "casual-editkit-constants" '("casual-editkit-"))
+(register-definition-prefixes "casual-editkit-constants" '("casual-editkit-unicode-"))
 
 
 ;;; Generated autoloads from casual-editkit-settings.el
@@ -197,6 +217,51 @@
  (autoload 'casual-editkit-reformat-tmenu "casual-editkit-utils" nil t)
  (autoload 'casual-editkit-narrow-tmenu "casual-editkit-utils" nil t)
 (register-definition-prefixes "casual-editkit-utils" '("casual-editkit-"))
+
+
+;;; Generated autoloads from casual-elisp.el
+
+ (autoload 'casual-elisp-tmenu "casual-elisp" nil t)
+
+
+;;; Generated autoloads from casual-elisp-settings.el
+
+(register-definition-prefixes "casual-elisp-settings" '("casual-elisp-about"))
+
+
+;;; Generated autoloads from casual-elisp-utils.el
+
+(register-definition-prefixes "casual-elisp-utils" '("casual-elisp-"))
+
+
+;;; Generated autoloads from casual-eshell.el
+
+ (autoload 'casual-eshell-tmenu "casual-eshell" nil t)
+
+
+;;; Generated autoloads from casual-eshell-settings.el
+
+(register-definition-prefixes "casual-eshell-settings" '("casual-eshell-"))
+
+
+;;; Generated autoloads from casual-eshell-utils.el
+
+(register-definition-prefixes "casual-eshell-utils" '("casual-eshell-"))
+
+
+;;; Generated autoloads from casual-help.el
+
+ (autoload 'casual-help-tmenu "casual-help" nil t)
+
+
+;;; Generated autoloads from casual-help-settings.el
+
+(register-definition-prefixes "casual-help-settings" '("casual-help-"))
+
+
+;;; Generated autoloads from casual-help-utils.el
+
+(register-definition-prefixes "casual-help-utils" '("casual-help-"))
 
 
 ;;; Generated autoloads from casual-ibuffer.el
@@ -288,6 +353,21 @@
 (register-definition-prefixes "casual-make-utils" '("casual-make-"))
 
 
+;;; Generated autoloads from casual-man.el
+
+ (autoload 'casual-man-tmenu "casual-man" nil t)
+
+
+;;; Generated autoloads from casual-man-settings.el
+
+(register-definition-prefixes "casual-man-settings" '("casual-man-"))
+
+
+;;; Generated autoloads from casual-man-utils.el
+
+(register-definition-prefixes "casual-man-utils" '("casual-man-"))
+
+
 ;;; Generated autoloads from casual-re-builder.el
 
  (autoload 'casual-re-builder-tmenu "casual-re-builder" nil t)
@@ -300,7 +380,22 @@
 
 ;;; Generated autoloads from casual-re-builder-utils.el
 
-(register-definition-prefixes "casual-re-builder-utils" '("casual-re-builder-"))
+(register-definition-prefixes "casual-re-builder-utils" '("casual-re"))
+
+
+;;; Generated autoloads from casual-timezone.el
+
+ (autoload 'casual-timezone-tmenu "casual-timezone" nil t)
+
+
+;;; Generated autoloads from casual-timezone-settings.el
+
+(register-definition-prefixes "casual-timezone-settings" '("casual-timezone-"))
+
+
+;;; Generated autoloads from casual-timezone-utils.el
+
+(register-definition-prefixes "casual-timezone-utils" '("casual-timezone-"))
 
 ;;; End of scraped data
 

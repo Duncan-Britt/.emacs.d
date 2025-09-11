@@ -12,8 +12,9 @@
   :config
   (setq prefix-help-command #'embark-prefix-help-command)
   :bind
-  (("M-RET" . embark-act)
-   ("C-h B" . embark-bindings)))
+  (("C-<return>" . embark-act)
+   ("C-h B" . embark-bindings))
+  :hook (org-mode . (lambda () (local-set-key (kbd "C-<return>") #'embark-act))))
 
 (provide '--use-embark__discoverability_ui@@20250503T144453)
 ;;; --use-embark__discoverability_ui@@20250503T144453.el ends here

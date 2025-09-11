@@ -197,6 +197,15 @@ Variant of `consult-buffer', switching to a buffer in another window." t)
 Variant of `consult-buffer', switching to a buffer in another frame." t)
 (autoload 'consult-buffer-other-tab "consult" "\
 Variant of `consult-buffer', switching to a buffer in another tab." t)
+(autoload 'consult-grep-match "consult" "\
+Jump to grep matches related to the current project or file.
+
+This command collects entries from all related Grep buffers.  The
+command supports preview of the currently selected match.  With prefix
+ARG, jump to the match in the Grep buffer, instead of to the actual
+location of the match.
+
+(fn &optional ARG)" t)
 (autoload 'consult-grep "consult" "\
 Search with `grep' for files in DIR where the content matches a regexp.
 
@@ -290,11 +299,15 @@ the asynchronous search.
 ;;; Generated autoloads from consult-compile.el
 
 (autoload 'consult-compile-error "consult-compile" "\
-Jump to a compilation error in the current buffer.
+Jump to a compilation error related to the current project or file.
 
-This command collects entries from compilation buffers and grep
-buffers related to the current buffer.  The command supports
-preview of the currently selected error." t)
+This command collects entries from all related compilation buffers.  The
+command supports preview of the currently selected error.  With prefix
+ARG, jump to the error message in the compilation buffer, instead of to
+the actual location of the error.  If GREP is non-nil, Grep buffers are
+searched.
+
+(fn &optional ARG GREP)" t)
 (register-definition-prefixes "consult-compile" '("consult-compile--"))
 
 
@@ -385,8 +398,9 @@ Enhanced drop-in replacement for `register-preview'.
 
 BUFFER is the window buffer.
 SHOW-EMPTY must be t if the window should be shown for an empty register list.
+Optional argument PRED specifies the types of register to show.
 
-(fn BUFFER &optional SHOW-EMPTY)")
+(fn BUFFER &optional SHOW-EMPTY PRED)")
 (autoload 'consult-register-format "consult-register" "\
 Enhanced preview of register REG.
 This function can be used as `register-preview-function'.

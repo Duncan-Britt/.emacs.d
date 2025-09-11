@@ -32,6 +32,7 @@
 	  "\\*compilation\\*"
 	  "\\Backtrace\\*"
 	  "\\*ruby\\*"
+          "\\* Merriam-Webster Thesaurus \\*"
           ;; help-mode
           ;; compilation-mode
           ))

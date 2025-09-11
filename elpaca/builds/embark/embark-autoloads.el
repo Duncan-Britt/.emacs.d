@@ -26,6 +26,10 @@ This function uses the eldoc REPORT callback and is meant to be
 added to `eldoc-documentation-functions'.
 
 (fn REPORT &rest _)")
+(autoload 'embark-context-menu "embark" "\
+Add Embark menu items to context MENU at the position of mouse EVENT.
+
+(fn MENU EVENT)")
 (autoload 'embark-bindings-in-keymap "embark" "\
 Explore command key bindings in KEYMAP with `completing-read'.
 The selected command will be executed.  Interactively, prompt the

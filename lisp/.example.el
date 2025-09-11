@@ -212,3 +212,43 @@ s.t. variable and fixed pitch font sizes are proportional"
   :bind (("M-RET" . hkey-either)
          (:map org-mode-map
                ("M-RET" . hkey-either))))
+
+;; ┌───────────┐
+;; │ org-cmenu │
+;; └───────────┘
+;;; Commentary:
+;; title: use-org-cmenu
+;; keywords: :discoverability:org:
+;; date: [2025-05-02 Fri 21:33]
+;; identifier: 20250502T213349
+;; ┌───────────────────────────────────────────────────────────────────┐
+;; │ This package stopped working for me after an update of            │
+;; │ transient. It must rely on an older version. Regardless, the      │
+;; │ functionality is largely duplicated by `embark', so I removed it. │
+;; └───────────────────────────────────────────────────────────────────┘
+;;; Code:
+(use-package org-cmenu
+  :ensure (:host github :repo "misohena/org-cmenu")
+  :after org
+  :config (require 'org-cmenu-setup)
+  :bind
+  (:map org-mode-map
+        ("M-n" . org-cmenu)))
+
+;; ┌────────────────┐
+;; │ transient-dwim │
+;; └────────────────┘
+;;; Commentary:
+;; title: use-transient-dwim
+;; keywords: :discoverability:ui:
+;; date: [2025-05-05 Mon 12:09]
+;; identifier: 20250505T120900
+;; ┌─────────────────────────────────────────────────────────────────────┐
+;; │ This was a cool package for providing context menus, especially for │
+;; │ dired mode, but, as far as I can tell, it's made redundant by my    │
+;; │ use of `embark', so I retired it.                                   │
+;; └─────────────────────────────────────────────────────────────────────┘
+;;; Code:
+(use-package transient-dwim
+  :ensure t
+  :bind ("M-=" . transient-dwim-dispatch))
