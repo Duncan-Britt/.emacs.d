@@ -1,2 +1,0 @@
-;; Generated package description from hyperbole.el  -*- mode: lisp-data; no-byte-compile: t -*-
-(define-package "hyperbole" "9.0.2pre0.20250504.115201" "GNU Hyperbole: The Everyday Hypertextual Information Manager" '((emacs "28")) :commit "d3c7ebdf0f8ca82becf7fae4e7f26672a93a21bf" :authors '(("Robert Weiner" . "rsw@gnu.org")) :maintainer '("Robert Weiner" . "rsw@gnu.org") :keywords '("comm" "convenience" "files" "frames" "hypermedia" "languages" "mail" "matching" "mouse" "multimedia" "outlines" "tools" "wp") :url "http://www.gnu.org/software/hyperbole")

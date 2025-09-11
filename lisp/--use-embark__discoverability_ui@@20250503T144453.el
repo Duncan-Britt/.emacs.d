@@ -12,7 +12,7 @@
   :config
   (setq prefix-help-command #'embark-prefix-help-command)
   :bind
-  (("C-." . embark-act)
+  (("M-RET" . embark-act)
    ("C-h B" . embark-bindings)))
 
 (provide '--use-embark__discoverability_ui@@20250503T144453)

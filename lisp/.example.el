@@ -1,7 +1,7 @@
 ;;; example.el --- snippets I'm not using -*- lexical-binding: t; -*-
 
 ;;; Commentary:
-;; Could be useful someday.
+;; Could be useful someday. But the code in this file is not loaded!
 ;;; Code:
 
 ;; NOTE: I ended up with a different solution to the problem described below, which involves
@@ -189,3 +189,26 @@ s.t. variable and fixed pitch font sizes are proportional"
     (with-current-buffer buffer
       (when (eq major-mode 'org-mode)
         (my/org-remap-faces-hook)))))
+
+;; ┌───────────┐
+;; │ Hyperbole │
+;; └───────────┘
+;;; Commentary:
+;; title: use-hyperbole
+;; keywords: :buttons:hypertext:
+;; date: [2025-05-06 Tue 07:33]
+;; identifier: 20250506T073343
+;; ┌────────────────────────────────────────────────────────────┐
+;; │ I stopped using hyperbole because `embark-act' replaced    │
+;; │ `hkey-either' for me. It's more light weight and flexible. │
+;; └────────────────────────────────────────────────────────────┘
+(use-package hyperbole
+  :ensure (:host github :repo "emacs-straight/hyperbole")
+  :after org
+  :custom
+  (hkey-init nil) ;; I don't want Hyperbole's keybindings.
+  :config
+  (hyperbole-mode 1)
+  :bind (("M-RET" . hkey-either)
+         (:map org-mode-map
+               ("M-RET" . hkey-either))))
