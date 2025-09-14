@@ -252,3 +252,33 @@ s.t. variable and fixed pitch font sizes are proportional"
 (use-package transient-dwim
   :ensure t
   :bind ("M-=" . transient-dwim-dispatch))
+
+;; ┌────────┐
+;; │ Elixir │
+;; └────────┘
+;;; Commentary:
+;; title: elixir
+;; keywords: :elixir:org:programming:
+;; date: [2025-05-05 Mon 05:17]
+;; identifier: 20250505T051703
+;; ┌─────────────────────────────────────────────────────────────────────┐
+;; │ I don't see myself using elixir any time soon. I like Erlang better │
+;; │ anyways, and the elixir ecosystem looks like depenency hell to me.  │
+;; │                                                                     │
+;; │                                              Archived [2025-09-14]. │
+;; └─────────────────────────────────────────────────────────────────────┘
+;;; Code:
+(use-package elixir-mode
+  :ensure t)
+
+(use-package inf-elixir
+  :ensure t)
+
+(use-package mix
+  :ensure t)
+
+(use-package ob-elixir
+  :ensure t)
+;; In eglot file:
+(add-to-list 'eglot-server-programs
+               '(elixir-mode . ("~/.elixir-ls/language_server.sh")))
