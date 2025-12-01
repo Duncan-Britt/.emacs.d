@@ -27,7 +27,9 @@ followed by 2 spaces.
 
 URL `http://xahlee.info/emacs/emacs/elisp_change_brackets.html'
 Created: 2020-11-01
-Version: 2025-03-25"
+Version: 2025-03-25
+-------------------
+Revised by Duncan Britt on 2025-09-19."
   (interactive
    (let ((xbrackets
           '(
@@ -105,18 +107,18 @@ Version: 2025-03-25"
                       (re-search-forward
                        (format "%s\\([^%s]+?\\)%s" xx xx xx)
                        nil t)
-                    (overlay-put (make-overlay (match-beginning 0) (match-end 0)) 'face 'highlight)
+                    ;; (overlay-put (make-overlay (match-beginning 0) (match-end 0)) 'face 'highlight)
                     (replace-match (concat xtoL "\\1" xtoR) t)))
               (progn
                 (progn
                   (goto-char (point-min))
                   (while (search-forward xleft nil t)
-                    (overlay-put (make-overlay (match-beginning 0) (match-end 0)) 'face 'highlight)
+                    ;; (overlay-put (make-overlay (match-beginning 0) (match-end 0)) 'face 'highlight)
                     (replace-match xtoL t t)))
                 (progn
                   (goto-char (point-min))
                   (while (search-forward xright nil t)
-                    (overlay-put (make-overlay (match-beginning 0) (match-end 0)) 'face 'highlight)
+                    ;; (overlay-put (make-overlay (match-beginning 0) (match-end 0)) 'face 'highlight)
                     (replace-match xtoR t t)))))))))))
 (provide '--xah-change-bracket-pairs__brackets_text_textediting_utility@@20250906T173243)
 ;;; --xah-change-bracket-pairs__brackets_text_textediting_utility@@20250906T173243.el ends here

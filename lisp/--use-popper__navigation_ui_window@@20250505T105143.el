@@ -17,6 +17,7 @@
           "\\*Async Shell Command\\*"
           ;; "\\*Org Agenda\\*"
           "\\*slime-repl sbcl\\*"
+          "\\*slime-repl qlot\\*"
           "\\*slime-inspector\\*"
           "\\*Ciao\\*"
           "\\*sweeprolog-top-level\\*"

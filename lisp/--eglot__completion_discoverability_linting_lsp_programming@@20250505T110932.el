@@ -31,6 +31,7 @@
                '(elixir-mode . ("~/.elixir-ls/language_server.sh")))
   (add-to-list 'eglot-server-programs
                '(erlang-mode . ("elp" "server")))
+  (add-to-list 'eglot-server-programs '(fennel-mode . ("fennel-ls")))
 
   ;; (with-eval-after-load 'eglot
   ;;   (add-to-list 'eglot-server-programs
