@@ -3,35 +3,54 @@
 ;; ┌──────────────┐
 ;; │ Installation │
 ;; └──────────────┘
+;; ┌───────────────────────────────────────────────────────────────┐
+;; │ Emacs 30.2 on MacOS [2025-12-12]                              │
+;; │ ./configure \                                                 │
+;; │ --with-modules \                                              │
+;; │ --with-native-compilation=aot \                               │
+;; │ --with-toolkit-scroll-bars \                                  │
+;; │ --with-tree-sitter \                                          │
+;; │ --without-imagemagick \                                       │
+;; │ --without-dbus \                                              │
+;; │ --with-xinput2 \                                              │
+;; │ CFLAGS="-O2 -mtune=native -march=native -fomit-frame-pointer" │
+;; │───────────────────────────────────────────────────────────────│
+;; │ Compilation started at Fri Dec 12 20:31:33                    │
+;; │ Compilation finished at Fri Dec 12 20:56:08                   │
+;; └───────────────────────────────────────────────────────────────┘
 
-;; For MacOS:
-;; ./configure \
-;; --with-modules \
-;; --with-native-compilation=aot \
-;; --with-toolkit-scroll-bars \
-;; --with-tree-sitter \
-;; --with-json \
-;; --without-imagemagick \
-;; --without-mailutils \
-;; --without-dbus \
-;; --with-xinput2 \
-;; CFLAGS="-O2 -mtune=native -march=native -fomit-frame-pointer"
+;; ┌───────────────────────────────────────────────────────────────┐
+;; │ Emacs 29.4 on MacOS                                           │
+;; │ ./configure \                                                 │
+;; │ --with-modules \                                              │
+;; │ --with-native-compilation=aot \                               │
+;; │ --with-toolkit-scroll-bars \                                  │
+;; │ --with-tree-sitter \                                          │
+;; │ --with-json \                                                 │
+;; │ --without-imagemagick \                                       │
+;; │ --without-mailutils \                                         │
+;; │ --without-dbus \                                              │
+;; │ --with-xinput2 \                                              │
+;; │ CFLAGS="-O2 -mtune=native -march=native -fomit-frame-pointer" │
+;; └───────────────────────────────────────────────────────────────┘
 
-;; For Linux:
-;; ./configure \
-;; --with-modules \
-;; --with-native-compilation=aot \
-;; --with-x \
-;; --with-x-toolkit=lucid \
-;; --with-toolkit-scroll-bars \
-;; --with-tree-sitter \
-;; --with-json \
-;; --without-imagemagick \
-;; --without-mailutils \
-;; --with-xinput2 \
-;; --with-cairo \
-;; --with-harfbuzz \ <-- Cairo & Harfbuzz combine to provide better font rendering on Linux.
-;; CFLAGS="-O2 -mtune=native -march=native -fomit-frame-pointer"
+;; ┌───────────────────────────────────────────────────────────────────────────────────────────┐
+;; │ Emacs 29 on Linux                                                                         │
+;; │ ./configure \                                                                             │
+;; │ --with-modules \                                                                          │
+;; │ --with-native-compilation=aot \                                                           │
+;; │ --with-x \                                                                                │
+;; │ --with-x-toolkit=lucid \                                                                  │
+;; │ --with-toolkit-scroll-bars \                                                              │
+;; │ --with-tree-sitter \                                                                      │
+;; │ --with-json \                                                                             │
+;; │ --without-imagemagick \                                                                   │
+;; │ --without-mailutils \                                                                     │
+;; │ --with-xinput2 \                                                                          │
+;; │ --with-cairo \                                                                            │
+;; │ --with-harfbuzz \ <-- Cairo & Harfbuzz combine to provide better font rendering on Linux. │
+;; │ CFLAGS="-O2 -mtune=native -march=native -fomit-frame-pointer"                             │
+;; └───────────────────────────────────────────────────────────────────────────────────────────┘
 
 ;;; Code:
 ;; ┌────────────────────────────────────────────────┐
