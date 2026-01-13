@@ -1,0 +1,1 @@
+/Users/duncan/.emacs.d/elpaca/repos/gt/gt-taker-fresh-words.el

@@ -1,0 +1,118 @@
+
+* Card
+:PROPERTIES:
+:ID:       CAAA49D4-F0A1-4CFB-A098-C3AFF5F15714
+:created:  2025-12-16T23:07:12-0700
+:difficulty: 4.510985606964673
+:stability: 35.627619707822575
+:last-review-timestamp: 2025-12-21T11:48:42-0700
+:next-review-deadline: 2026-01-26T02:52:28-0700
+:srs-tags: erlang,programming
+:END:
+
+* Card
+:PROPERTIES:
+:ID:       88987850-FD16-463C-A649-6D2DED1E1127
+:created:  2025-12-16T23:07:42-0700
+:difficulty: 4.510985606964673
+:stability: 35.619027045307256
+:last-review-timestamp: 2025-12-21T11:45:55-0700
+:next-review-deadline: 2026-01-26T02:37:19-0700
+:srs-tags: erlang,programming
+:END:
+
+* Card
+:PROPERTIES:
+:ID:       658C40A4-8EB4-47CD-815E-72BA9B000877
+:created:  2025-12-16T23:07:51-0700
+:difficulty: 4.500033631888484
+:stability: 109.79355543012615
+:last-review-timestamp: 2026-01-05T20:34:53-0700
+:next-review-deadline: 2026-04-25T16:37:36-0600
+:srs-tags: erlang,programming
+:END:
+
+* Card
+:PROPERTIES:
+:ID:       01958C76-407B-4665-B66E-3E796469F01C
+:created:  2025-12-16T23:08:29-0700
+:difficulty: 4.510985606964673
+:stability: 35.61849944286818
+:last-review-timestamp: 2025-12-21T11:44:25-0700
+:next-review-deadline: 2026-01-26T02:35:03-0700
+:srs-tags: erlang,programming
+:END:
+
+* Card
+:PROPERTIES:
+:ID:       C3A7ED93-8333-47B9-8636-93E7AAEC7832
+:created:  2025-12-16T23:27:22-0700
+:difficulty: 5.871423058100517
+:stability: 100.38158790226623
+:last-review-timestamp: 2026-01-11T10:54:31-0700
+:next-review-deadline: 2026-04-21T21:04:00-0600
+:srs-tags: erlang,programming
+:END:
+
+
+
+
+
+
+* Card
+:PROPERTIES:
+:ID:       B35BE5A9-6A27-40ED-9A31-D345D42F10E8
+:created:  2025-12-25T08:08:51-0800
+:difficulty: 5.263544986114632
+:stability: 43.986986921953665
+:last-review-timestamp: 2026-01-13T03:38:31-0700
+:next-review-deadline: 2026-02-26T03:19:47-0700
+:srs-tags: habits
+:END:
+
+
+* Card
+:PROPERTIES:
+:ID:       550B541D-3751-488F-B2E5-9DBB26CE7DC4
+:created:  2025-12-26T09:34:30-0800
+:difficulty: 8.412414876658353
+:stability: 9.156437287828428
+:last-review-timestamp: 2026-01-05T20:35:20-0700
+:next-review-deadline: 2026-01-15T00:20:36-0700
+:srs-tags: erlang,programming
+:END:
+
+* Card
+:PROPERTIES:
+:ID:       CD51A782-4C11-4C45-BB60-B4B499B1ED3B
+:created:  2026-01-03T20:01:28-0700
+:difficulty: 8.431894882918282
+:stability: 3.2987487742907025
+:last-review-timestamp: 2026-01-11T10:51:17-0700
+:next-review-deadline: 2026-01-14T18:01:29-0700
+:srs-tags: erlang,programming
+:END:
+
+* Card
+:PROPERTIES:
+:ID:       B39DB62D-B173-4C0E-A7DC-4D5A245D47D8
+:created:  2026-01-04T12:12:16-0700
+:difficulty: 3.2245015893713678
+:stability: 15.69105
+:last-review-timestamp: 2026-01-05T20:33:54-0700
+:next-review-deadline: 2026-01-21T13:09:00-0700
+:srs-tags: erlang,programming,otp
+:END:
+
+
+
+* Card
+:PROPERTIES:
+:ID:       77FE6558-81DC-40E3-B967-FE8630BCAE47
+:created:  2026-01-13T03:57:59-0700
+:difficulty: 3.2245015893713678
+:stability: 15.69105
+:last-review-timestamp: 2026-01-13T07:08:44-0700
+:next-review-deadline: 2026-01-28T23:43:51-0700
+:srs-tags: cooking
+:END:

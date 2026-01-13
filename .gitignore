@@ -17,6 +17,7 @@ history
 projectile-bookmarks.eld
 transient
 undo-tree-history/*
+cache/*
 .cache/*
 bookmarks
 games/*

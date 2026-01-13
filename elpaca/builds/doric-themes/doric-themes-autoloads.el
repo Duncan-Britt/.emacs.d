@@ -45,8 +45,8 @@ Run `doric-themes-after-load-theme-hook' after loading a theme.
 (fn &optional VARIANT)" t)
 (autoload 'doric-themes-define-theme "doric-themes" "\
 Define theme with NAME and `light' or `dark' BACKGROUND-MODE.
-With optional DESCRIPTION use it to describe the theme, otherwise
-default a generic text that mentions the BACKGROUND-MODE.
+With optional DESCRIPTION, use it to describe the theme, otherwise
+default to a generic text that mentions the BACKGROUND-MODE.
 
 (fn NAME BACKGROUND-MODE &optional DESCRIPTION)" nil t)
 (function-put 'doric-themes-define-theme 'lisp-indent-function 0)
