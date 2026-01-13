@@ -13,8 +13,9 @@
 (use-package emacs
   :ensure nil
   :bind
-  (:map emacs-lisp-mode-map
-        ("C-c C-p" . pp-eval-last-sexp))
+  (("M-:" . pp-eval-expression)
+   :map emacs-lisp-mode-map
+   ("C-c C-p" . pp-eval-last-sexp))
   :hook
   ((emacs-lisp-mode . prettify-symbols-mode)))
 

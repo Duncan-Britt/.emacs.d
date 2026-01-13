@@ -9,7 +9,8 @@
 ;; https://www.erlang.org/docs/24/man/erlang.el
 ;;; Code:
 (use-package erlang
-  :ensure t)
+  :ensure t
+  :hook ((erlang-mode . subword-mode)))
 
 ;; LSP: https://whatsapp.github.io/erlang-language-platform/
 ;; edts           Erlang Development Tool Suite

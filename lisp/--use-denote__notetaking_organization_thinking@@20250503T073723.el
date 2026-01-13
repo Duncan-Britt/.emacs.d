@@ -19,6 +19,12 @@
     (let ((denote-directory default-directory))
       (call-interactively 'denote-rename-file)))
 
+  (defun my/denote-rename-marked-files ()
+    "Call denote-rename-file with local directory keywords."
+    (interactive)
+    (let ((denote-directory default-directory))
+      (call-interactively 'denote-dired-rename-files)))
+
   (defun my/denote-here ()
     "Call denote with local directory."
     (interactive)

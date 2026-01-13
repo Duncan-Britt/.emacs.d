@@ -10,7 +10,8 @@
 (use-package define-scratch
   :ensure t
   :config
-  (define-scratch scratch-org-buffer org-mode))
+  (define-scratch scratch-org-buffer org-mode)
+  (define-scratch scratch-erlang-buffer erlang-mode))
 
 (provide '--define-scratch__buffer_scratch_utility@@20250907T105011)
 ;;; --define-scratch__buffer_scratch_utility@@20250907T105011.el ends here

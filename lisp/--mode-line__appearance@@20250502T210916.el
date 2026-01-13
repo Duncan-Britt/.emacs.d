@@ -110,6 +110,36 @@ Specific to the current window's mode line.")
              " "))))
     "Mode line construct to display meow mode, e.g. INSERT, NORMAL, etc.")
 
+  (defvar-local my/modeline-eat-indicator
+      '(:eval
+        (cond ((and (boundp 'eat-terminal)
+                    (eq major-mode 'eat-mode))
+               (list
+                (cond
+                 (eat--semi-char-mode
+                  (propertize (format " %-9s " "SEMI-CHAR") 'face 'ansi-color-inverse))
+                 (eat--char-mode
+                  (propertize (format " %-9s " "CHAR") 'face 'ansi-color-inverse))
+                 (eat--line-mode
+                  (propertize (format " %-9s " "LINE") 'face 'ansi-color-inverse))
+                 (t
+                  (propertize (format " %-9s " "EMACS") 'face 'ansi-color-inverse)))
+                " "))
+              ((and (boundp 'eat-terminal)
+                    (member 'eat--eshell-local-mode local-minor-modes))
+               (list
+                (cond
+                 (eat--eshell-semi-char-mode
+                  (propertize (format " %-9s " "SEMI-CHAR") 'face 'ansi-color-inverse))
+                 (eat--eshell-char-mode
+                  (propertize (format " %-9s " "CHAR") 'face 'ansi-color-inverse))
+                 (eat--eshell-line-mode
+                  (propertize (format " %-9s " "LINE") 'face 'ansi-color-inverse))
+                 (eat--eshell-emacs-mode
+                  (propertize (format " %-9s " "EMACS") 'face 'ansi-color-inverse)))
+                " "))))
+    "Mode line construct to display eat minor mode.")
+
   (defvar-local my/modeline-input-method
       '(:eval
         (when current-input-method-title
@@ -247,6 +277,7 @@ Specific to the current window's mode line.")
                        prot-modeline-vc-branch
                        my/modeline-kbd-macro
                        my/modeline-meow-indicator
+                       my/modeline-eat-indicator
                        my/modeline-input-method
                        my/modeline-time
                        my/modeline-date
@@ -273,25 +304,47 @@ mouse-3: go to end")
   (which-function-mode -1)
 
   (setq-default mode-line-format
-                '("%e"
-                  "  "
-                  my/modeline-meow-indicator
-                  my/modeline-kbd-macro
-                  my/modeline-remote-indicator
-                  my/modeline-buffer-identification
-                  my/modeline-current-line-number
-                  " "
-                  prot-modeline-vc-branch
-                  my/modeline-input-method
-                  prot-modeline-eglot
-                  my/modeline-major-mode
-                  (which-function-mode which-func-format)
-                                        ; mode-line-format-right-align TODO uncomment when I move to Emacs 30:
-                  my/modeline-battery
-                  my/modeline-time
-                  my/modeline-date
-                  my/modeline-modified
-                  )))
+                (if (>= 30 (cl-parse-integer (substring emacs-version 0 2)))
+                    '("%e"
+                      "  "
+                      my/modeline-meow-indicator
+                      my/modeline-eat-indicator
+                      my/modeline-kbd-macro
+                      my/modeline-remote-indicator
+                      my/modeline-buffer-identification
+                      my/modeline-current-line-number
+                      " "
+                      prot-modeline-vc-branch
+                      my/modeline-input-method
+                      prot-modeline-eglot
+                      my/modeline-major-mode
+                      (which-function-mode which-func-format)
+                      mode-line-format-right-align
+                      my/modeline-modified
+                      my/modeline-battery
+                      my/modeline-time
+                      my/modeline-date
+                      " ")
+                  '("%e"
+                    "  "
+                    my/modeline-meow-indicator
+                    my/modeline-eat-indicator
+                    my/modeline-kbd-macro
+                    my/modeline-remote-indicator
+                    my/modeline-buffer-identification
+                    my/modeline-current-line-number
+                    " "
+                    prot-modeline-vc-branch
+                    my/modeline-input-method
+                    prot-modeline-eglot
+                    my/modeline-major-mode
+                    (which-function-mode which-func-format)
+                    ;; mode-line-format-right-align
+                    my/modeline-battery
+                    my/modeline-time
+                    my/modeline-date
+                    my/modeline-modified
+                    " "))))
 
 (provide '--mode-line__appearance@@20250502T210916)
 ;;; --mode-line__appearance@@20250502T210916.el ends here
