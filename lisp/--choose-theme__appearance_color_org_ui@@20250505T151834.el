@@ -232,11 +232,11 @@ Uses MacOS ns frame parameters and calle24 symbols"
   "Load 'doric', 'modus', or 'ef' THEME.
 THEME should be a symbol."
   (cond ((string-prefix-p "ef" (symbol-name theme))
-         (ef-themes-select theme))
+         (ef-themes-load-theme theme))
         ((string-prefix-p "doric" (symbol-name theme))
-         (doric-themes-select theme))
+         (doric-themes-load-theme theme))
         ((string-prefix-p "modus" (symbol-name theme))
-         (modus-themes-select theme))
+         (modus-themes-load-theme theme))
         (t
          (user-error "Expected ef, modus or doric theme, found %s" theme))))
 
