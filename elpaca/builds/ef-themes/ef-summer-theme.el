@@ -1,1 +1,0 @@
-/Users/duncan/.emacs.d/elpaca/repos/ef-themes/ef-summer-theme.el

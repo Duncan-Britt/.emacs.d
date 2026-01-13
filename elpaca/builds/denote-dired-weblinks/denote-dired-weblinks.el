@@ -1,1 +1,0 @@
-/Users/duncan/.emacs.d/elpaca/repos/denote-dired-weblinks/denote-dired-weblinks.el

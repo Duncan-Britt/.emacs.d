@@ -1,1 +1,0 @@
-/Users/duncan/.emacs.d/elpaca/repos/gt/gt-taker-buffer-prompt.el

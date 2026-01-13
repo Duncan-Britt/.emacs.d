@@ -1,1 +1,0 @@
-/Users/duncan/.emacs.d/elpaca/repos/paste-img/paste-img.el

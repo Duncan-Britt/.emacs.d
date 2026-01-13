@@ -1,1 +1,0 @@
-/Users/duncan/.emacs.d/elpaca/repos/gptel/gptel-bedrock.el

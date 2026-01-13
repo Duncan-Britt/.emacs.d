@@ -1,1 +1,0 @@
-/Users/duncan/.emacs.d/elpaca/repos/shell-x/shell-x.el

@@ -1,1 +1,0 @@
-/Users/duncan/.emacs.d/elpaca/repos/emacs-gdscript-mode/gdscript-completion.el

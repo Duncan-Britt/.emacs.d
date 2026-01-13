@@ -1,1 +1,0 @@
-/Users/duncan/.emacs.d/elpaca/repos/popper/popper-echo.el

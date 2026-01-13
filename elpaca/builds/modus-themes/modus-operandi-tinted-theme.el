@@ -1,1 +1,0 @@
-/Users/duncan/.emacs.d/elpaca/repos/modus-themes/modus-operandi-tinted-theme.el

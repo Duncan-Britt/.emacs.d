@@ -1,1 +1,0 @@
-/Users/duncan/.emacs.d/elpaca/repos/emacs-define-scratch/define-scratch.el

@@ -1,1 +1,0 @@
-/Users/duncan/.emacs.d/elpaca/repos/package-lint/package-lint.el

@@ -1,1 +1,0 @@
-/Users/duncan/.emacs.d/elpaca/repos/dired-quick-sort/dired-quick-sort.el

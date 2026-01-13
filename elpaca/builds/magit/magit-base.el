@@ -1,1 +1,0 @@
-/Users/duncan/.emacs.d/elpaca/repos/magit/lisp/magit-base.el

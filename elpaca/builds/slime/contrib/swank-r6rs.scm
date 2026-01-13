@@ -1,1 +1,0 @@
-/Users/duncan/.emacs.d/elpaca/repos/slime/contrib/swank-r6rs.scm

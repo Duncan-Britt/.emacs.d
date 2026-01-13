@@ -1,1 +1,0 @@
-/Users/duncan/.emacs.d/elpaca/repos/casual/lisp/casual-calc-logarithmic.el

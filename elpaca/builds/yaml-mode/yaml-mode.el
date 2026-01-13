@@ -1,1 +1,0 @@
-/Users/duncan/.emacs.d/elpaca/repos/yaml-mode/yaml-mode.el
