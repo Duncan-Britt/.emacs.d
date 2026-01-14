@@ -27,6 +27,7 @@
           sldb-mode
           "\\*Claude\\*"
           "\\*DeepSeek\\*"
+          "\\*Gemini\\*"
           "\\*Ollama\\*"
 	  "\\*ChatGPT\\*"
 	  "\\*Warnings\\*"
