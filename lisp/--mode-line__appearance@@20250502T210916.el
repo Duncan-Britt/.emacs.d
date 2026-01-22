@@ -272,6 +272,12 @@ Specific to the current window's mode line.")
   ;; up and down lines.
   (add-hook 'post-command-hook #'force-mode-line-update)
 
+  (defvar-local my/org-mode-line-string
+      '(:eval
+        (when (mode-line-window-selected-p)
+          org-mode-line-string))
+    "Mode line construct to display the current running org-clock.")
+
   (dolist (construct '(my/modeline-buffer-identification
                        my/modeline-major-mode
                        prot-modeline-vc-branch
@@ -285,6 +291,7 @@ Specific to the current window's mode line.")
                        my/modeline-modified
                        my/modeline-remote-indicator
                        prot-modeline-eglot
+                       my/org-mode-line-string
                        my/modeline-current-line-number))
     (put construct 'risky-local-variable t))
 
@@ -324,7 +331,7 @@ mouse-3: go to end")
                       my/modeline-major-mode
                       (which-function-mode which-func-format)
                       mode-line-format-right-align
-                      org-mode-line-string
+                      my/org-mode-line-string
                       my/modeline-modified
                       my/modeline-battery
                       my/modeline-time
@@ -345,7 +352,7 @@ mouse-3: go to end")
                     my/modeline-major-mode
                     (which-function-mode which-func-format)
                     ;; no mode-line-format-right-align, which depends on emacs 30+
-                    org-mode-line-string
+                    my/org-mode-line-string
                     my/modeline-battery
                     my/modeline-time
                     my/modeline-date
