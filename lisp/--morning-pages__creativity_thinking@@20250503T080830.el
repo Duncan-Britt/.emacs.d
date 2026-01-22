@@ -39,5 +39,24 @@
                  (bg (cadr (assoc 'bg-inactive palette))))
             (face-remap-add-relative 'default :background bg)))))))
 
+(defun my/insert-15-list ()
+  "Insert up to 15."
+  (interactive)
+  (insert "1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+10.
+11.
+12.
+13.
+14.
+15."))
+
 (provide '--morning-pages__creativity_thinking@@20250503T080830)
 ;;; --morning-pages__creativity_thinking@@20250503T080830.el ends here

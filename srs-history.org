@@ -75,10 +75,10 @@
 :PROPERTIES:
 :ID:       550B541D-3751-488F-B2E5-9DBB26CE7DC4
 :created:  2025-12-26T09:34:30-0800
-:difficulty: 8.412414876658353
-:stability: 9.156437287828428
-:last-review-timestamp: 2026-01-05T20:35:20-0700
-:next-review-deadline: 2026-01-15T00:20:36-0700
+:difficulty: 8.875290981348304
+:stability: 5.978268416859387
+:last-review-timestamp: 2026-01-20T07:24:51-0700
+:next-review-deadline: 2026-01-26T06:53:34-0700
 :srs-tags: erlang,programming
 :END:
 
@@ -86,10 +86,10 @@
 :PROPERTIES:
 :ID:       CD51A782-4C11-4C45-BB60-B4B499B1ED3B
 :created:  2026-01-03T20:01:28-0700
-:difficulty: 8.431894882918282
-:stability: 3.2987487742907025
-:last-review-timestamp: 2026-01-11T10:51:17-0700
-:next-review-deadline: 2026-01-14T18:01:29-0700
+:difficulty: 8.888328300195598
+:stability: 5.098184285784465
+:last-review-timestamp: 2026-01-20T07:25:59-0700
+:next-review-deadline: 2026-01-25T09:47:22-0700
 :srs-tags: erlang,programming
 :END:
 
@@ -97,10 +97,10 @@
 :PROPERTIES:
 :ID:       B39DB62D-B173-4C0E-A7DC-4D5A245D47D8
 :created:  2026-01-04T12:12:16-0700
-:difficulty: 3.2245015893713678
-:stability: 15.69105
-:last-review-timestamp: 2026-01-05T20:33:54-0700
-:next-review-deadline: 2026-01-21T13:09:00-0700
+:difficulty: 5.4132618481800785
+:stability: 2.7967172380298386
+:last-review-timestamp: 2026-01-21T22:16:56-0700
+:next-review-deadline: 2026-01-24T17:24:12-0700
 :srs-tags: erlang,programming,otp
 :END:
 
@@ -116,3 +116,9 @@
 :next-review-deadline: 2026-01-28T23:43:51-0700
 :srs-tags: cooking
 :END:
+
+
+
+
+
+

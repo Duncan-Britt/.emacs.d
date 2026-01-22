@@ -303,6 +303,10 @@ mouse-3: go to end")
           "〙"))
   (which-function-mode -1)
 
+  (setq org-clock-mode-line-total 'today)
+  (add-hook 'org-clock-out-hook (lambda () (setq org-mode-line-string nil)))
+
+
   (setq-default mode-line-format
                 (if (>= 30 (cl-parse-integer (substring emacs-version 0 2)))
                     '("%e"
@@ -320,11 +324,12 @@ mouse-3: go to end")
                       my/modeline-major-mode
                       (which-function-mode which-func-format)
                       mode-line-format-right-align
+                      org-mode-line-string
                       my/modeline-modified
                       my/modeline-battery
                       my/modeline-time
                       my/modeline-date
-                      " ")
+                      "  ")
                   '("%e"
                     "  "
                     my/modeline-meow-indicator
@@ -339,7 +344,8 @@ mouse-3: go to end")
                     prot-modeline-eglot
                     my/modeline-major-mode
                     (which-function-mode which-func-format)
-                    ;; mode-line-format-right-align
+                    ;; no mode-line-format-right-align, which depends on emacs 30+
+                    org-mode-line-string
                     my/modeline-battery
                     my/modeline-time
                     my/modeline-date
