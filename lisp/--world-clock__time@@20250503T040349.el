@@ -13,6 +13,7 @@
   (setq world-clock-list
         '(("America/Denver" "Denver")
           ("Asia/Saigon" "Saigon")
+          ("Asia/Seoul" "Seoul")
           ("America/New_York" "Princeton")))
   (setq world-clock-time-format "%t%A %B %_d%n%l:%M %p%n===============================")
   ;; C-h f format-time-string

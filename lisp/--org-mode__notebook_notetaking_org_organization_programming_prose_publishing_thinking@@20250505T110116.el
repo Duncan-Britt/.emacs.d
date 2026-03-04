@@ -11,6 +11,7 @@
   :ensure nil
   :after (ob-prolog ob-elixir ob-restclient)
   :config
+  (setq org-duration-format 'h:mm)
   (defun my/org-syntax-table-modify ()
     "Modify `org-mode-syntax-table' for the current org buffer.
 This fixes the issue where, in org source blocks, < matches )."
