@@ -33,9 +33,9 @@
                '(erlang-mode . ("elp" "server")))
   (add-to-list 'eglot-server-programs '(fennel-mode . ("fennel-ls")))
 
-  ;; (with-eval-after-load 'eglot
-  ;;   (add-to-list 'eglot-server-programs
-  ;;                '(text-mode . ("harper-ls" "--stdio"))))
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '(text-mode . ("harper-ls" "--stdio"))))
   )
 
 (provide '--eglot__completion_discoverability_linting_lsp_programming@@20250505T110932)
