@@ -36,6 +36,7 @@
   (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs
                  '(text-mode . ("harper-ls" "--stdio"))))
+  ;; https://writewithharper.com/docs/integrations/emacs
   )
 
 (provide '--eglot__completion_discoverability_linting_lsp_programming@@20250505T110932)
