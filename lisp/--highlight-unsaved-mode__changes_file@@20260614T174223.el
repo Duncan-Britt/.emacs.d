@@ -26,7 +26,12 @@
       (remove-hook 'after-save-hook #'highlight-changes-mode-turn-on t)
       (remove-hook 'before-save-hook #'highlight-changes-mode-turn-off t))))
 
-(add-hook 'text-mode-hook #'highlight-unsaved-mode)
+(defun use-highlight-unsaved-mode-if-visiting-file-buffer ()
+  "Enable highlight-unsaved-mode if the current buffer is visiting a file."
+  (when (and (buffer-file-name) (not highlight-unsaved-mode))
+    (highlight-unsaved-mode 1)))
+
+(add-hook 'text-mode-hook #'use-highlight-unsaved-mode-if-visiting-file-buffer)
 
 (provide '--highlight-unsaved-mode__changes_file@@20260614T174223)
 ;;; --highlight-unsaved-mode__changes_file@@20260614T174223.el ends here
