@@ -227,7 +227,7 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
   (load custom-file))
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory)) ;; NOTE: Probably redundant, see below.
+
 (when (and (file-exists-p "~/.safe/safe.el")
            (file-exists-p "~/code/my-emacs-packages/rotor/rotor.el"))
   (load "~/.safe/safe.el")
@@ -237,6 +237,7 @@
 (defun require-directory (dir)
   "Load all elisp files in directory DIR."
   (interactive "DDirectory: ")
+  (add-to-list 'load-path dir)
   (let ((files (directory-files dir t "\\.el$")))
     (dolist (file files)
       (let* ((filename (file-name-nondirectory file))
