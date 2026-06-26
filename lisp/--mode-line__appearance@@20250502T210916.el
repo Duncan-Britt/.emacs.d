@@ -10,6 +10,8 @@
 (use-package emacs
   :ensure nil
   :config
+  (require 'org-clock)
+
   (defvar-local my/modeline-major-mode
       '(:eval
         (when (mode-line-window-selected-p)
