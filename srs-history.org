@@ -26,9 +26,10 @@
 :PROPERTIES:
 :ID:       AADA11BD-95F9-4BA9-B637-21B5061D029D
 :created:  2026-05-22T14:17:36-0600
-:difficulty: 5.272967931287446
-:stability: 12.738367030893114
-:last-review-timestamp: 2026-05-26T12:00:34-0600
-:next-review-deadline: 2026-06-08T05:43:49-0600
+:difficulty: 6.790567694566929
+:stability: 2.9431171503049796
+:last-review-timestamp: 2026-06-24T20:35:58-0600
+:next-review-deadline: 2026-06-27T19:14:03-0600
 :srs-tags: cooking,recipe
 :END:
+

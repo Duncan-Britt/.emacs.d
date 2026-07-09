@@ -6,6 +6,10 @@
 ;; date: [2025-05-05 Mon 09:09]
 ;; identifier: 20250505T090928
 
+;; ┌────────────────────────────────────────────────────────────────────┐
+;; │ This doesn't seem to work in emacs 30 due to use of internal elisp │
+;; │ functions/variables                                                │
+;; └────────────────────────────────────────────────────────────────────┘
 ;;; Code:
 (use-package scratch-comment
   :ensure t

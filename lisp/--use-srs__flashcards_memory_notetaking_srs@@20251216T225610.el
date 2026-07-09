@@ -8,10 +8,11 @@
 
 ;;; Code:
 (use-package srs
-  :ensure (:host github :repo "Duncan-Britt/srs.el")
+  :ensure t
   :config
   (add-to-list 'srs-path-list (expand-file-name "~/notes/*.org"))
-  (add-to-list 'srs-path-list (expand-file-name "~/code/erlang/*")))
+  (add-to-list 'srs-path-list (expand-file-name "~/code/erlang/*"))
+  (srs-set-prefix-kbd "s-"))
 
 (provide '--use-srs__flashcards_memory_notetaking_srs@@20251216T225610)
 ;;; --use-srs__flashcards_memory_notetaking_srs@@20251216T225610.el ends here

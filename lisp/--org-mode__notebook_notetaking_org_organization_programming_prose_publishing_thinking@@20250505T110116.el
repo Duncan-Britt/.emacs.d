@@ -69,10 +69,6 @@ This fixes the issue where, in org source blocks, < matches )."
   (require 'ox-extra)
   (ox-extras-activate '(ignore-headlines)))
 
-(use-package ox-gfm
-  :ensure t
-  :after org)
-
 (use-package ox-epub
   :ensure t
   :after org)
