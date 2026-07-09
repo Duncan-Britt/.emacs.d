@@ -12,7 +12,7 @@
   :bind
   (("C-x b" . consult-buffer)
    ("C-x r SPC" . consult-register-store)
-   ("C-x r s" . consult-registerx)))
+   ("C-x r s" . consult-register)))
 
 (provide '--use-consult__navigation_ui@@20250505T110608)
 ;;; --use-consult__navigation_ui@@20250505T110608.el ends here
