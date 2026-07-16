@@ -163,7 +163,7 @@
 ;; The following 2 funs causes an issue where (text-scale-set 2),
 ;; which should only apply to the current buffer, applies to all the
 ;; buffers.
-(defun my/org-remap-faces-hook (&rest args)
+(defun dunc/org-remap-faces-hook (&rest args)
   "When using Athelas font, setq-local `face-remapping-alist'
 s.t. variable and fixed pitch font sizes are proportional"
   (if (and (member (bound-and-true-p fontaine-current-preset)
@@ -183,12 +183,12 @@ s.t. variable and fixed pitch font sizes are proportional"
                                        (org-meta-line (:height 0.9) org-meta-line)))
     (setq-local face-remapping-alist '((default variable-pitch)))))
 
-(defun my/apply-org-face-remapping-to-all-buffers (&rest _)
+(defun dunc/apply-org-face-remapping-to-all-buffers (&rest _)
   "Apply org face remapping to all org-mode buffers."
   (dolist (buffer (buffer-list))
     (with-current-buffer buffer
       (when (eq major-mode 'org-mode)
-        (my/org-remap-faces-hook)))))
+        (dunc/org-remap-faces-hook)))))
 
 ;; ┌───────────┐
 ;; │ Hyperbole │

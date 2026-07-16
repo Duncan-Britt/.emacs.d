@@ -12,7 +12,7 @@
   :after (ob-prolog ob-elixir ob-restclient)
   :config
   (setq org-duration-format 'h:mm)
-  (defun my/org-syntax-table-modify ()
+  (defun dunc/org-syntax-table-modify ()
     "Modify `org-mode-syntax-table' for the current org buffer.
 This fixes the issue where, in org source blocks, < matches )."
     (modify-syntax-entry ?< "." org-mode-syntax-table)
@@ -58,7 +58,7 @@ This fixes the issue where, in org source blocks, < matches )."
   ;; │               (org-back-to-heading)                                                        │
   ;; │               (org-set-property "CREATED" (format-time-string "[%Y-%m-%d %a %T]")))))      │
   ;; └────────────────────────────────────────────────────────────────────────────────────────────┘
-  :hook ((org-mode . my/org-syntax-table-modify))
+  :hook ((org-mode . dunc/org-syntax-table-modify))
   :bind ((:map org-mode-map
                ("C-'" . completion-at-point))))
 

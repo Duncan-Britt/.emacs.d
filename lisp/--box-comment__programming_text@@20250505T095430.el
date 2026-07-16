@@ -10,7 +10,7 @@
 ;; │ Like so │
 ;; └─────────┘
 ;;; Code:
-(defun my/comment-marker (raw-comment)
+(defun dunc/comment-marker (raw-comment)
   "Get the appropriate comment marker for the current buffer."
   (cond
    ((derived-mode-p 'emacs-lisp-mode) ";; ")
@@ -23,11 +23,11 @@
           raw-comment
         (concat raw-comment " ")))))
 
-(defun my/insert-box-comment (text)
+(defun dunc/insert-box-comment (text)
   "Create a box comment with TEXT inside using the current mode's comment syntax."
   (interactive "sEnter text for box: ")
   (let* ((raw-comment (if comment-start comment-start "// "))
-         (comment-marker (my/comment-marker raw-comment))
+         (comment-marker (dunc/comment-marker raw-comment))
          (text-width (length text))
          (box-width (+ text-width 2))
          (top-line (concat comment-marker "┌" (make-string box-width ?─) "┐"))
@@ -41,7 +41,7 @@
           (insert top-line "\n" indent-str mid-line "\n" indent-str bot-line "\n")
         (insert-rectangle (list top-line mid-line bot-line))))))
 
-(defun my/box-rect ()
+(defun dunc/box-rect ()
   "Put the region in a box."
   (interactive)
   (when (region-active-p)
@@ -53,7 +53,7 @@
                                       :initial-value 0))
            (box-width (+ max-line-width 2))
            (raw-comment (if comment-start comment-start "// "))
-           (comment-marker (my/comment-marker raw-comment))
+           (comment-marker (dunc/comment-marker raw-comment))
            (top-line (concat comment-marker "┌" (make-string box-width ?─) "┐"))
            (mid-lines (mapcar (lambda (text)
                                 (concat comment-marker "│ " text " │"))

@@ -7,7 +7,7 @@
 ;; identifier: 20250509T150024
 
 ;;; Code:
-(defun my/increment-numbers-in-region (start end &optional n)
+(defun dunc/increment-numbers-in-region (start end &optional n)
   "Increment all numbers in the selected region by N (default 1)."
   (interactive "r\np")
   (save-excursion
@@ -22,7 +22,7 @@
                 (new-num (+ num n)))
            (format (format "%%0%dd" padding) new-num)))))))
 
-(defun my/increment-numbers-in-rectangle (start end &optional n)
+(defun dunc/increment-numbers-in-rectangle (start end &optional n)
   "Increment all numbers in the selected rectangle by N (default 1).
 
 Useful in Dired to rename many files, e.g

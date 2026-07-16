@@ -15,7 +15,7 @@
   ;; TODO currently there is s-p ! for project-shell-command but this
   ;; is not powerful like C-u M-x `comint-run'. For instance I cannot
   ;; run a repl this way, or start the rebar3 shell this way.  So I
-  ;; want to create a command `my/project-comint-run' and bind it to
+  ;; want to create a command `dunc/project-comint-run' and bind it to
   ;; something like s-p r (which currently is project-replace regex ->
   ;; need to move that first).
   ;; NOTE: this todo would be obviated by my upcomoing `shellx' package.

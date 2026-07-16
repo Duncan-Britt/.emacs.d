@@ -9,12 +9,12 @@
 ;;; Code:
 (use-package yeetube
   :ensure (:url "https://codeberg.org/ThanosApollo/emacs-yeetube")
-  :init (define-prefix-command 'my/yeetube-map)
+  :init (define-prefix-command 'dunc/yeetube-map)
   :config
   (setf yeetube-mpv-disable-video nil) ;; Disable video output
   (setf yeetube-mpv-video-quality "480")
-  :bind (("C-c y" . 'my/yeetube-map)
-         :map my/yeetube-map
+  :bind (("C-c y" . 'dunc/yeetube-map)
+         :map dunc/yeetube-map
 	 ("s" . 'yeetube-search)
 	 ("b" . 'yeetube-play-saved-video)
 	 ("d" . 'yeetube-download-videos)

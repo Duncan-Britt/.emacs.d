@@ -14,7 +14,7 @@
 (use-package scratch-comment
   :ensure t
   :config
-  (defun my/comment-eval-sexp ()
+  (defun dunc/comment-eval-sexp ()
     "Eval sexp before point and print result as comment.
 see `scratch-comment-eval-sexp'."
     (interactive)
@@ -39,7 +39,7 @@ see `scratch-comment-eval-sexp'."
                 (insert str))))))))
 
   :bind ((:map emacs-lisp-mode-map
-               ("C-j" . my/comment-eval-sexp))))
+               ("C-j" . dunc/comment-eval-sexp))))
 
 (provide '--use-scratch-comment__elisp_programming@@20250505T090928)
 ;;; --use-scratch-comment__elisp_programming@@20250505T090928.el ends here

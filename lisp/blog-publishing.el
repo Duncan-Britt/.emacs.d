@@ -131,7 +131,7 @@ Overrides org-html-template defined in Emacs core."
    "</body>\n</html>"))
 ;; end Org html backend customization
 
-(defun my/org-get-filetags (e)
+(defun dunc/org-get-filetags (e)
   (let ((type (org-element-type e))
         (key (org-element-property :key e))
         (value (org-element-property :value e)))
@@ -146,9 +146,9 @@ Overrides org-html-template defined in Emacs core."
 ;;          title)
 ;;     (with-current-buffer buffer
 ;;       (message "{")
-;;       (message "%s" (org-element-map (org-element-parse-buffer) '(keyword) #'my/org-get-filetags))
+;;       (message "%s" (org-element-map (org-element-parse-buffer) '(keyword) #'dunc/org-get-filetags))
 ;;       (message "}")
-;;       (string-join (flatten-tree (org-element-map (org-element-parse-buffer) '(keyword) #'my/org-get-filetags)) ","))))
+;;       (string-join (flatten-tree (org-element-map (org-element-parse-buffer) '(keyword) #'dunc/org-get-filetags)) ","))))
 
 (defun org-publish-find-file-tags (file)
   "Return a string of comma separated file tags for the file at FILE"
@@ -164,7 +164,7 @@ Overrides org-html-template defined in Emacs core."
           (while (search-forward "#+FILETAGS:" nil t)
             (save-excursion
               (beginning-of-line)
-              (setq ret (cons (my/org-get-filetags (org-element-at-point)) ret))))
+              (setq ret (cons (dunc/org-get-filetags (org-element-at-point)) ret))))
           (nreverse (delq nil ret)))) ","))))
 
 ;; http://xahlee.info/emacs/emacs/elisp_parse_org_mode.html

@@ -39,7 +39,7 @@
                  (bg (cadr (assoc 'bg-inactive palette))))
             (face-remap-add-relative 'default :background bg)))))))
 
-(defun my/insert-15-list ()
+(defun dunc/insert-15-list ()
   "Insert up to 15."
   (interactive)
   (insert "1.

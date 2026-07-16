@@ -13,7 +13,7 @@
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.4))
   (setq org-image-actual-width nil)
   (setq org-preview-latex-default-process 'dvisvgm) ; Better latex rendering
-  (defun my/resize-org-latex-overlays ()
+  (defun dunc/resize-org-latex-overlays ()
     "Auto resize latex when resizing text"
     (cl-loop for o in (car (overlay-lists))
              if (eq (overlay-get o 'org-overlay-type) 'org-latex-overlay)
@@ -37,7 +37,7 @@
    (org-mode . visual-line-mode)
    (org-mode . pixel-scroll-precision-mode)
    (org-mode . (lambda () (display-line-numbers-mode 0)))
-   (org-mode . (lambda () (add-hook 'text-scale-mode-hook #'my/resize-org-latex-overlays nil t)))))
+   (org-mode . (lambda () (add-hook 'text-scale-mode-hook #'dunc/resize-org-latex-overlays nil t)))))
 
 (use-package org-bullets
   :after org

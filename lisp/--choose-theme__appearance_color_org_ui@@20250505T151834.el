@@ -17,7 +17,7 @@
          (ext  (file-name-extension file)))       ; Extract the extension
     (concat dir name "-dark." ext)))
 
-(defun my/toggle-inline-images (&optional include-linked beg end)
+(defun dunc/toggle-inline-images (&optional include-linked beg end)
   "Toggle the display of inline images,
 but use dark versions for dark mode."
   (interactive "P")
@@ -26,7 +26,7 @@ but use dark versions for dark mode."
         (org-remove-inline-images beg end)
         (when (called-interactively-p 'interactive)
 	  (message "Inline image display turned off")))
-    (my/display-inline-images include-linked nil beg end)
+    (dunc/display-inline-images include-linked nil beg end)
     (when (called-interactively-p 'interactive)
       (let ((new (org--inline-image-overlays beg end)))
         (message (if new
@@ -37,9 +37,9 @@ but use dark versions for dark mode."
 (use-package org
   :ensure nil
   :bind (:map org-mode-map
-              ("C-c C-x C-v" . my/toggle-inline-images)))
+              ("C-c C-x C-v" . dunc/toggle-inline-images)))
 
-(defun my/display-inline-images (&optional include-linked refresh beg end)
+(defun dunc/display-inline-images (&optional include-linked refresh beg end)
   "Display inline images.
 
 An inline image is a link which follows either of these
@@ -164,23 +164,23 @@ buffer boundaries with possible narrowing."
 				(overlay-put ov 'keymap image-map))
 			      (push ov org-inline-image-overlays))))))))))))))))
 
-(defun my/refresh-inline-images ()
+(defun dunc/refresh-inline-images ()
   "If displaying inline images, stop and restart display."
   (when (org--inline-image-overlays)
     (org-remove-inline-images)
     (message "hello")
     (ts-display-inline-images)))
 
-(defvar my/theme-state-file (expand-file-name "last-theme" user-emacs-directory)
+(defvar dunc/theme-state-file (expand-file-name "last-theme" user-emacs-directory)
   "File to save the last used theme.")
 
-(defun my/save-current-theme (&rest _)
+(defun dunc/save-current-theme (&rest _)
   "Save the current theme to a file."
   (when-let ((current-theme (car custom-enabled-themes)))
-    (with-temp-file my/theme-state-file
+    (with-temp-file dunc/theme-state-file
       (insert (symbol-name current-theme)))))
 
-(defun my/set-hl-todo-faces-according-to-theme ()
+(defun dunc/set-hl-todo-faces-according-to-theme ()
   "Sets the faces of different TODO-esq keywords for the hl-todo package.
 Done in accordance with the currently loaded theme.  Theme must
 be one of doric, ef, or modus themes."
@@ -218,7 +218,7 @@ be one of doric, ef, or modus themes."
           (t
            (user-error "Expected ef, modus or doric theme, found %s" theme)))))
 
-(defun my/set-frame-light-or-dark (light-or-dark)
+(defun dunc/set-frame-light-or-dark (light-or-dark)
   "Update frame border to be light or dark.
 Uses MacOS ns frame parameters and calle24 symbols"
   (when (eq 'ns window-system)
@@ -228,7 +228,7 @@ Uses MacOS ns frame parameters and calle24 symbols"
     (dolist (frame (frame-list))
       (set-frame-parameter frame 'ns-appearance light-or-dark))))
 
-(defun my/load-theme (theme)
+(defun dunc/load-theme (theme)
   "Load 'doric', 'modus', or 'ef' THEME.
 THEME should be a symbol."
   (cond ((string-prefix-p "ef" (symbol-name theme))
@@ -240,7 +240,7 @@ THEME should be a symbol."
         (t
          (user-error "Expected ef, modus or doric theme, found %s" theme))))
 
-(defun my/apply-theme (theme)
+(defun dunc/apply-theme (theme)
   "Apply THEME with proper handling of default theme and refreshing."
   (let ((theme-sym (if (stringp theme) (intern theme) theme)))
     (when (eq theme-sym 'default)
@@ -248,27 +248,27 @@ THEME should be a symbol."
     (unless (eq theme-sym (car custom-enabled-themes))
       (mapc #'disable-theme custom-enabled-themes)
       (when theme-sym
-        (my/load-theme theme-sym)))))
+        (dunc/load-theme theme-sym)))))
 
 (setq doric-themes-post-load-hook (lambda ()
-                                    (my/save-current-theme)
-                                    (my/refresh-inline-images)
-                                    (my/set-hl-todo-faces-according-to-theme)
+                                    (dunc/save-current-theme)
+                                    (dunc/refresh-inline-images)
+                                    (dunc/set-hl-todo-faces-according-to-theme)
                                     (global-hl-todo-mode)))
 
 (setq ef-themes-post-load-hook (lambda ()
-                                 (my/save-current-theme)
-                                 (my/refresh-inline-images)
-                                 (my/set-hl-todo-faces-according-to-theme)
+                                 (dunc/save-current-theme)
+                                 (dunc/refresh-inline-images)
+                                 (dunc/set-hl-todo-faces-according-to-theme)
                                  (global-hl-todo-mode)))
 
 (setq modus-themes-post-load-hook (lambda ()
-                                    (my/save-current-theme)
-                                    (my/refresh-inline-images)
-                                    (my/set-hl-todo-faces-according-to-theme)
+                                    (dunc/save-current-theme)
+                                    (dunc/refresh-inline-images)
+                                    (dunc/set-hl-todo-faces-according-to-theme)
                                     (global-hl-todo-mode)))
 
-(defun my/choose-theme ()
+(defun dunc/choose-theme ()
   "Switch color theme.
 Based on choice of light or dark mode, also set frame property 'ns-appearance"
   (interactive)
@@ -278,7 +278,7 @@ Based on choice of light or dark mode, also set frame property 'ns-appearance"
                                           '("Light" "Dark")))))
         (saved-theme (car custom-enabled-themes))
         (saved-ns-appearance (frame-parameter nil 'ns-appearance)))
-    (my/set-frame-light-or-dark light-or-dark)
+    (dunc/set-frame-light-or-dark light-or-dark)
     (condition-case nil
         (consult--read
          (mapcar #'symbol-name (if (eq light-or-dark 'light)
@@ -304,24 +304,24 @@ Based on choice of light or dark mode, also set frame property 'ns-appearance"
                               saved-theme))
          :state (lambda (action theme)
                   (pcase action
-                    ('return (my/apply-theme theme))
+                    ('return (dunc/apply-theme theme))
                     ((and 'preview (guard theme))
-                     (my/apply-theme theme))))
+                     (dunc/apply-theme theme))))
          :default (symbol-name (or saved-theme 'default)))
       (quit
-       (my/apply-theme saved-theme)
-       (my/set-frame-light-or-dark saved-ns-appearance)
+       (dunc/apply-theme saved-theme)
+       (dunc/set-frame-light-or-dark saved-ns-appearance)
        ))))
 
-(defun my/load-last-theme ()
+(defun dunc/load-last-theme ()
   "Load the last used theme from file."
-  (if (file-exists-p my/theme-state-file)
+  (if (file-exists-p dunc/theme-state-file)
       (progn
         (mapc #'disable-theme custom-enabled-themes) ; Disable all other themes to avoid awkward blending:
         (let ((last-theme (with-temp-buffer
-                            (insert-file-contents my/theme-state-file)
+                            (insert-file-contents dunc/theme-state-file)
                             (intern (buffer-string)))))
-          (my/load-theme last-theme)))
+          (dunc/load-theme last-theme)))
     (ef-themes-select 'ef-dream)))
 
 (with-eval-after-load-all (
@@ -335,8 +335,8 @@ Based on choice of light or dark mode, also set frame property 'ns-appearance"
   (require 'calle24)
   (require 'hl-todo)
 
-  (run-at-time 1.0 nil #'my/load-last-theme)
-  (global-set-key (kbd "C-t") #'my/choose-theme))
+  (run-at-time 1.0 nil #'dunc/load-last-theme)
+  (global-set-key (kbd "C-t") #'dunc/choose-theme))
 
 (provide '--choose-theme__appearance_color_org_ui@@20250505T151834)
 ;;; --choose-theme__appearance_color_org_ui@@20250505T151834.el ends here

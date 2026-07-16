@@ -17,7 +17,7 @@
  ((directory-slideshow-include-directories? t)
   (directory-slideshow-preview-next-slide? nil))
  :config
- (defun my/slideshow-text-adjustment ()
+ (defun dunc/slideshow-text-adjustment ()
    (if (derived-mode-p 'text-mode)
        (progn
          (text-scale-set 2)
@@ -26,7 +26,7 @@
      (when (derived-mode-p 'prog-mode)
        (text-scale-set 1))))
 
- (add-hook 'directory-slideshow-after-slide-render-hook #'my/slideshow-text-adjustment))
+ (add-hook 'directory-slideshow-after-slide-render-hook #'dunc/slideshow-text-adjustment))
 
 (provide '--use-directory-slideshow__media@@20250503T072035)
 ;;; --use-directory-slideshow__media@@20250503T072035.el ends here

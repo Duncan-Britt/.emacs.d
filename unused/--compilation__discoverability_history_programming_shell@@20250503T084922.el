@@ -17,14 +17,14 @@
 
   (add-to-list 'savehist-additional-variables 'compile-history)
 
-  (defun my/compile (cmd)
+  (defun dunc/compile (cmd)
     "Compile with completing read based on `compile-history'."
     (interactive
      (list (completing-read "Command: " compile-history)))
     (compile cmd)
     (push cmd compile-history))
 
-  (defun my/project-compile ()
+  (defun dunc/project-compile ()
     "Run `compile' in the project root."
     (declare (interactive-only compile))
     (interactive)
@@ -32,10 +32,10 @@
           (compilation-buffer-name-function
            (or project-compilation-buffer-name-function
                compilation-buffer-name-function)))
-      (call-interactively #'my/compile)))
+      (call-interactively #'dunc/compile)))
 
-  (define-key project-prefix-map "c" #'my/project-compile)
-  (global-set-key (kbd "s-c") #'my/compile))
+  (define-key project-prefix-map "c" #'dunc/project-compile)
+  (global-set-key (kbd "s-c") #'dunc/compile))
 
 (provide '--compilation__discoverability_history_programming_shell@@20250503T084922)
 ;;; --compilation__discoverability_history_programming_shell@@20250503T084922.el ends here

@@ -7,7 +7,7 @@
 ;; identifier: 20260627T090545
 
 ;;; Code:
-(defun my/comment-eval-sexp ()
+(defun dunc/comment-eval-sexp ()
   "Eval sexp before point and print result as comment.
 Result is inserted below the current line, formatted as:
   ;;=> value
@@ -28,7 +28,7 @@ Result is inserted below the current line, formatted as:
     (insert "\n" commented "\n")))
 
 (with-eval-after-load 'elisp-mode
-  (define-key emacs-lisp-mode-map (kbd "C-j") #'my/comment-eval-sexp))
+  (define-key emacs-lisp-mode-map (kbd "C-j") #'dunc/comment-eval-sexp))
 
 (provide '--my-comment-eval-sexp__elisp_programming@@20260627T090545)
 ;;; --my-comment-eval-sexp__elisp_programming@@20260627T090545.el ends here

@@ -13,7 +13,7 @@
 (use-package dired
   :ensure nil
   :config
-  (defun my/dired-toggle-marked (event)
+  (defun dunc/dired-toggle-marked (event)
     "Toggle marked in dired on click EVENT."
     (interactive "e")
     (let ((marked-files (dired-get-marked-files))
@@ -30,7 +30,7 @@
                 (dired-unmark nil)
               (dired-mark nil)))))))
   :bind ((:map dired-mode-map
-               ("s-<mouse-1>" . my/dired-toggle-marked))))
+               ("s-<mouse-1>" . dunc/dired-toggle-marked))))
 
 (provide '--dired-toggle-marked__dired_mouse@@20250503T085927)
 ;;; --dired-toggle-marked__dired_mouse@@20250503T085927.el ends here

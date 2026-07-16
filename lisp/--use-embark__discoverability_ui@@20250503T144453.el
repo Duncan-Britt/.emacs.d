@@ -7,7 +7,7 @@
 ;; identifier: 20250503T144453
 
 ;;; Code:
-(defun my/go-back-dwim ()
+(defun dunc/go-back-dwim ()
   "Try xref-go-back, fall back to pop-global-mark."
   (interactive)
   (condition-case nil
@@ -31,7 +31,7 @@
   ;; │ actions buffer doesn't go away. Might try to make it work       │
   ;; │ someday.                                                        │
   ;; └─────────────────────────────────────────────────────────────────┘
-  ;; (defun my/embark-mouse-prompter (keymap update)
+  ;; (defun dunc/embark-mouse-prompter (keymap update)
   ;;   "Display actions in a buffer with mouse-clickable entries."
   ;;   (let* ((buffer (get-buffer-create "*Embark Actions*"))
   ;;          (actions (embark--formatted-bindings keymap))
@@ -83,10 +83,10 @@
   ;;             (when (buffer-live-p buffer)
   ;;               (kill-buffer buffer)))))))
 
-  ;; (setq embark-prompter #'my/embark-mouse-prompter)
-  ;; (global-set-key (kbd "<mouse-3>") 'my/embark-act-on-mouse-target)
+  ;; (setq embark-prompter #'dunc/embark-mouse-prompter)
+  ;; (global-set-key (kbd "<mouse-3>") 'dunc/embark-act-on-mouse-target)
 
-  (defun my/embark-dwim-mouse-target (event)
+  (defun dunc/embark-dwim-mouse-target (event)
     "Perform default embark action on thing at mouse."
     (interactive "e")
     (let* ((posn (event-start event))
@@ -97,7 +97,7 @@
         (goto-char pos)
         (call-interactively 'embark-dwim))))
 
-  (defun my/embark-act-on-mouse-target (event)
+  (defun dunc/embark-act-on-mouse-target (event)
     "Call embark-act but with the clicked thing as the target."
     (interactive "e")
     (let* ((posn (event-start event))
@@ -112,8 +112,8 @@
   (("C-<return>"    . embark-act)
    ("M-RET"         . embark-dwim)
    ("C-h B"         . embark-bindings)
-   ("s-<mouse-1>"   . my/embark-dwim-mouse-target)
-   ("S-s-<mouse-1>" . my/go-back-dwim))
+   ("s-<mouse-1>"   . dunc/embark-dwim-mouse-target)
+   ("S-s-<mouse-1>" . dunc/go-back-dwim))
   :hook (org-mode . (lambda () (local-set-key (kbd "C-<return>") #'embark-act))))
 
 

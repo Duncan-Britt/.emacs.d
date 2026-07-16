@@ -20,7 +20,7 @@
  (define-key project-prefix-map "c" #'shell-x-project-compile)
  (define-key project-prefix-map "e" #'shell-x-project-execute-command) ;; NOTE: e would normally be for opening up eshell in the project root.
 
- (defvar my/shell-x-collect-command-info-system-prompt "You are an LLM tasked with formatting natural language man pages
+ (defvar dunc/shell-x-collect-command-info-system-prompt "You are an LLM tasked with formatting natural language man pages
 and --help output of command line programs into Prolog DCGs.
 
 Be sure to include switches and other args. For switches, if used with an equals =
@@ -501,15 +501,15 @@ swipl_flag_completion -->
 INPUT:
 "
    "Start of LLM prompt for shell command info.
-See `my/shell-x-collect-command-info'.")
+See `dunc/shell-x-collect-command-info'.")
 
- (defun my/shell-x-collect-command-info ()
+ (defun dunc/shell-x-collect-command-info ()
    "Alistify shell command info from buffer."
    (interactive)
    (let ((llm-prompt (buffer-substring-no-properties (point-min) (point-max)))
          (buffer (get-buffer-create (shell-x--unique-buffer-name "Collect Command Info"))))
      (pop-to-buffer buffer)
-     (insert my/shell-x-collect-command-info-system-prompt)
+     (insert dunc/shell-x-collect-command-info-system-prompt)
      (insert llm-prompt)
      (gptel-send))))
 

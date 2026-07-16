@@ -16,7 +16,7 @@
   ;; (setq tmr-sound-file "/System/Library/Sounds/Submarine.aiff")
   ;; (setq tmr-sound-file "/System/Library/Sounds/Hero.aiff")
 
-  ;; (defun my/tmr-notify-macos (timer)
+  ;; (defun dunc/tmr-notify-macos (timer)
   ;;   "Send a macOS notification for TIMER."
   ;;   (let ((title "TMR Timer Finished")
   ;;         (body (if (tmr--timer-description timer)
@@ -26,7 +26,7 @@
   ;;                   "-e" (format "display dialog %S with title %S sound name \"Glass\""
   ;;                                body title))))
   ;; (setq tmr-timer-finished-functions
-  ;;       (list #'my/tmr-notify-macos
+  ;;       (list #'dunc/tmr-notify-macos
   ;;             #'tmr-sound-play
   ;;             #'tmr-print-message-for-finished-timer))
   )

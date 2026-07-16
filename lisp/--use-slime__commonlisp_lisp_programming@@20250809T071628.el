@@ -16,7 +16,7 @@
         '((sbcl ("sbcl") :coding-system utf-8-unix)
           (qlot ("qlot" "exec" "sbcl") :coding-system utf-8-unix)))
 
-  (defun my/slime-eval-print-last-expression (string)
+  (defun dunc/slime-eval-print-last-expression (string)
     "Evaluate sexp before point; print value into the current buffer,
 then comment region. TODO FIXME"
     (interactive (list (slime-last-expression)))

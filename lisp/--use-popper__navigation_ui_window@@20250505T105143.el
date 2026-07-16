@@ -40,12 +40,12 @@
           ))
   (setq popper-group-function #'popper-group-by-project)
 
-  (defun my/popper-group-function ()
+  (defun dunc/popper-group-function ()
     ""
     )
-  (setq popper-group-function #'my/popper-group-function)
+  (setq popper-group-function #'dunc/popper-group-function)
 
-  (defun my/popper-display-popup (buffer &optional alist)
+  (defun dunc/popper-display-popup (buffer &optional alist)
     "Display popup-buffer BUFFER based on the number of windows in the frame."
     (display-buffer-in-side-window
      buffer
@@ -56,7 +56,7 @@
                                       (t
                                        (frame-width))))))))
 
-  (setq popper-display-function #'my/popper-display-popup)
+  (setq popper-display-function #'dunc/popper-display-popup)
 
   (popper-mode +1)
   (popper-echo-mode +1))

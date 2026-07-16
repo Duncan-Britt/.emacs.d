@@ -7,7 +7,7 @@
 ;; identifier: 20250907T073056
 
 ;;; Code:
-(defun my/org-tags-link (tags-string link-text todo-only)
+(defun dunc/org-tags-link (tags-string link-text todo-only)
   "Insert org-mode link text in buffer at point matching tags
 defined in TAGS-STRING. Link, when visited, will produce a sparse
 tree of org headings matching TAGS-STRING.
@@ -35,7 +35,7 @@ When called interactively, prompt the user for tags."
       (intern (completing-read "Todo only? " '(t nil))))))
   (insert (format "[[elisp:(org-match-sparse-tree %s \"%s\")][%s]]" todo-only tags-string link-text)))
 
-;; (my/org-tags-link "+music+life+architecture+society-beauty-learning-language" "Test description" t)[[elisp:(org-match-sparse-tree t "+music+life+architecture+society-beauty-learning-language")][Test description]] ;;=> nil
+;; (dunc/org-tags-link "+music+life+architecture+society-beauty-learning-language" "Test description" t)[[elisp:(org-match-sparse-tree t "+music+life+architecture+society-beauty-learning-language")][Test description]] ;;=> nil
 
 (provide '--my-org-tags-link__links_org_organization_search@@20250907T073056)
 ;;; --my-org-tags-link__links_org_organization_search@@20250907T073056.el ends here

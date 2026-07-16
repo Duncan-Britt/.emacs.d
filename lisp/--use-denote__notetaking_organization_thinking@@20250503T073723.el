@@ -13,19 +13,19 @@
   (setq denote-directory (expand-file-name "~/notes/"))
   (setq denote-file-type 'org)
 
-  (defun my/denote-rename-file ()
+  (defun dunc/denote-rename-file ()
     "Call denote-rename-file with local directory keywords."
     (interactive)
     (let ((denote-directory default-directory))
       (call-interactively 'denote-rename-file)))
 
-  (defun my/denote-rename-marked-files ()
+  (defun dunc/denote-rename-marked-files ()
     "Call denote-rename-file with local directory keywords."
     (interactive)
     (let ((denote-directory default-directory))
       (call-interactively 'denote-dired-rename-files)))
 
-  (defun my/denote-here ()
+  (defun dunc/denote-here ()
     "Call denote with local directory."
     (interactive)
     (let ((denote-directory (read-directory-name "Enter file path: "

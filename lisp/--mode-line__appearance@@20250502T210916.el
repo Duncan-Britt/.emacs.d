@@ -12,7 +12,7 @@
   :config
   (require 'org-clock)
 
-  (defvar-local my/modeline-major-mode
+  (defvar-local dunc/modeline-major-mode
       '(:eval
         (when (mode-line-window-selected-p)
           (propertize (format " %s " (capitalize (symbol-name major-mode)))
@@ -86,7 +86,7 @@ than `split-width-threshold'."
           (prot-modeline--vc-details file branch face)))
     "Mode line construct to return propertized VC branch.")
 
-  (defvar-local my/modeline-kbd-macro
+  (defvar-local dunc/modeline-kbd-macro
       '(:eval
         (when (and (mode-line-window-selected-p) defining-kbd-macro)
           (list
@@ -95,7 +95,7 @@ than `split-width-threshold'."
     "Mode line construct displaying `mode-line-defining-kbd-macro'.
 Specific to the current window's mode line.")
 
-  (defvar-local my/modeline-meow-indicator
+  (defvar-local dunc/modeline-meow-indicator
       '(:eval
         (when (and (bound-and-true-p meow-mode) (mode-line-window-selected-p))
           (let* ((indicator (meow-indicator))
@@ -112,7 +112,7 @@ Specific to the current window's mode line.")
              " "))))
     "Mode line construct to display meow mode, e.g. INSERT, NORMAL, etc.")
 
-  (defvar-local my/modeline-eat-indicator
+  (defvar-local dunc/modeline-eat-indicator
       '(:eval
         (cond ((and (boundp 'eat-terminal)
                     (eq major-mode 'eat-mode))
@@ -142,7 +142,7 @@ Specific to the current window's mode line.")
                 " "))))
     "Mode line construct to display eat minor mode.")
 
-  (defvar-local my/modeline-input-method
+  (defvar-local dunc/modeline-input-method
       '(:eval
         (when current-input-method-title
           (propertize (format " %s " current-input-method-title)
@@ -150,7 +150,7 @@ Specific to the current window's mode line.")
                       'help-echo (format "Current input method: %s" current-input-method))))
     "Mode line construct to report the multilingual environment.")
 
-  (defvar-local my/modeline-time
+  (defvar-local dunc/modeline-time
       '(:eval
         (when (mode-line-window-selected-p)
           (propertize (format-time-string "%I:%M %p ")
@@ -163,7 +163,7 @@ Specific to the current window's mode line.")
                                    map))))
     "Mode line construct to display the current time with a world-clock on click.")
 
-  (defvar-local my/modeline-date
+  (defvar-local dunc/modeline-date
       '(:eval
         (when (mode-line-window-selected-p)
           (propertize (format-time-string "%a, %b %-d ")
@@ -192,7 +192,7 @@ Specific to the current window's mode line.")
       result))
   (advice-add 'battery-update :around #'my-battery-update-advice)
   (setq battery-mode-line-format "【%b%p%%】")
-  (defvar-local my/modeline-battery
+  (defvar-local dunc/modeline-battery
       '(:eval
         (when (mode-line-window-selected-p)
           'battery-mode-line-string)))
@@ -205,13 +205,13 @@ Specific to the current window's mode line.")
     "Mode line construct displaying Eglot information.
 Specific to the current window's mode line.")
 
-  (defvar-local my/modeline-modified
+  (defvar-local dunc/modeline-modified
       '(:eval
         (when (and (buffer-file-name) (buffer-modified-p))
           (propertize "●  " 'face 'warning)))
     "mode line construct to indicate unsaved changes.")
 
-  (defvar-local my/modeline-remote-indicator
+  (defvar-local dunc/modeline-remote-indicator
       '(:eval
         (when (and (mode-line-window-selected-p)
                    (or (and buffer-file-name
@@ -228,17 +228,17 @@ Specific to the current window's mode line.")
              " "))))
     "Mode line construct to indicate remote files with the method used.")
 
-  (defvar my/modeline-max-filename-length 40
+  (defvar dunc/modeline-max-filename-length 40
     "Maximum length of filename to display in mode line before truncation.")
 
-  (defvar-local my/modeline-buffer-identification
+  (defvar-local dunc/modeline-buffer-identification
       '(:eval
         (let* ((name (if (buffer-file-name)
                          (file-name-nondirectory (buffer-file-name))
                        (buffer-name)))
                (truncated (if (and (buffer-file-name)
-                                   (> (length name) my/modeline-max-filename-length))
-                              (concat (substring name 0 (- my/modeline-max-filename-length 3)) "...")
+                                   (> (length name) dunc/modeline-max-filename-length))
+                              (concat (substring name 0 (- dunc/modeline-max-filename-length 3)) "...")
                             name)))
           (propertize (format " %s " truncated)
                       'face 'mode-line-buffer-id
@@ -256,7 +256,7 @@ Specific to the current window's mode line.")
         (display-line-numbers-mode -1)
       (display-line-numbers-mode 1)))
 
-  (defvar-local my/modeline-current-line-number
+  (defvar-local dunc/modeline-current-line-number
       '(:eval
         (when (mode-line-window-selected-p)
           (propertize (format "%s" (line-number-at-pos))
@@ -268,33 +268,33 @@ Specific to the current window's mode line.")
                                    (define-key map [header-line mouse-1] 'toggle-display-line-numbers)
                                    map))))
     "Mode line construct to display the line number at point.")
-  ;; NOTE: The following is necessary for my/modelin-current-line-number
+  ;; NOTE: The following is necessary for dunc/modelin-current-line-number
   ;; because, with a single window only (not split window), the
   ;; current line number was not being updated when I moved the cursor
   ;; up and down lines.
   (add-hook 'post-command-hook #'force-mode-line-update)
 
-  (defvar-local my/org-mode-line-string
+  (defvar-local dunc/org-mode-line-string
       '(:eval
         (when (mode-line-window-selected-p)
           org-mode-line-string))
     "Mode line construct to display the current running org-clock.")
 
-  (dolist (construct '(my/modeline-buffer-identification
-                       my/modeline-major-mode
+  (dolist (construct '(dunc/modeline-buffer-identification
+                       dunc/modeline-major-mode
                        prot-modeline-vc-branch
-                       my/modeline-kbd-macro
-                       my/modeline-meow-indicator
-                       my/modeline-eat-indicator
-                       my/modeline-input-method
-                       my/modeline-time
-                       my/modeline-date
-                       my/modeline-battery
-                       my/modeline-modified
-                       my/modeline-remote-indicator
+                       dunc/modeline-kbd-macro
+                       dunc/modeline-meow-indicator
+                       dunc/modeline-eat-indicator
+                       dunc/modeline-input-method
+                       dunc/modeline-time
+                       dunc/modeline-date
+                       dunc/modeline-battery
+                       dunc/modeline-modified
+                       dunc/modeline-remote-indicator
                        prot-modeline-eglot
-                       my/org-mode-line-string
-                       my/modeline-current-line-number))
+                       dunc/org-mode-line-string
+                       dunc/modeline-current-line-number))
     (put construct 'risky-local-variable t))
 
   (setq which-func-format
@@ -320,45 +320,45 @@ mouse-3: go to end")
                 (if (>= 30 (cl-parse-integer (substring emacs-version 0 2)))
                     '("%e"
                       "  "
-                      my/modeline-meow-indicator
-                      my/modeline-eat-indicator
-                      my/modeline-kbd-macro
-                      my/modeline-remote-indicator
-                      my/modeline-buffer-identification
-                      my/modeline-current-line-number
+                      dunc/modeline-meow-indicator
+                      dunc/modeline-eat-indicator
+                      dunc/modeline-kbd-macro
+                      dunc/modeline-remote-indicator
+                      dunc/modeline-buffer-identification
+                      dunc/modeline-current-line-number
                       " "
                       prot-modeline-vc-branch
-                      my/modeline-input-method
+                      dunc/modeline-input-method
                       prot-modeline-eglot
-                      my/modeline-major-mode
+                      dunc/modeline-major-mode
                       (which-function-mode which-func-format)
                       mode-line-format-right-align
-                      my/org-mode-line-string
-                      my/modeline-modified
-                      my/modeline-battery
-                      my/modeline-time
-                      my/modeline-date
+                      dunc/org-mode-line-string
+                      dunc/modeline-modified
+                      dunc/modeline-battery
+                      dunc/modeline-time
+                      dunc/modeline-date
                       "  ")
                   '("%e"
                     "  "
-                    my/modeline-meow-indicator
-                    my/modeline-eat-indicator
-                    my/modeline-kbd-macro
-                    my/modeline-remote-indicator
-                    my/modeline-buffer-identification
-                    my/modeline-current-line-number
+                    dunc/modeline-meow-indicator
+                    dunc/modeline-eat-indicator
+                    dunc/modeline-kbd-macro
+                    dunc/modeline-remote-indicator
+                    dunc/modeline-buffer-identification
+                    dunc/modeline-current-line-number
                     " "
                     prot-modeline-vc-branch
-                    my/modeline-input-method
+                    dunc/modeline-input-method
                     prot-modeline-eglot
-                    my/modeline-major-mode
+                    dunc/modeline-major-mode
                     (which-function-mode which-func-format)
                     ;; no mode-line-format-right-align, which depends on emacs 30+
-                    my/org-mode-line-string
-                    my/modeline-battery
-                    my/modeline-time
-                    my/modeline-date
-                    my/modeline-modified
+                    dunc/org-mode-line-string
+                    dunc/modeline-battery
+                    dunc/modeline-time
+                    dunc/modeline-date
+                    dunc/modeline-modified
                     " "))))
 
 (provide '--mode-line__appearance@@20250502T210916)
