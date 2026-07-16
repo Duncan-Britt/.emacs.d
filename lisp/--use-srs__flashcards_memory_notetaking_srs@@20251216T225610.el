@@ -8,7 +8,7 @@
 
 ;;; Code:
 (use-package srs
-  :ensure t
+  :ensure (:host github :repo "Duncan-Britt/srs.el" :branch "dev")
   :config
   (add-to-list 'srs-path-list (expand-file-name "~/notes/*.org"))
   (add-to-list 'srs-path-list (expand-file-name "~/code/erlang/*"))
