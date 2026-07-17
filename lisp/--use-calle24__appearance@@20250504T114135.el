@@ -8,7 +8,6 @@
 
 ;;; Code:
 (use-package calle24
-  ;; :ensure (:host github :repo "Duncan-Britt/calle24" :branch "elpaca")
   :ensure t
   :config
   (calle24-refresh-appearance))
