@@ -28,8 +28,16 @@
           (start (progn (backward-sexp) (point))))
       (pulse-momentary-highlight-region start end))))
 
-(advice-add #'eval-last-sexp :after #'dunc/pulse-last-sexp)
+(advice-add #'eval-last-sexp :before #'dunc/pulse-last-sexp)
 (advice-add #'dunc/comment-eval-sexp :before #'dunc/pulse-last-sexp)
+
+(defun dunc/pulse-buffer (&rest _)
+  "Pulse buffer."
+  (pulse-momentary-highlight-region
+   (buffer-end 0)
+   (buffer-end 1)))
+
+(advice-add #'eval-buffer :before #'dunc/pulse-buffer)
 
 (provide '--pulse-eval-elisp__elisp_programming_ui@@20260717T064501)
 ;;; --pulse-eval-elisp__elisp_programming_ui@@20260717T064501.el ends here
