@@ -29,7 +29,7 @@
       (pulse-momentary-highlight-region start end))))
 
 (advice-add #'eval-last-sexp :before #'dunc/pulse-last-sexp)
-(advice-add #'dunc/comment-eval-sexp :before #'dunc/pulse-last-sexp)
+(advice-add #'dunc/last-sexp-dwim :before #'dunc/pulse-last-sexp)
 
 (defun dunc/pulse-buffer (&rest _)
   "Pulse buffer."

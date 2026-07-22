@@ -1,4 +1,4 @@
-;;; --last-sexp-dwim__elisp_programming@@20260627T090545.el --- my-comment-eval-sexp -*- lexical-binding: t -*-
+;;; --last-sexp-dwim__elisp_programming@@20260627T090545.el --- last-sexp-dwim -*- lexical-binding: t -*-
 
 ;;; Commentary:
 ;; title: last-sexp-dwim
@@ -8,7 +8,7 @@
 
 ;;; Code:
 (defun dunc/last-sexp-dwim (&optional prefix-arg)
-  "Either comment-eval-sexp or macroexpand sexp (with prefix arg)."
+  "Either insert-eval-sexp or macroexpand sexp (with prefix arg)."
   (interactive "P")
   (if prefix-arg
       (dunc/insert-macro-expand-sexp)

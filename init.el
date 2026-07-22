@@ -234,7 +234,7 @@
   (with-eval-after-load 'safe
     (load "~/code/my-emacs-packages/rotor/rotor.el")))
 
-(defun require-directory (dir)
+(defun dunc/require-directory (dir)
   "Load all elisp files in directory DIR."
   (interactive "DDirectory: ")
   (add-to-list 'load-path dir)
@@ -248,7 +248,7 @@
           (message "Loading %s..." module)
           (require (intern module)))))))
 
-(require-directory (expand-file-name "lisp" user-emacs-directory))
+(dunc/require-directory (expand-file-name "lisp" user-emacs-directory))
 
 (add-to-list 'load-path "~/Dropbox/private/")
 (when (file-exists-p "~/Dropbox/private/private.el")

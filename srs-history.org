@@ -26,12 +26,57 @@
 :PROPERTIES:
 :ID:       AADA11BD-95F9-4BA9-B637-21B5061D029D
 :created:  2026-05-22T14:17:36-0600
-:difficulty: 6.790567694566929
-:stability: 2.9431171503049796
-:last-review-timestamp: 2026-06-24T20:35:58-0600
-:next-review-deadline: 2026-06-27T19:14:03-0600
+:difficulty: 7.810940342957634
+:stability: 2.0142772671385734
+:last-review-timestamp: 2026-07-18T20:12:34-0600
+:next-review-deadline: 2026-07-20T20:33:08-0600
 :srs-tags: cooking,recipe
 :END:
 
 
+
+
+* Card
+:PROPERTIES:
+:ID:       50E45611-A912-4E59-AC7D-164DD1366EE9
+:created:  2026-07-18T20:09:24-0600
+:difficulty: 6.488305268471453
+:stability: 1.18385
+:last-review-timestamp: 2026-07-18T20:12:44-0600
+:next-review-deadline: 2026-07-20T00:37:29-0600
+:srs-tags: credential,sensitive
+:END:
+
+* Card
+:PROPERTIES:
+:ID:       6C591797-E431-4A17-ACB6-D81EA33B7B1F
+:created:  2026-07-18T20:51:59-0600
+:difficulty: nil
+:stability: nil
+:last-review-timestamp: nil
+:next-review-deadline: 2026-07-18T20:51:59-0600
+:srs-tags: ibuffer,emacs
+:END:
+
+* Card
+:PROPERTIES:
+:ID:       2C8385A4-8ECA-4426-B5E2-FACEE1543C81
+:created:  2026-07-18T20:56:44-0600
+:difficulty: nil
+:stability: nil
+:last-review-timestamp: nil
+:next-review-deadline: 2026-07-18T20:56:44-0600
+:srs-tags: emacs,ibuffer
+:END:
+
+* Card
+:PROPERTIES:
+:ID:       0707B15B-DABC-46AD-B5B8-34F822D9AC11
+:created:  2026-07-18T21:06:59-0600
+:difficulty: nil
+:stability: nil
+:last-review-timestamp: nil
+:next-review-deadline: 2026-07-18T21:06:59-0600
+:srs-tags: emacs,ibuffer
+:END:
 

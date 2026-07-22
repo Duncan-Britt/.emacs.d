@@ -7,11 +7,13 @@
 ;; identifier: 20260715T211713
 
 ;;; Code:
-((org-mode . ((eval . (add-hook 'org-insert-heading-hook
-                        (lambda ()
-                          (save-excursion
-                            (org-back-to-heading)
-                            (org-set-property "CREATED" (format-time-string "[%Y-%m-%d %a %T]"))))
-                        nil 'local)))))
+((org-mode . ((eval . (progn (add-hook 'org-insert-heading-hook
+                                       (lambda ()
+                                         (save-excursion
+                                           (org-back-to-heading)
+                                           (org-set-property "CREATED" (format-time-string "[%Y-%m-%d %a %T]"))))
+                                       nil 'local)
+                             (setq org-link-file-path-type 'relative))))))
+
 (provide '--dir-locals-example-code__org_programming@@20260715T211713)
 ;;; --dir-locals-example-code__org_programming@@20260715T211713.el ends here
