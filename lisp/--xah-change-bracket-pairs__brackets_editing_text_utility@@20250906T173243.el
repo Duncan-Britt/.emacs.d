@@ -1,8 +1,8 @@
-;;; --xah-change-bracket-pairs__brackets_text_textediting_utility@@20250906T173243.el --- xah-change-bracket-pairs -*- lexical-binding: t -*-
+;;; --xah-change-bracket-pairs__brackets_editing_text_utility@@20250906T173243.el --- xah-change-bracket-pairs -*- lexical-binding: t -*-
 
 ;;; Commentary:
 ;; title: xah-change-bracket-pairs
-;; keywords: :brackets:text:textediting:utility:
+;; keywords: :brackets:editing:text:utility:
 ;; date: [2025-09-06 Sat 17:32]
 ;; identifier: 20250906T173243
 
@@ -120,5 +120,5 @@ Revised by Duncan Britt on 2025-09-19."
                   (while (search-forward xright nil t)
                     ;; (overlay-put (make-overlay (match-beginning 0) (match-end 0)) 'face 'highlight)
                     (replace-match xtoR t t)))))))))))
-(provide '--xah-change-bracket-pairs__brackets_text_textediting_utility@@20250906T173243)
-;;; --xah-change-bracket-pairs__brackets_text_textediting_utility@@20250906T173243.el ends here
+(provide '--xah-change-bracket-pairs__brackets_editing_text_utility@@20250906T173243)
+;;; --xah-change-bracket-pairs__brackets_editing_text_utility@@20250906T173243.el ends here
