@@ -31,7 +31,7 @@
   (when (and (buffer-file-name) (not highlight-unsaved-mode))
     (highlight-unsaved-mode 1)))
 
-(add-hook 'text-mode-hook #'use-highlight-unsaved-mode-if-visiting-file-buffer)
+;; (add-hook 'text-mode-hook #'use-highlight-unsaved-mode-if-visiting-file-buffer)
 
 (provide '--highlight-unsaved-mode__changes_file@@20260614T174223)
 ;;; --highlight-unsaved-mode__changes_file@@20260614T174223.el ends here

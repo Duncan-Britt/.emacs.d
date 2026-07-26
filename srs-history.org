@@ -40,10 +40,10 @@
 :PROPERTIES:
 :ID:       50E45611-A912-4E59-AC7D-164DD1366EE9
 :created:  2026-07-18T20:09:24-0600
-:difficulty: 6.488305268471453
-:stability: 1.18385
-:last-review-timestamp: 2026-07-18T20:12:44-0600
-:next-review-deadline: 2026-07-20T00:37:29-0600
+:difficulty: 6.473291771547592
+:stability: 10.77175676049497
+:last-review-timestamp: 2026-07-24T19:39:09-0600
+:next-review-deadline: 2026-08-04T14:10:29-0600
 :srs-tags: credential,sensitive
 :END:
 
