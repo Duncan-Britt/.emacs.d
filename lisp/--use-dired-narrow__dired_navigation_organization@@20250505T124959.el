@@ -27,7 +27,7 @@ With prefix argument C-u, exclude files matching string instead."
       (dired-narrow)))
 
   :bind ((:map dired-mode-map
-               ("C-s" . dunc/dired-narrow))))
+               ("/" . dunc/dired-narrow))))
 
 (provide '--use-dired-narrow__dired_navigation_organization@@20250505T124959)
 ;;; --use-dired-narrow__dired_navigation_organization@@20250505T124959.el ends here
