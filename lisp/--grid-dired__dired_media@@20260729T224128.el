@@ -245,22 +245,24 @@ entries resolved via ffprobe); otherwise a fixed fallback chain."
                '("10" "1" "0.1"))))))
 
 (defun grid-dired--try-shell-cmds (cmds thumb callback)
-  "Run shell CMDS one after another until one produces THUMB.
-Call CALLBACK with non-nil on the first success, or nil when the
-whole list is exhausted."
+  "Run shell CMDS one after another until one produces THUMB."
   (if (null cmds)
       (funcall callback nil)
-    (let ((proc (start-process-shell-command
-                 "grid-dired-thumb" nil (car cmds))))
-      (set-process-sentinel
-       proc
-       (lambda (p _event)
-         (when (memq (process-status p) '(exit signal))
-           (if (and (eq (process-status p) 'exit)
-                    (zerop (process-exit-status p))
-                    (grid-dired--file-non-empty-p thumb))
-               (funcall callback t)
-             (grid-dired--try-shell-cmds (cdr cmds) thumb callback))))))))
+    (condition-case err
+        (let ((proc (start-process-shell-command
+                     "grid-dired-thumb" nil (car cmds))))
+          (set-process-sentinel
+           proc
+           (lambda (p _event)
+             (when (memq (process-status p) '(exit signal))
+               (if (and (eq (process-status p) 'exit)
+                        (zerop (process-exit-status p))
+                        (grid-dired--file-non-empty-p thumb))
+                   (funcall callback t)
+                 (grid-dired--try-shell-cmds (cdr cmds) thumb callback))))))
+      (error
+       (message "grid-dired: cmd failed: %s" (error-message-string err))
+       (grid-dired--try-shell-cmds (cdr cmds) thumb callback)))))
 
 (defun grid-dired--handler-ffmpeg (file thumb callback)
   "Create THUMB for media FILE with ffmpeg; report success via CALLBACK."
@@ -290,18 +292,22 @@ the result is converted/renamed to THUMB afterwards."
        proc
        (lambda (p _event)
          (when (memq (process-status p) '(exit signal))
-           (unwind-protect
-               (funcall
-                callback
-                (and (grid-dired--file-non-empty-p png)
-                     (if (equal (file-name-extension thumb) "png")
-                         (progn (rename-file png thumb t) t)
-                       ;; The inserted image spec assumes the thumbnail
-                       ;; format matches its extension, so transcode.
-                       (zerop (call-process
-                               grid-dired-sips-program nil nil nil
-                               "-s" "format" "jpeg" png "--out" thumb)))))
-             (delete-directory tmpdir t))))))))
+           (let ((ok nil))
+             (unwind-protect
+                 (setq ok
+                       (condition-case err
+                           (and (grid-dired--file-non-empty-p png)
+                                (if (equal (file-name-extension thumb) "png")
+                                    (progn (rename-file png thumb t) t)
+                                  (zerop (call-process
+                                          grid-dired-sips-program nil nil nil
+                                          "-s" "format" "jpeg" png "--out" thumb))))
+                         (error
+                          (message "grid-dired: quicklook post-process failed: %s"
+                                   (error-message-string err))
+                          nil)))
+               (ignore-errors (delete-directory tmpdir t))
+               (funcall callback ok)))))))))
 
 (defun grid-dired--handler-sips (file thumb callback)
   "Create THUMB for image FILE using macOS sips; report via CALLBACK.

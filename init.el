@@ -207,8 +207,9 @@
   ;; └─────────────┘
   :config
   (global-unset-key (kbd "C-x C-d")) ;; default is `list-directory'.
-  :bind (("M-SPC" . execute-extended-command) ;; Swap M-x and M-SPC
-         ("M-x" . cycle-spacing)
+  ;; Swap M-x and M-SPC
+  :bind* (("M-SPC" . execute-extended-command))
+  :bind (("M-x" . cycle-spacing)
          ("s-o" . other-frame))
   ;; ┌─────────────────────────┐
   ;; │ Text Editing & Movement │

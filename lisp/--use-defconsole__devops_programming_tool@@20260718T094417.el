@@ -10,10 +10,10 @@
 (use-package defconsole
   :ensure (:host github :repo "Duncan-Britt/defconsole" :branch "dev")
   :config
-  (defun k-build () (interactive) "Compile k." (compile "echo compiling k ... && echo DONE"))
-  (defun k-test () (interactive) "Test k." (compile "echo testing k ... && echo PASS"))
-  (defun k-deploy () (interactive) "Test k." (compile "echo deploying k ... && echo DEPLOYED"))
-  (defun k-db-migrate () (interactive) "Migrating k db." (compile "echo migrating k ... && echo MIGRATED"))
+  (defun k-build () "Compile k." (interactive) (compile "echo compiling k ... && echo DONE"))
+  (defun k-test () "Test k." (interactive) (compile "echo testing k ... && echo PASS"))
+  (defun k-deploy () "Test k." (interactive) (compile "echo deploying k ... && echo DEPLOYED"))
+  (defun k-db-migrate () "Migrating k db." (interactive) (compile "echo migrating k ... && echo MIGRATED"))
 
   (defconsole k-console (k-test k-build k-deploy k-db-migrate)))
 
