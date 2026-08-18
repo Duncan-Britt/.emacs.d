@@ -12,6 +12,7 @@
   :config
   (setq denote-directory (expand-file-name "~/notes/"))
   (setq denote-file-type 'org)
+  (setq denote-org-store-link-to-heading 'id)
 
   (defun dunc/denote-rename-file ()
     "Call denote-rename-file with local directory keywords."

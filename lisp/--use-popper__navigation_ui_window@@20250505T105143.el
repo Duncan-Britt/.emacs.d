@@ -51,8 +51,8 @@
      buffer
      (append alist
              `((side . right)
-               (window-width . ,(cond ((>= (frame-width) 80)
-                                       80)
+               (window-width . ,(cond ((>= (frame-width) 120)
+                                       120)
                                       (t
                                        (frame-width))))))))
 
